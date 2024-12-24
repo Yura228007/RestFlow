@@ -11,19 +11,17 @@ namespace RestFlow
         public string Street { get; set; }
         public string House { get; set; }     
         public string Apartment { get; set; }
-        public string Comment { get; set; } 
 
-        public Address(string street, string house, string apartment, string comment)
+        public Address(string street, string house, string apartment)
         {
             Street = street;
             House = house;
             Apartment = apartment;
-            Comment = comment;
         }
 
         public override string ToString()
         {
-            return $"{Street}, {House}, {Apartment} - {Comment}";
+            return $"{Street}, {House}, {Apartment}";
         }
     }
 }
