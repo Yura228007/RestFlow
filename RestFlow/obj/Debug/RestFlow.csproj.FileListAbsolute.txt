@@ -1,0 +1,15 @@
+C:\Group_Project\RestFlow\bin\Debug\RestFlow.exe.config
+C:\Group_Project\RestFlow\bin\Debug\RestFlow.exe
+C:\Group_Project\RestFlow\bin\Debug\RestFlow.pdb
+C:\Group_Project\RestFlow\obj\Debug\RestFlow.csproj.AssemblyReference.cache
+C:\Group_Project\RestFlow\obj\Debug\MainWindow.g.cs
+C:\Group_Project\RestFlow\obj\Debug\App.g.cs
+C:\Group_Project\RestFlow\obj\Debug\RestFlow_MarkupCompile.cache
+C:\Group_Project\RestFlow\obj\Debug\RestFlow_MarkupCompile.lref
+C:\Group_Project\RestFlow\obj\Debug\MainWindow.baml
+C:\Group_Project\RestFlow\obj\Debug\RestFlow.g.resources
+C:\Group_Project\RestFlow\obj\Debug\RestFlow.Properties.Resources.resources
+C:\Group_Project\RestFlow\obj\Debug\RestFlow.csproj.GenerateResource.cache
+C:\Group_Project\RestFlow\obj\Debug\RestFlow.csproj.CoreCompileInputs.cache
+C:\Group_Project\RestFlow\obj\Debug\RestFlow.exe
+C:\Group_Project\RestFlow\obj\Debug\RestFlow.pdb
