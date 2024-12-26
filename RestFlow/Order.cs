@@ -9,6 +9,6 @@ namespace RestFlow
 {
     internal class Order
     {
-        
+        public Address Address { get; set; }
     }
 }
