@@ -68,3 +68,12 @@ C:\Users\User\source\repos\dd\dd\obj\Debug\net8.0\refint\dd.dll
 C:\Users\User\source\repos\dd\dd\obj\Debug\net8.0\dd.pdb
 C:\Users\User\source\repos\dd\dd\obj\Debug\net8.0\dd.genruntimeconfig.cache
 C:\Users\User\source\repos\dd\dd\obj\Debug\net8.0\ref\dd.dll
+C:\Users\User\Documents\GitHub\RestFlow\selects\dd\obj\Debug\net8.0\dd.csproj.AssemblyReference.cache
+C:\Users\User\Documents\GitHub\RestFlow\selects\dd\obj\Debug\net8.0\dd.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\GitHub\RestFlow\selects\dd\obj\Debug\net8.0\dd.AssemblyInfoInputs.cache
+C:\Users\User\Documents\GitHub\RestFlow\selects\dd\obj\Debug\net8.0\dd.AssemblyInfo.cs
+C:\Users\User\Documents\GitHub\RestFlow\selects\dd\obj\Debug\net8.0\dd.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\GitHub\RestFlow\selects\dd\obj\Debug\net8.0\dd.sourcelink.json
+C:\Users\User\Documents\GitHub\RestFlow\selects\dd\obj\Debug\net8.0\dd.dll
+C:\Users\User\Documents\GitHub\RestFlow\selects\dd\obj\Debug\net8.0\refint\dd.dll
+C:\Users\User\Documents\GitHub\RestFlow\selects\dd\obj\Debug\net8.0\dd.pdb
