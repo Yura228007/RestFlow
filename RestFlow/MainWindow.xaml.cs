@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RestMenef
+namespace RestFlow
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -23,6 +23,11 @@ namespace RestMenef
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_EnterUser_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
