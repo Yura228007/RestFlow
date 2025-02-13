@@ -11,14 +11,14 @@ namespace RestFlow
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public DateTime Date { get; set; }
         public double Price { get; set; }
+        public string Type { get; set; }
 
-        public Product(string name, DateTime date, double price)
+        public Product(string name, double price, string type)
         {
             Name = name;
-            Date = date;
             Price = price;
+            Type = type;
         }
 
         public override string ToString()

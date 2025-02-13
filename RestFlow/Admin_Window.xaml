@@ -48,13 +48,13 @@
             </TabItem>
             <TabItem Header="Добавить работника">
                 <Grid HorizontalAlignment="Left" Width="796" Height="415">
-                    <Label Content="Новый аккаунта" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+                    <Label Content="Новый аккаунт" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
                     <Grid Margin="0,30,0,20">
                         <Label Content="Имя" HorizontalAlignment="Left" Margin="35,63,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="40"/>
                         <Label Content="Фамилия" HorizontalAlignment="Left" Margin="232,63,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="75"/>
                         <Label Content="Отчество" HorizontalAlignment="Left" Margin="505,63,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="74"/>
                         <Label Content="Пол" HorizontalAlignment="Left" Margin="35,103,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="38"/>
-                        <Label Content="Дата рожденья" HorizontalAlignment="Left" Margin="259,103,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="108"/>
+                        <Label Content="Дата рождения" HorizontalAlignment="Left" Margin="259,103,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="120"/>
                         <Label Content="Почта" HorizontalAlignment="Left" Margin="34,149,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="52"/>
                         <Label Content="Телефон" HorizontalAlignment="Left" Margin="345,149,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="71"/>
                         <Label Content="Должность" HorizontalAlignment="Left" Margin="36,188,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="88"/>
