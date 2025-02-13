@@ -10,19 +10,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace RestMenef
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для Waiter_Window.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Waiter_Window : Window
     {
-        public MainWindow()
+        public Waiter_Window()
         {
             InitializeComponent();
         }
+
+
     }
 }

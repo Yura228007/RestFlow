@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace RestMenef
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    /// Логика взаимодействия для Manager_Window.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Manager_Window : Window
     {
-        public MainWindow()
+        public Manager_Window()
         {
             InitializeComponent();
         }
