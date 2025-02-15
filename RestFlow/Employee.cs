@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestFlow
 {
-    internal class Employee : Human
+    internal abstract class Employee : Human
     {
         public int Salary {  get; set; }
         public string Post {  get; set; }
