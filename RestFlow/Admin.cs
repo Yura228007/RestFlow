@@ -11,7 +11,7 @@ namespace RestFlow
         public Admin(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone, int salary)
             : base(login, password, name, surname, birthday, gender, phone, salary)
         {
-            Post = "Админ";
+            Post = "Admin";
         }
     }
 }
