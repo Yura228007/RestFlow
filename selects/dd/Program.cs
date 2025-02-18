@@ -1,11 +1,5 @@
-﻿//Insert, delete,update: 
-//    products(warehouse),dish,order, employee
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Reflection;
-namespace DataBase
+﻿using Microsoft.EntityFrameworkCore;
+namespace DB
 {
     public class Address
     {
