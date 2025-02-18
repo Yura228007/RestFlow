@@ -2809,19 +2809,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ярослав\\.nuget\\packages\\": {}
+    "C:\\Users\\Student_07\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ярослав\\OneDrive\\Документы\\GitHub\\RestFlow\\RestFlow\\RestFlow.csproj",
+      "projectUniqueName": "C:\\Users\\Student_07\\Documents\\GitHub\\RestFlow\\RestFlow\\RestFlow.csproj",
       "projectName": "RestFlow",
-      "projectPath": "C:\\Users\\Ярослав\\OneDrive\\Документы\\GitHub\\RestFlow\\RestFlow\\RestFlow.csproj",
-      "packagesPath": "C:\\Users\\Ярослав\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ярослав\\OneDrive\\Документы\\GitHub\\RestFlow\\RestFlow\\obj\\",
+      "projectPath": "C:\\Users\\Student_07\\Documents\\GitHub\\RestFlow\\RestFlow\\RestFlow.csproj",
+      "packagesPath": "C:\\Users\\Student_07\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Student_07\\Documents\\GitHub\\RestFlow\\RestFlow\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Ярослав\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Student_07\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2881,7 +2886,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
