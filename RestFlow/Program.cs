@@ -26,6 +26,12 @@ namespace DB
         public double Price { get; set; }
         public Product() { }
         public Product(string name, string type, double price) { Name = name; Type = type; }
+        public Product(Product product)
+        {
+            this.Name = product.Name;
+            this.Type = product.Type;
+            this.Price = product.Price;
+        }
         public override string ToString()
         {
             return $"ID: {this.Id}; Name: {this.Name}; Type: {this.Type};\n";
@@ -38,8 +44,17 @@ namespace DB
         public double Primecost { get; set; }
         public double Price { get; set; }
         public Dish() { }
-        //public Dish(Dictionary<int, int> recipe) { Recipe = recipe; }
+        public Dish(Dish dish)
+        {
+            this.Name= dish.Name;
+            this.Price = dish.Price;
+            this.Primecost = dish.Primecost;
+        }
         public Dish(string name, double primecost, double price) { Name = name; Primecost = primecost; Price = price; }
+        public override string ToString()
+        {
+            return $"ID: {this.Id}; Name: {this.Name}; Primecost: {this.Primecost}; Price: {this.Price};\n";
+        }
     }
     public class Order
     {
@@ -48,6 +63,12 @@ namespace DB
         public Address? Address { get; set; }
         public int? Table {  get; set; }
         public Order() { }
+        public Order(Order order)
+        {
+            this.OrderDate = order.OrderDate;
+            this.Address = order.Address;
+            this.Table = order.Table;
+        }
         public Order(DateTime _date, Address? _address = null, int? _table = null)
         {
             
@@ -55,8 +76,18 @@ namespace DB
             Address = _address;
             Table = _table;
         }
-        
-
+        public override string ToString()
+        {
+            if(Address!=null)
+            {
+                return $"ID: {this.Id}; Date: {this.OrderDate}; Address: {this.Address};\n";
+            }
+            else if (Table !=null)
+            {
+                return $"ID: {this.Id}; Date: {this.OrderDate}; Table: {this.Table};\n";
+            }
+            return $"ID: {this.Id}; Date: {this.OrderDate};\n";
+        }
     }
     public class Employee
     {
@@ -71,7 +102,23 @@ namespace DB
         public double Salary { get; set; }
         public string Post { get; set; }
         public Employee() { }
+        public Employee(Employee employee)
+        {
+            this.Login = employee.Login;
+            this.Password = employee.Password;
+            this.Name = employee.Name;
+            this.Surname = employee.Surname;
+            this.Birthday = employee.Birthday;
+            this.Gender = employee.Gender;
+            this.Phone = employee.Phone;
+            this.Salary = employee.Salary;
+            this.Post = employee.Post;
+        }
         public Employee(string login, string password,string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Gender = gender; Post = post; Salary = salary; }
+        public override string ToString()
+        {
+            return $"ID: {this.Id}; Login: {this.Login}; Password: {this.Password}; Name: {this.Name}; Surname: {this.Surname}; Birthday: {this.Birthday}; IsMale: {this.Gender}; Phone: {this.Phone}; Salary: {this.Salary}; Post: {this.Post};\n";
+        }
     }
     public class User
     {
@@ -84,7 +131,21 @@ namespace DB
         public bool Gender {  get; set; }
         public string Phone { get; set; }
         public User() { }
+        public User(User user)
+        {
+            this.Login = user.Login;
+            this.Password = user.Password;
+            this.Name = user.Name;
+            this.Surname = user.Surname;
+            this.Birthday = user.Birthday;
+            this.Gender = user.Gender;
+            this.Phone = user.Phone;
+        }
         public User(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Gender = gender; Phone = phone; }
+        public override string ToString()
+        {
+            return $"ID: {this.Id}; Login: {this.Login}; Password: {this.Password}; Name: {this.Name}; Surname: {this.Surname}; Birthday: {this.Birthday}; IsMale: {this.Gender}; Phone: {this.Phone};\n";
+        }
     }
     public class Warehouse
     {
@@ -142,28 +203,9 @@ namespace DB
         }
 
     }
-    public class Program
+    public class Tables
     {
-        static void NoMain(string[] args)
-        {
-            //AddProduct("Beef", "Meat and meat food");
-            //UpdateProduct(4, new Product("Juice", "Drinks"));
-            //DeleteProduct(5);
-
-            Dictionary<int, int> recipe = new Dictionary<int, int> { { 1, 19 }, { 2, 16 } };
-            //AddDish("burger", "american food", 50.35, 150.35, recipe);
-            Dictionary<int, int> compound = new Dictionary<int, int> { { 1, 4 } };
-            //AddOrder(1, DateTime.Now, compound);
-            //DeleteDish(2);
-            //DeleteDish(5);
-            //DeleteDish(6);
-            //DeleteDish(7);
-            //GetDishIngregients(4);
-            //AddEmployee("Jorge", "Cambridge", 1500.50, "teamlead");
-            GetEmployees();
-            Console.ReadKey();
-        }
-        //// CRUD for Product
+        
         public static void AddProduct(string name, string type,double price)
         {
             using (ProjContext db = new ProjContext())
@@ -200,8 +242,11 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                db.Products.Find(id).Name = product.Name;
-                db.Products.Find(id).Type = product.Type;
+                Product? _product = db.Products.Find(id);
+                if (_product != null)
+                {
+                    _product = new Product(product);
+                }
                 db.SaveChanges();
             }
         }
@@ -209,7 +254,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                Product product = db.Products.ElementAt(id);
+                Product? product = db.Products.Find(id);
                 db.Products.Remove(product);
                 db.SaveChanges();
             }
@@ -280,26 +325,19 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                db.Dishes.Find(id).Name = dish.Name;
-                db.Dishes.Find(id).Primecost = dish.Primecost;
-                db.Dishes.Find(id).Price = dish.Price;
+                Dish? _dish = db.Dishes.Find(id);
+                if (_dish != null)
+                {
+                    _dish = new Dish(dish);
+                }
                 db.SaveChanges();
             }
         }
-        //static void UpdateRecipe(int id, Product product)
-        //{
-        //    using (ProjContext db = new ProjContext())
-        //    {
-        //        db.Products.Find(id + 1000).Name = product.Name;
-        //        db.Products.Find(id + 1000).Type = product.Type;
-        //        db.SaveChanges();
-        //    }
-        //}
         public static void DeleteDish(int id)
         {
             using (ProjContext db = new ProjContext())
             {
-                Dish dish = db.Dishes.ElementAt(id - 1);
+                Dish? dish = db.Dishes.Find(id);
                 foreach (Ingredient ing in db.Ingredients)
                 {
                     if (ing.DishId == id)
@@ -368,11 +406,23 @@ namespace DB
                 db.SaveChanges();
             }
         }
+        public static void UpdateOrder(int id, Order order)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Order? _order = db.Orders.Find(id);
+                if (_order != null)
+                {
+                   _order =  new Order(order);
+                }
+                db.SaveChanges();
+            }
+        }
         public static void DeleteOrder(int id)
         {
             using (ProjContext db = new ProjContext())
             {
-                Order ord = db.Orders.Find(id);
+                Order? ord = db.Orders.Find(id);
                 db.Orders.Remove(ord);
                 db.SaveChanges();
             }
@@ -407,7 +457,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                User user = db.BDUsers.Find(id);
+                User? user = db.BDUsers.Find(id);
                 db.BDUsers.Remove(user);
                 db.SaveChanges();
             }
@@ -416,11 +466,11 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                db.BDUsers.Find(id).Login = user.Login;
-                db.BDUsers.Find(id).Password = user.Password;
-                db.BDUsers.Find(id).Name = user.Name;
-                db.BDUsers.Find(id).Surname = user.Surname;
-                db.BDUsers.Find(id).Phone = user.Phone;
+                User? _user = db.BDUsers.Find(id);
+                if( _user != null )
+                {
+                    _user = new User(user);
+                }
             }
         }
 
@@ -453,7 +503,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                Employee emp = db.Employees.Find(id);
+                Employee? emp = db.Employees.Find(id);
                 db.Employees.Remove(emp);
                 db.SaveChanges();
             }
@@ -463,16 +513,8 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                DB.Employee? emp = db.Employees.Find(id);
-
-                if (emp != null)
-                {
-                    emp.Name = employee.Name;
-                    emp.Surname = employee.Surname;
-                    emp.Post = employee.Post;
-                    emp.Salary = employee.Salary;
-                }
-                db.SaveChanges();
+                Employee? _employee = db.Employees.Find(id);
+                _employee = new Employee(employee);
             }
         }
         public static Dictionary<Product, int> GetWarehouse()
