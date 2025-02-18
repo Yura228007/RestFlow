@@ -167,7 +167,7 @@ namespace DataBase
             Console.ReadKey();
         }
         //// CRUD for Product
-        static void AddProduct(string name, string type,double price)
+        public static void AddProduct(string name, string type,double price)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -176,7 +176,7 @@ namespace DataBase
                 db.SaveChanges();
             }
         }
-        static List<Product> GetProducts()
+        public static List<Product> GetProducts()
         {
             List<Product> _products = new List<Product>();
             using (ProjContext db = new ProjContext())
@@ -190,7 +190,7 @@ namespace DataBase
             }
             return _products;
         }
-        static Product GetProduct(int id)
+        public static Product GetProduct(int id)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -199,7 +199,7 @@ namespace DataBase
                 //return $"Name: {product.Name} | Type: {product.Type}";
             }
         }
-        static void UpdateProduct(int id, Product product)
+        public static void UpdateProduct(int id, Product product)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -208,7 +208,7 @@ namespace DataBase
                 db.SaveChanges();
             }
         }
-        static void DeleteProduct(int id)
+        public static void DeleteProduct(int id)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -221,7 +221,7 @@ namespace DataBase
 
         // CRUD for Dish
 
-        static List<Dish> GetDishes()
+        public static List<Dish> GetDishes()
         {
             List<Dish> _dishes  = new List<Dish>(); 
             using (ProjContext db = new ProjContext())
@@ -234,7 +234,7 @@ namespace DataBase
                 return _dishes;
             }
         }
-        static Dish GetDish(int id)
+        public static Dish GetDish(int id)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -242,7 +242,7 @@ namespace DataBase
                 return dish;
             }
         }
-        static Dictionary<Product,int> GetDishIngregients(int id)
+        public static Dictionary<Product,int> GetDishIngregients(int id)
         {
             Dictionary<Product, int> _ingredients = new Dictionary<Product, int>();
             using (ProjContext db = new ProjContext())
@@ -257,7 +257,7 @@ namespace DataBase
             }
             return _ingredients;
         }
-        static void AddDish(string name, string description, double primecost, double price, Dictionary<int, int> Recipe)
+        public static void AddDish(string name, string description, double primecost, double price, Dictionary<int, int> Recipe)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -279,7 +279,7 @@ namespace DataBase
             }
 
         }
-        static void UpdateDish(int id, Dish dish)
+        public static void UpdateDish(int id, Dish dish)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -298,7 +298,7 @@ namespace DataBase
         //        db.SaveChanges();
         //    }
         //}
-        static void DeleteDish(int id)
+        public static void DeleteDish(int id)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -317,7 +317,7 @@ namespace DataBase
 
         //// CRUD for Order
 
-        static Dictionary<Dish,int> GetOrderCompound(int id)
+        public static Dictionary<Dish,int> GetOrderCompound(int id)
         {
             Dictionary<Dish,int> _compound = new Dictionary<Dish,int>();
             using (ProjContext db = new ProjContext())
@@ -335,7 +335,7 @@ namespace DataBase
             }
             return _compound;
         }
-        static List<Order> GetOrders()
+        public static List<Order> GetOrders()
         {
             List<Order> _orders = new List<Order>();
             using (ProjContext db = new ProjContext())
@@ -349,14 +349,14 @@ namespace DataBase
             }
             return _orders;
         }
-        static Order GetOrder(int id)
+        public static Order GetOrder(int id)
         {
             using(ProjContext db = new ProjContext())
             {
                 return db.Orders.ElementAt(id-1);
             }
         }
-        static void AddOrder(int userId, DateTime date, Dictionary<int, int> compound, Address? address = null)
+        public static void AddOrder(int userId, DateTime date, Dictionary<int, int> compound, Address? address = null)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -371,7 +371,7 @@ namespace DataBase
                 db.SaveChanges();
             }
         }
-        static void DeleteOrder(int id)
+        public static void DeleteOrder(int id)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -384,7 +384,7 @@ namespace DataBase
 
         //CRUD for User
 
-        static List<User> GetUsers()
+        public static List<User> GetUsers()
         {
             List<User> users = new List<User>();
             using (ProjContext db = new ProjContext())
@@ -397,7 +397,7 @@ namespace DataBase
             }
             return users;
         }
-        static void AddUser(string login, string password, string name, string surname, string phone)
+        public static void AddUser(string login, string password, string name, string surname, string phone)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -406,7 +406,7 @@ namespace DataBase
                 db.SaveChanges();
             }
         }
-        static void DeleteUser(int id)
+        public static void DeleteUser(int id)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -415,7 +415,7 @@ namespace DataBase
                 db.SaveChanges();
             }
         }
-        static void UpdateUser(int id, User user)
+        public static void UpdateUser(int id, User user)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -429,7 +429,7 @@ namespace DataBase
 
         //CRUD for Employee
 
-        static List<Employee> GetEmployees()
+        public static List<Employee> GetEmployees()
         {
             List<Employee> _employees = new List<Employee>();
             using (ProjContext db = new ProjContext())
@@ -443,7 +443,7 @@ namespace DataBase
             return _employees;
 
         }
-        static void AddEmployee(string login, string password, string name, string phone, string surname, double salary, string post)
+        public static void AddEmployee(string login, string password, string name, string phone, string surname, double salary, string post)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -452,7 +452,7 @@ namespace DataBase
                 db.SaveChanges();
             }
         }
-        static void DeleteEmployee(int id)
+        public static void DeleteEmployee(int id)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -462,7 +462,7 @@ namespace DataBase
             }
 
         }
-        static void UpdateEmployee(int id, Employee employee)
+        public static void UpdateEmployee(int id, Employee employee)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -472,7 +472,7 @@ namespace DataBase
                 db.Employees.Find(id).Salary = employee.Salary;
             }
         }
-        static Dictionary<Product, int> GetWarehouse()
+        public static Dictionary<Product, int> GetWarehouse()
         {
             Dictionary<Product,int> _warehouse = new Dictionary<Product, int>();
             using (ProjContext db = new ProjContext())
