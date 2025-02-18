@@ -7,17 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid x:Name="Panel_Login" Visibility="Hidden">
+        <Grid x:Name="Panel_Login" Visibility="Visible">
             <Label Content="Логин" HorizontalAlignment="Left" Margin="257,181,0,0" VerticalAlignment="Top" FontSize="16"/>
             <Label Content="Пароль" HorizontalAlignment="Left" Margin="257,215,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.509,-0.958"/>
             <TextBox x:Name="TextBox_LoginUser" HorizontalAlignment="Left" Margin="322,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" FontSize="16"/>
             <TextBox x:Name="TextBox_PasswordUser"  HorizontalAlignment="Left" Margin="322,219,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" FontSize="16"/>
-            <Button Content="Войти" x:Name="Button_EnterUser" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28" Width="100" FontSize="14" RenderTransformOrigin="0.565,3.876" Margin="322,256,0,0"/>
+            <Button Content="Войти" x:Name="Button_EnterUser" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28" Width="118" FontSize="14" RenderTransformOrigin="0.565,3.876" Margin="400,254,0,0"/>
             <Button Content="Регистрация" x:Name="Button_RegistUser" HorizontalAlignment="Left" Margin="432,147,0,0" VerticalAlignment="Top" Width="82" Height="29" UseLayoutRounding="False"/>
-            <Button Content="Войти как работник" x:Name="Button_EnterAsWorker" HorizontalAlignment="Right" Margin="0,0,20,20" VerticalAlignment="Bottom" Height="28" Width="131" FontSize="11"/>
+            <Button Content="Войти как работник" x:Name="Button_EnterAsWorker" HorizontalAlignment="Right" Margin="0,0,427,152" VerticalAlignment="Bottom" Height="28" Width="119"/>
             <Label Content="Войти в аккаунт" HorizontalAlignment="Left" Margin="257,142,0,0" VerticalAlignment="Top" FontSize="18"/>
         </Grid>
-        <Grid x:Name="Panel_RegistUser" Visibility="Visible">
+        <Grid x:Name="Panel_RegistUser" Visibility="Hidden">
             <Label Content="Регистрация аккаунта" HorizontalAlignment="Left" Margin="261,57,0,0" VerticalAlignment="Top" FontSize="16"/>
             <Label Content="Имя" HorizontalAlignment="Left" Margin="261,93,0,0" VerticalAlignment="Top"/>
             <Label Content="Фамилия" HorizontalAlignment="Left" Margin="261,124,0,0" VerticalAlignment="Top"/>
