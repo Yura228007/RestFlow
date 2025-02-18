@@ -3,20 +3,19 @@ namespace DB
 {
     public class Address
     {
-        public int? Id { get; set; }
         public string Street { get; set; }
-        public string Building { get; set; }
+        public string House { get; set; }
         public string Apartment { get; set; }
         public Address() { }
         public Address(string street, string building, string apartment)
         {
             Street = street;
-            Building = building;
+            House = building;
             Apartment = apartment;
         }
         public override string ToString()
         {
-            return $"Ул.{this.Street}, д.{this.Building}, кв.{this.Apartment}";
+            return $"Ул.{this.Street}, д.{this.House}, кв.{this.Apartment}";
         }
     }
     public class Product
@@ -66,11 +65,13 @@ namespace DB
         public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        public DateTime Birthday { get; set; }
+        public bool Gender { get; set; }
         public string Phone { get; set; }
         public double Salary { get; set; }
         public string Post { get; set; }
         public Employee() { }
-        public Employee(string login, string password,string name, string surname, string phone, double salary, string post) { Login = login; Password = password; Name = name; Surname = surname; Post = post; Salary = salary; }
+        public Employee(string login, string password,string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Gender = gender; Post = post; Salary = salary; }
     }
     public class User
     {
@@ -79,9 +80,11 @@ namespace DB
         public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        public DateTime Birthday { get; set; }
+        public bool Gender {  get; set; }
         public string Phone { get; set; }
         public User() { }
-        public User(string login, string password, string name, string surname, string phone) { Login = login; Password = password; Name = name; Surname = surname; Phone = phone; }
+        public User(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Gender = gender; Phone = phone; }
     }
     public class Warehouse
     {
@@ -391,11 +394,11 @@ namespace DB
             }
             return users;
         }
-        public static void AddUser(string login, string password, string name, string surname, string phone)
+        public static void AddUser(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone)
         {
             using (ProjContext db = new ProjContext())
             {
-                User user = new User(login, password, name, surname, phone);
+                User user = new User(login, password, name, surname, birthday, gender, phone);
                 db.BDUsers.Add(user);
                 db.SaveChanges();
             }
@@ -437,11 +440,11 @@ namespace DB
             return _employees;
 
         }
-        public static void AddEmployee(string login, string password, string name, string phone, string surname, double salary, string post)
+        public static void AddEmployee(string login, string password, string name, string surname, DateTime birthday, bool gender,  string phone, double salary, string post)
         {
             using (ProjContext db = new ProjContext())
             {
-                Employee emp = new Employee(login, password, name, surname, phone, salary, post);
+                Employee emp = new Employee(login, password, name, surname, birthday, gender, phone, salary, post);
                 db.Employees.Add(emp);
                 db.SaveChanges();
             }
