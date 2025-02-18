@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using RestMenef;
+using DB;
 
 namespace RestFlow
 {
@@ -23,14 +24,13 @@ namespace RestFlow
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly DbContext _context;
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private async void Button_EnterUser_Click(object sender, RoutedEventArgs e)
+        private void Button_EnterUser_Click(object sender, RoutedEventArgs e)
         {
             // Получение введённых данных
             string login = TextBox_LoginUser.Text.Trim();     // Логин (без пробелов)
@@ -47,9 +47,9 @@ namespace RestFlow
             {
                 //получение массива Users
 
-                List<User> users = new List<User> { };
+                List<DB.User> users = new List<DB.User> { };
 
-                User user = users.FirstOrDefault(u => u.Login == login);
+                DB.User? user = users.FirstOrDefault(u => u.Login == login);
 
                 if (user == null)  // Если пользователь не найден
                 {
@@ -78,6 +78,23 @@ namespace RestFlow
             var WindowUser = new User_Window();
             WindowUser.Show();
             this.Visibility = Visibility.Hidden;
+        }
+
+        private void Button_LoginUser_Click(object sender, RoutedEventArgs e)
+        {
+            Panel_RegistUser.Visibility = Visibility.Hidden;
+            Panel_Login.Visibility = Visibility.Visible;
+        }
+
+        private void Button_RegistUser_Click(object sender, RoutedEventArgs e)
+        {
+            Panel_Login.Visibility = Visibility.Hidden;
+            Panel_RegistUser.Visibility = Visibility.Visible;
+        }
+
+        private void Button_FinishRegist_Click(object sender, RoutedEventArgs e)
+        {
+            DB.Program.AddUser(TextBox_RegistUserLogin.Text, TextBox_RegistUserPassword.Text, TextBox_RegistUserName.Text, TextBox_RegistUserSurename.Text, TextBox_RegistUserBirthday.Text, TextBox_RegistUserGender.Text, TextBox_RegistUserTelephoneNumber.Text);
         }
     }
 }
