@@ -26,5 +26,10 @@ namespace RestFlow
             Gender = gender;
             Phone = phone;
         }
+
+        public string FullName()
+        {
+            return Surname + " " + Name;
+        }
     }
 }
