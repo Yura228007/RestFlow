@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using RestMenef;
 using DB;
 using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace RestFlow
 {
@@ -28,6 +29,13 @@ namespace RestFlow
 
         public MainWindow()
         {
+            bool hasAdmin = DB.Tables.GetEmployees().Any(emp => emp.Login == "admin");
+
+            if (!hasAdmin)
+            {
+                DB.Tables.AddEmployee("admin", "admin", "admin", "admin", DateTime.Now, true, "+7 (123) 456 78 90", 150000, "Admin");
+            }
+
             InitializeComponent();
         }
         private void Button_EnterAsWorker_Click(object sender, RoutedEventArgs e)
