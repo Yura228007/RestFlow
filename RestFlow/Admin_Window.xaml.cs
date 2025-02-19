@@ -26,15 +26,14 @@ namespace RestMenef
             public ObservableCollection<Employee> Employees { get; set; }
             public MainViewModel()
             {
-                Employees = new ObservableCollection<Employee>
-                {
-
-                };
+                Employees = new ObservableCollection<Employee> (DB.Tables.GetEmployees().Select(e => new Employee(e)).ToList());
             }
         }
         public Admin_Window()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
+
         }
     }
 }

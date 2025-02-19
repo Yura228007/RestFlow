@@ -13,10 +13,10 @@
                     <Grid HorizontalAlignment="Left"  Height="383" Margin="10" Width="775">
                         <DataGrid Margin="0,0,387,0" x:Name="DataGrid_WorkersInfo" ItemsSource="{Binding Employees}" AutoGenerateColumns="True">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Width="58*" Header="ФИО" Binding="{Binding Employee}"></DataGridTextColumn>
-                                <DataGridTextColumn Width="27*" Header="Должность" Binding="{Binding Employee.Post}"></DataGridTextColumn>
-                                <DataGridTextColumn Width="36*" Header="Дата рождения" Binding="{Binding Employee.Birthday}"></DataGridTextColumn>
-                                <DataGridTextColumn Width="22*" Header="Зарплата" Binding="{Binding Employee.Salary}"></DataGridTextColumn>
+                                <DataGridTextColumn Width="58*" Header="ФИО" Binding="{Binding Path=FullName()}"></DataGridTextColumn>
+                                <DataGridTextColumn Width="27*" Header="Должность" Binding="{Binding Post}"></DataGridTextColumn>
+                                <DataGridTextColumn Width="36*" Header="Дата рождения" Binding="{Binding Birthday}"></DataGridTextColumn>
+                                <DataGridTextColumn Width="22*" Header="Зарплата" Binding="{Binding Salary}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                         <Grid Margin="406,0,0,73" Background="WhiteSmoke">
