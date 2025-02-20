@@ -72,6 +72,8 @@
                         <Label Content="Пароль" HorizontalAlignment="Left" Margin="345,229,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="71"/>
                         <TextBox x:Name="TextBox_NewWorkerLogin" HorizontalAlignment="Left" Margin="129,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="211" FontSize="15" Height="23"/>
                         <TextBox x:Name="TextBox_NewWorkerPassword" HorizontalAlignment="Left" Margin="421,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" FontSize="15" Height="23"/>
+<Button x:Name="Button_AddWorker" Content="Добавить" Margin="674,313,10,10" FontSize="16" ></Button>
+
                     </Grid>
                 </Grid>
             </TabItem>
