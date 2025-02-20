@@ -3,6 +3,7 @@ namespace DB
 {
     public class Address
     {
+        public int Id { get; set; }
         public string Street { get; set; }
         public string House { get; set; }
         public string Apartment { get; set; }
@@ -34,7 +35,7 @@ namespace DB
         }
         public override string ToString()
         {
-            return $"ID: {this.Id}; Name: {this.Name}; Type: {this.Type};\n";
+            return $"ID: {this.Id}; Name: {this.Name}; Type: {this.Type}; Price: {this.Price}\n";
         }
     }
     public class Dish
@@ -60,6 +61,7 @@ namespace DB
     {
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
+        public bool IsActive { get; set; }
         public Address? Address { get; set; }
         public int? Table {  get; set; }
         public Order() { }
@@ -69,10 +71,11 @@ namespace DB
             this.Address = order.Address;
             this.Table = order.Table;
         }
-        public Order(DateTime _date, Address? _address = null, int? _table = null)
+        public Order(DateTime _date, bool _isActive, Address? _address = null, int? _table = null)
         {
             
             OrderDate = _date;
+            IsActive = _isActive;
             Address = _address;
             Table = _table;
         }
@@ -80,13 +83,13 @@ namespace DB
         {
             if(Address!=null)
             {
-                return $"ID: {this.Id}; Date: {this.OrderDate}; Address: {this.Address};\n";
+                return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Address: {this.Address};\n";
             }
             else if (Table !=null)
             {
-                return $"ID: {this.Id}; Date: {this.OrderDate}; Table: {this.Table};\n";
+                return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Table: {this.Table};\n";
             }
-            return $"ID: {this.Id}; Date: {this.OrderDate};\n";
+            return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive};\n";
         }
     }
     public class Employee
@@ -198,14 +201,18 @@ namespace DB
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-1QJA7UJ\SQLEXPRESS;Database=Restaraunt_Flow;Trusted_Connection=True;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer(@"Server=DESKTOP-MSB8Q41\SQLEXPRESS;Database=Restaraunt_Flow;Trusted_Connection=True;TrustServerCertificate=True");
             }
         }
 
     }
     public class Tables
     {
-        
+        public static void Main()
+        {
+            Product p = GetProduct(1);
+            Console.WriteLine(p.ToString());
+        }
         public static void AddProduct(string name, string type,double price)
         {
             using (ProjContext db = new ProjContext())
@@ -395,7 +402,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                Order ord = new Order(date, address);
+                Order ord = new Order(date,true, address);
                 db.Orders.Add(ord);
                 db.SaveChanges();
                 foreach (KeyValuePair<int, int> kvp in compound)
