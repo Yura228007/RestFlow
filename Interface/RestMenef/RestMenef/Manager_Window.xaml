@@ -46,7 +46,7 @@
                             <TextBox x:Name="TextBox_QuantityProductsForDish" FontSize="16" Margin="110,123,2,10" Height="30"/>
                         </Grid>
                         <Button x:Name="Button_SaveDishChanges" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="408,174,0,174" Width="168" FontSize="16" />
-                        <Button x:Name="Button_DeleteDish" Content="Удалить продукт" HorizontalAlignment="Left" Margin="597,174,0,174" Width="176" FontSize="16" />
+                        <Button x:Name="Button_DeleteDish" Content="Удалить блюдо" HorizontalAlignment="Left" Margin="597,174,0,174" Width="176" FontSize="16" />
                         <Label Content="Новое блюдо" FontSize="16" Margin="406,270,0,0" ></Label>
                         <TextBox x:Name="TextBox_NewDishName" FontSize="16" Margin="406,305,4,43"/>
                         <Button x:Name="Button_AddNewDish" Content="Добавить новое блюдо" HorizontalAlignment="Left" Margin="408,345,0,2" Width="365" FontSize="16" />
