@@ -10,14 +10,18 @@
         <TabControl  VerticalContentAlignment="Top" HorizontalContentAlignment="Left">
             <TabItem Header="Меню">
                 <Grid>
-                <DataGrid Margin="10,10,10,10" x:Name="DataGrid_Menu">
-                    <DataGrid.Columns>
-                            <DataGridTextColumn Width="10*" Header="Изображение" Binding="{Binding Dish}"></DataGridTextColumn>
+                    <!--<DataGrid Margin="10,10,10,46" x:Name="DataGrid_Menu">
+                        <DataGrid.Columns>
                             <DataGridTextColumn Width="20*" Header="Блюдо" Binding="{Binding Dish}"></DataGridTextColumn>
+                            <DataGridTextColumn Width="15*" Header="Состав" Binding="{Binding Состав}"></DataGridTextColumn>
                             <DataGridTextColumn Width="5*" Header="Цена" Binding="{Binding Цена}"></DataGridTextColumn>
-                            <DataGridTextColumn Width="15*" Binding="{Binding}"></DataGridTextColumn>
                         </DataGrid.Columns>
-                </DataGrid>
+                    </DataGrid>-->
+                    <ListBox x:Name="List_Menu" Margin="10,10,10,84">
+
+                    </ListBox>
+                    <Button Content="Узнать состав" HorizontalAlignment="Center" Margin="0,330,0,0" VerticalAlignment="Top" Height="31" Width="774"/>
+                    <Button Content="Добавить в корзину" HorizontalAlignment="Center" Margin="0,365,0,0" VerticalAlignment="Top" Height="31" Width="774"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Корзина">
@@ -29,7 +33,6 @@
                                 <DataGridTextColumn Width="25*" Header="Цена" Binding="{Binding Цена}"></DataGridTextColumn>
                                 <DataGridTextColumn Width="30*" Header="Кол-во" Binding="{Binding Кол-во}"></DataGridTextColumn>
                                 <DataGridTextColumn Width="30*" Header="Сумма" Binding="{Binding Sum}"></DataGridTextColumn>
-                                <DataGridTextColumn Width="5*" Header="X" Binding="{Binding Delete}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                         <Label Content="Итого:"  VerticalAlignment="Bottom" Margin="0,0,313,0"></Label>
@@ -54,7 +57,7 @@
                         <TextBox x:Name="TextBox_AddressFlat" Height="25" Width="165" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="74,125,0,0"></TextBox>
                         <Label Content="Комментарий" VerticalAlignment="Top" Margin="0,160,0,0"></Label>
                         <TextBox x:Name="TextBox_Comment" Height="90" Width="366" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,190,0,0"></TextBox>
-                        <Button x:Name="Button_MakeOrder" Content="Заказать" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="30" Width="90" FontSize="16"></Button>
+                        <Button x:Name="Button_MakeOrder" Content="Заказать" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="30" Width="117" FontSize="16"></Button>
                     </Grid>
                 </Grid>
             </TabItem>

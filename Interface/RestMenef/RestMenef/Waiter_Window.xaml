@@ -8,7 +8,7 @@
         Title="Waiter_Window" Height="450" Width="800">
     <Grid>
         <TabControl>
-            <TabItem Header="Новое">
+            <TabItem Header="Заказ">
                 <StackPanel>
                     <Grid x:Name="dish" HorizontalAlignment="Left" Background="#FFE5E5E5" Height="347" Margin="10" Width="775">
                         <DataGrid Margin="0,0,1,68" x:Name="DataGrid_NewOrderDishes">
@@ -17,7 +17,6 @@
                                 <DataGridTextColumn Width="20*" Header="Цена" Binding="{Binding Цена}"></DataGridTextColumn>
                                 <DataGridTextColumn Width="25*" Header="Кол-во" Binding="{Binding Кол-во}"></DataGridTextColumn>
                                 <DataGridTextColumn Width="30*" Header="Сумма" Binding="{Binding Sum}"></DataGridTextColumn>
-                                <DataGridTextColumn Width="5*" Header="X" Binding="{Binding Delete}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                         <Label Content="Сумма:" Margin="0,281,715,17" FontSize="15"/>
