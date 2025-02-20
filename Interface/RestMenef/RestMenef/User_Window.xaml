@@ -20,8 +20,9 @@
                     <ListBox x:Name="List_Menu" Margin="10,10,10,84">
 
                     </ListBox>
-                    <Button Content="Узнать состав" HorizontalAlignment="Center" Margin="0,330,0,0" VerticalAlignment="Top" Height="31" Width="774"/>
-                    <Button Content="Добавить в корзину" HorizontalAlignment="Center" Margin="0,365,0,0" VerticalAlignment="Top" Height="31" Width="774"/>
+                    <Button x:Name="Button_CheckDishComposition" Content="Узнать состав" HorizontalAlignment="Center" Margin="0,330,0,0" VerticalAlignment="Top" Height="31" Width="774"/>
+                    <Button x:Name="Button_AddInBasket" Content="Добавить в корзину" HorizontalAlignment="Center" Margin="0,365,0,0" VerticalAlignment="Top" Height="31" Width="774"/>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Корзина">
