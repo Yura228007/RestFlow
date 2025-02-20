@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestFlow
 {
-    internal abstract class Human
+    public abstract class Human
     {
         public string Login { get; set; }
         public string Password { get; set; }
@@ -25,6 +25,11 @@ namespace RestFlow
             Birthday = birthday;
             Gender = gender;
             Phone = phone;
+        }
+
+        public string FullName()
+        {
+            return Surname + " " + Name;
         }
     }
 }

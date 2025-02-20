@@ -16,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using RestMenef;
 using DB;
+using System.Runtime.CompilerServices;
+using System.Collections.ObjectModel;
 
 namespace RestFlow
 {
@@ -27,7 +29,56 @@ namespace RestFlow
 
         public MainWindow()
         {
+            bool hasAdmin = DB.Tables.GetEmployees().Any(emp => emp.Login == "admin");
+
+            if (!hasAdmin)
+            {
+                DB.Tables.AddEmployee("admin", "admin", "admin", "admin", DateTime.Now, true, "+7 (123) 456 78 90", 150000, "Admin");
+            }
+
             InitializeComponent();
+        }
+        private void Button_EnterAsWorker_Click(object sender, RoutedEventArgs e)
+        {
+            // Получение введённых данных
+            string login = TextBox_LoginUser.Text.Trim();     // Логин (без пробелов)
+            string password = TextBox_PasswordUser.Text.Trim(); // Пароль
+
+            // Проверка на пустые поля
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Введите логин и пароль");
+                return;  // Прерывание выполнения
+            }
+
+            try
+            {
+                //получение массива Users
+
+                List<DB.Employee> employees = new List<DB.Employee> { };
+
+                DB.Employee? employee = employees.FirstOrDefault(u => u.Login == login);
+
+                if (employee == null)  // Если пользователь не найден
+                {
+                    MessageBox.Show("Пользователь не найден");
+                    return;
+                }
+
+                if (employee.Password != password)
+                {
+                    MessageBox.Show("Неверный пароль");
+                    return;
+                }
+
+                // Успешная авторизация
+                MessageBox.Show("Авторизация успешна!");
+                OpenEmployeeWindow(employee.Post);  // Открытие основного окна
+            }
+            catch (Exception ex)  // Обработка ошибок
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
         }
 
         private void Button_EnterUser_Click(object sender, RoutedEventArgs e)
@@ -65,7 +116,7 @@ namespace RestFlow
 
                 // Успешная авторизация
                 MessageBox.Show("Авторизация успешна!");
-                OpenMainApplicationWindow();  // Открытие основного окна
+                OpenUserWindow();  // Открытие основного окна
             }
             catch (Exception ex)  // Обработка ошибок
             {
@@ -73,7 +124,44 @@ namespace RestFlow
             }
         }
 
-        private void OpenMainApplicationWindow()
+        private static Window? IdentifyTheEmployee(string post)
+        {
+            switch (post)
+            {
+                case "Manager":
+                    Manager_Window window_manager = new Manager_Window();
+                    return window_manager;
+                case "Waiter":
+                    Waiter_Window window_waiter = new Waiter_Window();
+                    return window_waiter;
+                case "Accountant":
+                    Manager_Window window_accountant = new Manager_Window();
+                    return window_accountant;
+                case "Admin":
+                    Waiter_Window window_admin = new Waiter_Window();
+                    return window_admin;
+                case "Kitchen":
+                    Manager_Window window_kitchen = new Manager_Window();
+                    return window_kitchen;
+            }
+            return null;
+        }
+
+        private void OpenEmployeeWindow(string post)
+        {
+            var window = IdentifyTheEmployee(post);
+            if (window != null)
+            {
+                window.Show();
+                this.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                this.Close();             
+            }
+        }
+
+        private void OpenUserWindow()
         {
             var WindowUser = new User_Window();
             WindowUser.Show();
@@ -94,7 +182,26 @@ namespace RestFlow
 
         private void Button_FinishRegist_Click(object sender, RoutedEventArgs e)
         {
-            DB.Program.AddUser(TextBox_RegistUserLogin.Text, TextBox_RegistUserPassword.Text, TextBox_RegistUserName.Text, TextBox_RegistUserSurename.Text, TextBox_RegistUserBirthday.Text, TextBox_RegistUserGender.Text, TextBox_RegistUserTelephoneNumber.Text);
+            string? login = TextBox_RegistUserLogin.Text;
+            string? password = TextBox_RegistUserPassword.Text; 
+            string? name = TextBox_RegistUserName.Text;
+            string? surename = TextBox_RegistUserSurename.Text;
+            DateTime? dateTime = DatePicker_RegistUserBirthday.SelectedDate;
+            bool? gender = null;
+            string? phoneNumber = TextBox_RegistUserTelephoneNumber.Text;
+            if (RadioButton_RegistUserMale.IsChecked == true)
+            {
+                gender = true;
+            }
+            else if (RadioButton_RegistUserFemale.IsChecked == true)
+            {
+                gender = false;
+            }
+            if (login != null && password != null && name != null && surename != null && dateTime != null && gender != null && phoneNumber != null)
+            {
+                DB.Tables.AddUser(login, password, name, surename, Convert.ToDateTime(dateTime), Convert.ToBoolean(gender), phoneNumber);
+            }
         }
+
     }
 }

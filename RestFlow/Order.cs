@@ -11,7 +11,7 @@ namespace RestFlow
     {
         public Address? Address { get; set; }
         public int? Table { get; set; }
-        public Dictionary<Dish, int> List { get; set; }
+        public Dictionary<Dish, int>? List { get; set; }
         public DateTime OrderDate { get; set; }
 
         public Order (DateTime orderDate, Address? address = null, int? table = null)

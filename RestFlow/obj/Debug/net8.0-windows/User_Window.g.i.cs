@@ -141,7 +141,7 @@ namespace RestMenef {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/RestFlow;V1.0.0.0;component/user_window.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/RestFlow;component/user_window.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\User_Window.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
