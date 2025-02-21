@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace RestFlow
 {
@@ -65,6 +66,19 @@ namespace RestFlow
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public override string ToString()
+        {
+            string line;
+            string _gender = Gender ? "мужчина" : "женщина";
+            line = @$"Полное имя: {FullName()}
+Дата рождения: {Birthday}
+Номер телефона: {Phone}
+Должность: {Post}
+Зарплата: {Salary}
+Пол: {_gender}";
+            return line;
         }
     }
 }
