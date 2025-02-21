@@ -33,7 +33,8 @@ namespace RestFlow
 
             if (!hasAdmin)
             {
-                DB.Tables.AddEmployee("admin", "admin", "admin", "admin", DateTime.Now, true, "+7 (123) 456 78 90", 150000, "Admin");
+                DB.Employee emp = new DB.Employee("admin", "admin", "admin", "admin", DateTime.Now, true, "71234567890", 150000, "Admin");
+                DB.Tables.AddEmployee(emp);
             }
 
             InitializeComponent();
@@ -55,7 +56,7 @@ namespace RestFlow
             {
                 //получение массива Users
 
-                List<DB.Employee> employees = new List<DB.Employee> { };
+                List<DB.Employee> employees = DB.Tables.GetEmployees();
 
                 DB.Employee? employee = employees.FirstOrDefault(u => u.Login == login);
 
@@ -98,7 +99,7 @@ namespace RestFlow
             {
                 //получение массива Users
 
-                List<DB.User> users = new List<DB.User> { };
+                List<DB.User> users = DB.Tables.GetUsers();
 
                 DB.User? user = users.FirstOrDefault(u => u.Login == login);
 
@@ -135,13 +136,13 @@ namespace RestFlow
                     Waiter_Window window_waiter = new Waiter_Window();
                     return window_waiter;
                 case "Accountant":
-                    Manager_Window window_accountant = new Manager_Window();
+                    Accountant_Window window_accountant = new Accountant_Window();
                     return window_accountant;
                 case "Admin":
-                    Waiter_Window window_admin = new Waiter_Window();
+                    Admin_Window window_admin = new Admin_Window();
                     return window_admin;
                 case "Kitchen":
-                    Manager_Window window_kitchen = new Manager_Window();
+                    Kitchen_Window window_kitchen = new Kitchen_Window();
                     return window_kitchen;
             }
             return null;
@@ -185,7 +186,7 @@ namespace RestFlow
             string? login = TextBox_RegistUserLogin.Text;
             string? password = TextBox_RegistUserPassword.Text; 
             string? name = TextBox_RegistUserName.Text;
-            string? surename = TextBox_RegistUserSurename.Text;
+            string? surname = TextBox_RegistUserSurename.Text;
             DateTime? dateTime = DatePicker_RegistUserBirthday.SelectedDate;
             bool? gender = null;
             string? phoneNumber = TextBox_RegistUserTelephoneNumber.Text;
@@ -197,9 +198,17 @@ namespace RestFlow
             {
                 gender = false;
             }
-            if (login != null && password != null && name != null && surename != null && dateTime != null && gender != null && phoneNumber != null)
+            if (login != null && password != null && name != null && surname != null && dateTime != null && gender != null && phoneNumber != null)
             {
-                DB.Tables.AddUser(login, password, name, surename, Convert.ToDateTime(dateTime), Convert.ToBoolean(gender), phoneNumber);
+                DB.User tempUser = new DB.User(login, password, name, surname, Convert.ToDateTime(dateTime), (bool)gender, phoneNumber);
+
+                DB.Tables.AddUser(tempUser);
+
+                MessageBox.Show("Вы успешно зарегестрировались");
+            }
+            else
+            {
+                MessageBox.Show("Хуета");
             }
         }
 

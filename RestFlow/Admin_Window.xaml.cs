@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
@@ -26,14 +27,6 @@ namespace RestMenef
     /// </summary>
     public partial class Admin_Window : Window
     {
-/*        public class MainViewModel
-        {
-            public ObservableCollection<Employee> Employees { get; set; }
-            public MainViewModel()
-            {
-                Employees = new ObservableCollection<Employee> (DB.Tables.GetEmployees().Select(e => new Employee(e)).ToList());
-            }
-        }*/
         RestFlow.Employee? selectedEmployee = null;
         int selectedEmployeeId = -1;
 
@@ -52,7 +45,34 @@ namespace RestMenef
 
             public MainViewModel()
             {
-                _ = LoadEmployeesAsync(); // Запуск асинхронной загрузки
+                Employees = new ObservableCollection<RestFlow.Employee>();
+                Employees.CollectionChanged += Employees_CollectionChanged;
+                _ = LoadEmployeesAsync();
+            }
+
+            private async void Employees_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            {
+                // Добавление
+                if (e.NewItems != null)
+                {
+                    foreach (RestFlow.Employee newEmp in e.NewItems)
+                    {
+                        DB.Employee newDBEmployee = DB.Tables.GetEmployees().FirstOrDefault(employee => employee.Login == newEmp.Login);
+                        DB.Tables.AddEmployee(newDBEmployee);
+                        //добавление
+                    }
+                }
+
+                // Удаление
+                if (e.OldItems != null)
+                {
+                    foreach (RestFlow.Employee oldEmp in e.OldItems)
+                    {
+                        //удаление
+                        DB.Employee oldDBEmployee = DB.Tables.GetEmployees().FirstOrDefault(employee => employee.Login == oldEmp.Login);
+                        DB.Tables.DeleteEmployee(oldDBEmployee.Id);
+                    }
+                }
             }
 
             private async Task LoadEmployeesAsync()
@@ -80,6 +100,23 @@ namespace RestMenef
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        private void DataGrid_WorkersInfo_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            MessageBox.Show("1");
+            if (e.EditAction == DataGridEditAction.Commit)
+            {
+                var editedEmployee = e.Row.Item as RestFlow.Employee;
+                if (editedEmployee != null)
+                {
+                    // Сохранить изменения в БД
+                    DB.Employee ed = DB.Tables.GetEmployees().FirstOrDefault(x => x.Login == editedEmployee.Login);
+                    if (ed != null) { MessageBox.Show("!"); }
+                    DB.Tables.UpdateEmployee(ed.Id, new DB.Employee(editedEmployee.Login, editedEmployee.Password, editedEmployee.Name, editedEmployee.Surname, editedEmployee.Birthday, editedEmployee.Gender, editedEmployee.Phone, editedEmployee.Salary, editedEmployee.Post));
+                    MessageBox.Show("5");
+
+                }
+            }
+        }
 
         public Admin_Window()
         {
@@ -88,6 +125,7 @@ namespace RestMenef
 
         }
 
+        #region Хуета
         private void DataGrid_WorkersInfo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedEmployeeRow = DataGrid_WorkersInfo.SelectedItem as DataRowView;
@@ -177,6 +215,8 @@ namespace RestMenef
                 if (flag)
                 {
                     DB.Tables.UpdateEmployee(selectedEmployeeId, new DB.Employee(login, password, name, surname, (DateTime)birthday, (bool)gender, phone, salaryInt, post));
+                    MessageBox.Show("Изменения успешно сохранены!");
+                    CleanFieldsWorker();
                 }
                 else
                 {
@@ -199,6 +239,8 @@ namespace RestMenef
                 if (result == MessageBoxResult.Yes)
                 {
                     DB.Tables.DeleteEmployee(selectedEmployeeId);
+                    MessageBox.Show("Работник успешно уволен");
+                    CleanFieldsWorker();
                 }
             }
             else
@@ -206,5 +248,6 @@ namespace RestMenef
                 MessageBox.Show("Выберите работника из списка");
             }
         }
+        #endregion
     }
 }
