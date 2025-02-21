@@ -23,5 +23,10 @@ namespace RestMenef
         {
             InitializeComponent();
         }
+
+        private void DataGrid_OrdersHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

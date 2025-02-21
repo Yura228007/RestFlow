@@ -49,7 +49,6 @@ namespace RestMenef
             {
                 Employees = new ObservableCollection<RestFlow.Employee>();
                 Employees.CollectionChanged += Employees_CollectionChanged;
-                
                 _ = LoadEmployeesAsync();
             }
 
@@ -60,9 +59,12 @@ namespace RestMenef
                 {
                     foreach (RestFlow.Employee newEmp in e.NewItems)
                     {
-                        DB.Employee newDBEmployee = DB.Tables.GetEmployees().FirstOrDefault(employee => employee.Login == newEmp.Login);
-                        DB.Tables.AddEmployee(newDBEmployee);
-                        //добавление
+                        DB.Employee? newDBEmployee = DB.Tables.GetEmployees().FirstOrDefault(employee => employee.Login == newEmp.Login);
+                        if (newDBEmployee != null)
+                        {
+                            DB.Tables.AddEmployee(newDBEmployee);
+                            //добавление
+                        }
                     }
                 }
 
@@ -72,8 +74,11 @@ namespace RestMenef
                     foreach (RestFlow.Employee oldEmp in e.OldItems)
                     {
                         //удаление
-                        DB.Employee oldDBEmployee = DB.Tables.GetEmployees().FirstOrDefault(employee => employee.Login == oldEmp.Login);
-                        DB.Tables.DeleteEmployee(oldDBEmployee.Id);
+                        DB.Employee? oldDBEmployee = DB.Tables.GetEmployees().FirstOrDefault(employee => employee.Login == oldEmp.Login);
+                        if (oldDBEmployee != null)
+                        {
+                            DB.Tables.DeleteEmployee(oldDBEmployee.Id);
+                        }
                     }
                 }
             }
@@ -197,6 +202,7 @@ namespace RestMenef
             TextBox_NewWorkerSalary.Text = "";
             RadioButton_NewWorkerMale.IsChecked = false;
             RadioButton_NewWorkerFemale.IsChecked = false;
+            ComboBox_NewWorkerPost.Text = "";
         }
 
         #endregion

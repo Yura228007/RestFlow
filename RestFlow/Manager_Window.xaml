@@ -58,13 +58,7 @@
             </TabItem>
             <TabItem Header="История заказов" HorizontalAlignment="Left">
                 <Grid Margin="10">
-                    <DataGrid x:Name="DataGrid_OrdersHistory">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Width="15*" Header="Название" Binding="{Binding Dish}"></DataGridTextColumn>
-                            <DataGridTextColumn Width="25*" Header="Дата" Binding="{Binding Дата}"></DataGridTextColumn>
-                            <DataGridTextColumn Width="25*" Header="Цена" Binding="{Binding Цена}"></DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <DataGrid x:Name="DataGrid_OrdersHistory" SelectionChanged="DataGrid_OrdersHistory_SelectionChanged" Margin="0,0,0,44" AutoGenerateColumns="True" SelectionMode="Single" ItemsSource="{Binding Orders, Mode=TwoWay}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Мой аккаунт" HorizontalAlignment="Left">

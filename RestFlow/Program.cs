@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Windows;
+using Microsoft.EntityFrameworkCore;
 namespace DB
 {
     public class Address
@@ -107,15 +108,22 @@ namespace DB
         public Employee() { }
         public Employee(Employee employee)
         {
-            this.Login = employee.Login;
-            this.Password = employee.Password;
-            this.Name = employee.Name;
-            this.Surname = employee.Surname;
-            this.Birthday = employee.Birthday;
-            this.Gender = employee.Gender;
-            this.Phone = employee.Phone;
-            this.Salary = employee.Salary;
-            this.Post = employee.Post;
+            if (employee != null)
+            {
+                this.Login = employee.Login;
+                this.Password = employee.Password;
+                this.Name = employee.Name;
+                this.Surname = employee.Surname;
+                this.Birthday = employee.Birthday;
+                this.Gender = employee.Gender;
+                this.Phone = employee.Phone;
+                this.Salary = employee.Salary;
+                this.Post = employee.Post;
+            }
+            else
+            {
+                MessageBox.Show("Возникла ошибка");
+            }
         }
         public Employee(string login, string password,string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post) 
         { 
@@ -147,13 +155,20 @@ namespace DB
         public User() { }
         public User(User user)
         {
-            this.Login = user.Login;
-            this.Password = user.Password;
-            this.Name = user.Name;
-            this.Surname = user.Surname;
-            this.Birthday = user.Birthday;
-            this.Gender = user.Gender;
-            this.Phone = user.Phone;
+            if (user != null)
+            {
+                this.Login = user.Login;
+                this.Password = user.Password;
+                this.Name = user.Name;
+                this.Surname = user.Surname;
+                this.Birthday = user.Birthday;
+                this.Gender = user.Gender;
+                this.Phone = user.Phone;
+            }
+            else
+            {
+                MessageBox.Show("Возникла ошибка");
+            }
         }
         public User(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Gender = gender; Phone = phone; }
         public override string ToString()
@@ -478,6 +493,16 @@ namespace DB
                 db.SaveChanges();
             }
         }
+        public static void AddUser(User userP)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                User user = new User(userP);
+                db.Users.Add(user);
+                db.SaveChanges();
+            }
+        }
+
         public static void DeleteUser(int id)
         {
             using (ProjContext db = new ProjContext())
@@ -527,6 +552,16 @@ namespace DB
             using (ProjContext db = new ProjContext())
             {
                 Employee emp = new Employee(login, password, name, surname, birthday, gender, phone, salary, post);
+                db.Employees.Add(emp);
+                db.SaveChanges();
+            }
+        }
+
+        public static void AddEmployee(Employee employee)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Employee emp = new Employee(employee);
                 db.Employees.Add(emp);
                 db.SaveChanges();
             }
