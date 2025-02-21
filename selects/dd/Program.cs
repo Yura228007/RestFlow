@@ -117,7 +117,7 @@ namespace DB
             this.Salary = employee.Salary;
             this.Post = employee.Post;
         }
-        public Employee(string login, string password,string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Gender = gender; Post = post; Salary = salary; }
+        public Employee(string login, string password,string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Phone = phone; Gender = gender; Post = post; Salary = salary; }
         public override string ToString()
         {
             return $"ID: {this.Id}; Login: {this.Login}; Password: {this.Password}; Name: {this.Name}; Surname: {this.Surname}; Birthday: {this.Birthday}; IsMale: {this.Gender}; Phone: {this.Phone}; Salary: {this.Salary}; Post: {this.Post};\n";
@@ -188,7 +188,7 @@ namespace DB
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<User> BDUsers { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Warehouse> Warehouse { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<OrdersDishes> Compound { get; set; }
@@ -210,8 +210,8 @@ namespace DB
     {
         public static void Main()
         {
-            Product p = GetProduct(1);
-            Console.WriteLine(p.ToString());
+            Employee employee = GetEmployee(1);
+            Console.WriteLine(employee.ToString());
         }
         public static void AddProduct(string name, string type,double price)
         {
@@ -443,7 +443,7 @@ namespace DB
             List<User> users = new List<User>();
             using (ProjContext db = new ProjContext())
             {
-                foreach (User user in db.BDUsers)
+                foreach (User user in db.Users)
                 {
                     users.Add(user);
                     Console.WriteLine($"ID: {user.Id} | Name: {user.Name} | Surname: {user.Surname} | Phone: {user.Phone}\n");
@@ -451,12 +451,19 @@ namespace DB
             }
             return users;
         }
+        public static User GetUser(int id)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                return db.Users.ElementAt(id-1);
+            }
+        }
         public static void AddUser(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone)
         {
             using (ProjContext db = new ProjContext())
             {
                 User user = new User(login, password, name, surname, birthday, gender, phone);
-                db.BDUsers.Add(user);
+                db.Users.Add(user);
                 db.SaveChanges();
             }
         }
@@ -464,8 +471,8 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                User? user = db.BDUsers.Find(id);
-                db.BDUsers.Remove(user);
+                User? user = db.Users.Find(id);
+                db.Users.Remove(user);
                 db.SaveChanges();
             }
         }
@@ -473,7 +480,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                User? _user = db.BDUsers.Find(id);
+                User? _user = db.Users.Find(id);
                 if( _user != null )
                 {
                     _user = new User(user);
@@ -496,6 +503,13 @@ namespace DB
             }
             return _employees;
 
+        }
+        public static Employee GetEmployee(int id)
+        {
+            using(ProjContext db = new ProjContext())
+            {
+                return db.Employees.ElementAt(id-1);
+            }
         }
         public static void AddEmployee(string login, string password, string name, string surname, DateTime birthday, bool gender,  string phone, double salary, string post)
         {
