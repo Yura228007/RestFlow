@@ -27,6 +27,9 @@ namespace RestFlow
     public partial class MainWindow : Window
     {
 
+        Employee logEmployee = null;
+        User logUser = null;
+
         public MainWindow()
         {
             bool hasAdmin = DB.Tables.GetEmployees().Any(emp => emp.Login == "admin");
@@ -74,6 +77,7 @@ namespace RestFlow
 
                 // Успешная авторизация
                 MessageBox.Show("Авторизация успешна!");
+                logEmployee = new RestFlow.Employee(employee);
                 OpenEmployeeWindow(employee.Post);  // Открытие основного окна
             }
             catch (Exception ex)  // Обработка ошибок
@@ -125,8 +129,8 @@ namespace RestFlow
             }
         }
 
-        private static Window? IdentifyTheEmployee(string post)
-        {
+        private Window? IdentifyTheEmployee(string post)
+        { 
             switch (post)
             {
                 case "Manager":
@@ -139,7 +143,7 @@ namespace RestFlow
                     Accountant_Window window_accountant = new Accountant_Window();
                     return window_accountant;
                 case "Admin":
-                    Admin_Window window_admin = new Admin_Window();
+                    Admin_Window window_admin = new Admin_Window(logEmployee);
                     return window_admin;
                 case "Kitchen":
                     Kitchen_Window window_kitchen = new Kitchen_Window();
