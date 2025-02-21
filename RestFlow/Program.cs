@@ -556,7 +556,6 @@ namespace DB
                 Employee? _employee = db.Employees.Find(id);
                 if (_employee != null)
                 {
-                    MessageBox.Show($"{_employee.Name} - {employee.Name}");
                     _employee.Name = employee.Name;
                     _employee.Surname = employee.Surname;
                     _employee.Post = employee.Post;

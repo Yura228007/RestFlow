@@ -30,6 +30,7 @@ namespace RestMenef
         RestFlow.Employee? selectedEmployee = null;
         int selectedEmployeeId = -1;
 
+
         public class MainViewModel : INotifyPropertyChanged
         {
             private ObservableCollection<RestFlow.Employee> _employees;
@@ -102,17 +103,29 @@ namespace RestMenef
         }
         private void DataGrid_WorkersInfo_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            MessageBox.Show("1");
             if (e.EditAction == DataGridEditAction.Commit)
             {
                 var editedEmployee = e.Row.Item as RestFlow.Employee;
                 if (editedEmployee != null)
                 {
-                    // Сохранить изменения в БД
-                    DB.Employee ed = DB.Tables.GetEmployees().FirstOrDefault(x => x.Login == editedEmployee.Login);
-                    if (ed != null) { MessageBox.Show("!"); }
-                    DB.Tables.UpdateEmployee(ed.Id, new DB.Employee(editedEmployee.Login, editedEmployee.Password, editedEmployee.Name, editedEmployee.Surname, editedEmployee.Birthday, editedEmployee.Gender, editedEmployee.Phone, editedEmployee.Salary, editedEmployee.Post));
-                    MessageBox.Show("5");
+                    DB.Employee? ed = DB.Tables.GetEmployees().FirstOrDefault(x => x.Login == editedEmployee.Login);
+                    if (ed != null)
+                    {
+                        DB.Tables.UpdateEmployee(ed.Id, 
+                            new DB.Employee(
+                                editedEmployee.Login, 
+                                editedEmployee.Password, 
+                                editedEmployee.Name, 
+                                editedEmployee.Surname, 
+                                editedEmployee.Birthday, 
+                                editedEmployee.Gender, 
+                                editedEmployee.Phone, 
+                                editedEmployee.Salary, 
+                                editedEmployee.Post
+                                )
+                            );
+                        MessageBox.Show("Изменения успешно сохранены");
+                    }
 
                 }
             }
@@ -122,7 +135,7 @@ namespace RestMenef
         {
             InitializeComponent();
             DataContext = new MainViewModel();
-
+            Label_AllInfo.Content = "";
         }
 
         #region Хуета
