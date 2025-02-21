@@ -208,9 +208,15 @@ namespace RestFlow
             }
             else
             {
-                MessageBox.Show("Хуета");
+                MessageBox.Show("Заполните все поля!");
             }
         }
 
+        private void EnterAsAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox_LoginUser.Text = "admin";
+            TextBox_PasswordUser.Text = "1234";
+            Button_LoginUser_Click(sender, e);
+        }
     }
 }

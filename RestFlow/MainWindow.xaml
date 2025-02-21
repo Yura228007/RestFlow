@@ -8,6 +8,10 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid x:Name="Panel_Login" Visibility="Visible">
+
+            <Button x:Name="EnterAsAdmin" Click="EnterAsAdmin_Click"/>
+
+
             <Label Content="Логин" HorizontalAlignment="Left" Margin="257,181,0,0" VerticalAlignment="Top" FontSize="16"/>
             <Label Content="Пароль" HorizontalAlignment="Left" Margin="257,215,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.509,-0.958"/>
             <TextBox x:Name="TextBox_LoginUser" HorizontalAlignment="Left" Margin="322,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" FontSize="16"/>
