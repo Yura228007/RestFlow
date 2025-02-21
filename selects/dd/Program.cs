@@ -266,8 +266,8 @@ namespace DB
             //UpdateProduct(1, p);
             //Console.WriteLine(GetProduct(1));
 
-            //Dish d = new Dish("the beefshtacks", 150, 500.25);
-            //UpdateDish(1, d, prods);
+            //Dish d = new Dish("the beefshtacks", 150, 500.27);
+            //UpdateDish(1, d);
             //Console.WriteLine(GetDish(1));
 
             //Dictionary<Product, int> prs = GetDishIngregients(1);
@@ -276,8 +276,8 @@ namespace DB
             //    Console.WriteLine($"{kvp.Key.ToString()}: {kvp.Value}");
             //}
 
-            //Order o = new Order(DateTime.Now, true, _table: 2);
-            //UpdateOrder(1, o, comp);
+            //Order o = new Order(DateTime.Now, true, _table: 12);
+            //UpdateOrder(1, o);
             //Console.WriteLine(GetOrder(1));
 
             //Dictionary<Dish, int> compound = GetOrderCompound(2);
@@ -465,6 +465,20 @@ namespace DB
                 db.SaveChanges();
             }
         }
+        public static void UpdateDish(int id, Dish dish)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Dish? _dish = db.Dishes.Find(id);
+                if (_dish != null)
+                {
+                    _dish.Name = dish.Name;
+                    _dish.Price = dish.Price;
+                    _dish.Primecost = dish.Primecost;
+                }
+                db.SaveChanges();
+            }
+        }
         public static void DeleteDish(int id)
         {
             using (ProjContext db = new ProjContext())
@@ -563,6 +577,21 @@ namespace DB
                     _order.Table = order.Table;
                     DeleteCompound(id);
                     AddCompound(id, compound);
+                }
+                db.SaveChanges();
+            }
+        }
+
+        public static void UpdateOrder(int id, Order order)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Order? _order = db.Orders.Find(id);
+                if (_order != null)
+                {
+                    _order.OrderDate = order.OrderDate;
+                    _order.Address = order.Address;
+                    _order.Table = order.Table;
                 }
                 db.SaveChanges();
             }
