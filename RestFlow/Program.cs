@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 namespace DB
 {
     public class Address
@@ -463,17 +462,13 @@ namespace DB
             }
             return users;
         }
-
-        public static void AddUser(User user)
+        public static User GetUser(int id)
         {
             using (ProjContext db = new ProjContext())
             {
-                User user1 = new User(user);
-                db.Users.Add(user1);
-                db.SaveChanges();
+                return db.Users.ElementAt(id-1);
             }
         }
-
         public static void AddUser(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone)
         {
             using (ProjContext db = new ProjContext())
@@ -520,14 +515,11 @@ namespace DB
             return _employees;
 
         }
-
-        public static void AddEmployee(Employee employee)
+        public static Employee GetEmployee(int id)
         {
-            using (ProjContext db = new ProjContext())
+            using(ProjContext db = new ProjContext())
             {
-                Employee emp = new Employee(employee);
-                db.Employees.Add(emp);
-                db.SaveChanges();
+                return db.Employees.ElementAt(id-1);
             }
         }
         public static void AddEmployee(string login, string password, string name, string surname, DateTime birthday, bool gender,  string phone, double salary, string post)
