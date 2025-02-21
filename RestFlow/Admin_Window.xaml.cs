@@ -31,6 +31,7 @@ namespace RestMenef
         int selectedEmployeeId = -1;
         RestFlow.Employee currentEmployee;
 
+#region 1 вкладка
         public class MainViewModel : INotifyPropertyChanged
         {
             private ObservableCollection<RestFlow.Employee> _employees;
@@ -48,6 +49,7 @@ namespace RestMenef
             {
                 Employees = new ObservableCollection<RestFlow.Employee>();
                 Employees.CollectionChanged += Employees_CollectionChanged;
+                
                 _ = LoadEmployeesAsync();
             }
 
@@ -137,33 +139,83 @@ namespace RestMenef
             DataContext = new MainViewModel();
             currentEmployee = employee;
             Label_AllInfo.Content = currentEmployee.ToString();
+            List <string> Posts = new List<string> {"Admin", "Manager", "Waiter", "Accountant", "Kitchen"};
+            ComboBox_NewWorkerPost.ItemsSource = Posts;
+        }
+        #endregion
+
+        #region добавление работника
+        private void Button_AddWorker_Click(object sender, RoutedEventArgs e)
+        {
+            string? login = TextBox_NewWorkerLogin.Text;
+            string? password = TextBox_NewWorkerPassword.Text;
+            string? name = TextBox_NewWorkerName.Text;
+            string? surname = TextBox_NewWorkerSurname.Text;
+            string? phone = TextBox_NewWorkerTelephoneNumber.Text;
+            DateTime? date = DatePicker_NewWorkerBirthday.SelectedDate;
+            string salaryString = TextBox_NewWorkerSalary.Text;
+            double salaryDouble;
+            bool flag = Double.TryParse(salaryString, out salaryDouble);
+            bool? gender = null;
+            if (RadioButton_NewWorkerMale.IsChecked == true)
+            {
+                gender = true;
+            }
+            else if (RadioButton_NewWorkerFemale.IsChecked == true)
+            {
+                gender = false;
+            }
+            string? post = ComboBox_NewWorkerPost.Text;
+
+            if (login != null && password != null && name != null && surname != null && phone != null && salaryString != null && date != null && gender != null && post != null)
+            {
+                if (flag == true)
+                {
+                    DB.Employee tempEmployee = new DB.Employee(login, password, name, surname, (DateTime)date, (bool)gender, phone, salaryDouble, post); 
+                    DB.Tables.AddEmployee(tempEmployee);
+                    MessageBox.Show("Работник  успешно добавлен");
+                    CleanNewWorker();
+                }
+                else
+                {
+                    MessageBox.Show("введите корректное значение для зарплаты!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Заполните все поля");
+            }
         }
 
-        #region Хуета
+        private void CleanNewWorker()
+        {
+            TextBox_NewWorkerLogin.Text = "";
+            TextBox_NewWorkerPassword.Text = "";
+            TextBox_NewWorkerName.Text = "";
+            TextBox_NewWorkerSurname.Text = "";
+            TextBox_NewWorkerTelephoneNumber.Text = "";
+            TextBox_NewWorkerSalary.Text = "";
+            RadioButton_NewWorkerMale.IsChecked = false;
+            RadioButton_NewWorkerFemale.IsChecked = false;
+        }
+
+        #endregion
+
+        #region ...
         private void DataGrid_WorkersInfo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedEmployeeRow = DataGrid_WorkersInfo.SelectedItem as DataRowView;
-
-
-
-            if (selectedEmployeeRow != null)
+            if (DataGrid_WorkersInfo.SelectedItem as RestFlow.Employee != null)
             {
-                string selectedEmployeeLogin = (string)selectedEmployeeRow[0];
+                selectedEmployee = DataGrid_WorkersInfo.SelectedItem as RestFlow.Employee;
 
-                if (selectedEmployeeLogin != null)
+                if (selectedEmployee != null)
                 {
-                    DB.Employee? tempEmployee = DB.Tables.GetEmployees().FirstOrDefault(e => e.Login == selectedEmployeeLogin);
+                    DB.Employee? tempEmployee = DB.Tables.GetEmployees().FirstOrDefault(e => e.Login == selectedEmployee.Login);
                     if (tempEmployee != null)
-                    {   
-                        selectedEmployee = new RestFlow.Employee(tempEmployee);
+                    {
                         selectedEmployeeId = tempEmployee.Id;
                     }
                 }
-            }
-
-            if (selectedEmployee != null)
-            {
-                FillingEmployeeInformation(selectedEmployee);
             }
         }
 
@@ -263,5 +315,6 @@ namespace RestMenef
             }
         }
         #endregion
+
     }
 }

@@ -11,7 +11,7 @@
             <TabItem Header="Таблица работников">
                 <StackPanel>
                     <Grid HorizontalAlignment="Left"  Height="383" Margin="10" Width="Auto">
-                        <DataGrid Margin="0,0,10,66" x:Name="DataGrid_WorkersInfo" SelectionMode="Single" ItemsSource="{Binding Employees, Mode=TwoWay}" AutoGenerateColumns="False" SelectionChanged="DataGrid_WorkersInfo_SelectionChanged" RowEditEnding="DataGrid_WorkersInfo_RowEditEnding">
+                        <DataGrid Margin="0,0,10,66" x:Name="DataGrid_WorkersInfo" SelectionMode="Single" ItemsSource="{Binding Employees, Mode=TwoWay}" AutoGenerateColumns="False" SelectionChanged="DataGrid_WorkersInfo_SelectionChanged"  RowEditEnding="DataGrid_WorkersInfo_RowEditEnding">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="2*" Header="Логин" Binding="{Binding Login}" FontSize="12" IsReadOnly="True"/>
                                 <DataGridTextColumn Width="2*" Header="Пароль" Binding="{Binding Password}" FontSize="12"/>
@@ -52,7 +52,7 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="Добавить работника">
-                <Grid HorizontalAlignment="Left" Width="796" Height="415">
+                <Grid HorizontalAlignment="Center" Width="1075" Height="415">
                     <Label Content="Новый аккаунт" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
                     <Grid Margin="64,30,86,20">
                         <Label Content="Имя" HorizontalAlignment="Left" Margin="35,63,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="40"/>
@@ -63,19 +63,19 @@
                         <Label Content="Должность" HorizontalAlignment="Left" Margin="36,188,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="88"/>
                         <Label Content="Зарплата" HorizontalAlignment="Left" Margin="345,188,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="76"/>
                         <TextBox x:Name="TextBox_NewWorkerName" HorizontalAlignment="Left" Margin="80,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="147" FontSize="15" Height="22"/>
-                        <TextBox x:Name="TextBox_NewWorkerSurename" HorizontalAlignment="Left" Margin="307,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194" FontSize="15" Height="22"/>
+                        <TextBox x:Name="TextBox_NewWorkerSurname" HorizontalAlignment="Left" Margin="307,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194" FontSize="15" Height="22"/>
                         <TextBox x:Name="TextBox_NewWorkerTelephoneNumber" HorizontalAlignment="Left" Margin="129,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="494" FontSize="15" Height="23"/>
                         <ComboBox x:Name="ComboBox_NewWorkerPost" HorizontalAlignment="Left" Margin="129,191,0,0" VerticalAlignment="Top" Width="211" FontSize="15" Height="22" ></ComboBox>
                         <TextBox x:Name="TextBox_NewWorkerSalary" HorizontalAlignment="Left" Margin="421,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" FontSize="15" Height="22"/>
                         <DatePicker x:Name="DatePicker_NewWorkerBirthday" HorizontalAlignment="Left" Margin="384,107,0,0" VerticalAlignment="Top" Height="22" Width="111"/>
                         <RadioButton x:Name="RadioButton_NewWorkerFemale" Content="Женщина" HorizontalAlignment="Left" Margin="81,112,0,0" VerticalAlignment="Top"  Height="23"/>
                         <RadioButton x:Name="RadioButton_NewWorkerMale" Content="Мужчина" HorizontalAlignment="Left" Margin="168,112,0,0" VerticalAlignment="Top"  Height="23"/>
-                        <Button x:Name="Button_AddWorker" Content="Добавить" Margin="674,313,10,10" FontSize="16" ></Button>
                         <Label Content="Логин" HorizontalAlignment="Left" Margin="34,229,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="52"/>
                         <Label Content="Пароль" HorizontalAlignment="Left" Margin="345,229,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="71"/>
                         <TextBox x:Name="TextBox_NewWorkerLogin" HorizontalAlignment="Left" Margin="129,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="211" FontSize="15" Height="23"/>
                         <TextBox x:Name="TextBox_NewWorkerPassword" HorizontalAlignment="Left" Margin="421,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="202" FontSize="15" Height="23"/>
                     </Grid>
+                    <Button x:Name="Button_AddWorker" Content="Добавить" Margin="600,313,10,10" FontSize="16" Height="45" Width="150" Click="Button_AddWorker_Click"></Button>
                 </Grid>
             </TabItem>
             <TabItem Header="Мой аккаунт" HorizontalAlignment="Left">
