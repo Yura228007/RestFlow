@@ -29,7 +29,7 @@ namespace RestMenef
     {
         RestFlow.Employee? selectedEmployee = null;
         int selectedEmployeeId = -1;
-
+        RestFlow.Employee currentEmployee;
 
         public class MainViewModel : INotifyPropertyChanged
         {
@@ -131,11 +131,12 @@ namespace RestMenef
             }
         }
 
-        public Admin_Window()
+        public Admin_Window(RestFlow.Employee employee)
         {
             InitializeComponent();
             DataContext = new MainViewModel();
-            Label_AllInfo.Content = "";
+            currentEmployee = employee;
+            Label_AllInfo.Content = currentEmployee.ToString();
         }
 
         #region Хуета
