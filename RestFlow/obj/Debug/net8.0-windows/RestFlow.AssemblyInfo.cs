@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RestFlow")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb37095cc0f4ce7261c6e9a32b364a920727a509")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+847ccd44178d3c2b24227d2b02518d2e53c7f0db")]
 [assembly: System.Reflection.AssemblyProductAttribute("RestFlow")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RestFlow")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

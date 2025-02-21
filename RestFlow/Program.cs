@@ -563,6 +563,7 @@ namespace DB
                     _employee.Phone = employee.Phone;
                     _employee.Gender = employee.Gender;
                     _employee.Password = employee.Password;
+                    _employee.Salary = employee.Salary;
                     db.SaveChanges();
                 }
                 else
