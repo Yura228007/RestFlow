@@ -31,7 +31,8 @@ namespace RestMenef
         int selectedEmployeeId = -1;
         RestFlow.Employee currentEmployee;
 
-#region 1 вкладка
+
+        #region 1 вкладка
         public class MainViewModel : INotifyPropertyChanged
         {
             private ObservableCollection<RestFlow.Employee> _employees;
@@ -87,7 +88,12 @@ namespace RestMenef
                         var employees = await context.Employees
                             .Select(e => new RestFlow.Employee(e))
                             .ToListAsync();
-                        Employees = new ObservableCollection<RestFlow.Employee>(employees);
+/*                        Employees = new ObservableCollection<RestFlow.Employee>(employees);*/
+                        Employees.Clear(); // Очищаем текущую коллекцию
+                        foreach (var e in employees)
+                        {
+                            Employees.Add(e); // Добавляем новые элементы
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -175,6 +181,8 @@ namespace RestMenef
                     DB.Tables.AddEmployee(tempEmployee);
                     MessageBox.Show("Работник  успешно добавлен");
                     CleanNewWorker();
+                    var mainVM = DataContext as MainViewModel;
+                    mainVM?.Employees.Add(new RestFlow.Employee(tempEmployee));
                 }
                 else
                 {
@@ -307,6 +315,8 @@ namespace RestMenef
                     DB.Tables.DeleteEmployee(selectedEmployeeId);
                     MessageBox.Show("Работник успешно уволен");
                     CleanFieldsWorker();
+                    var mainVM = DataContext as MainViewModel;
+                    mainVM?.Employees.Remove(selectedEmployee);
                 }
             }
             else
