@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Reflection;
 namespace DB
 {
     public class Address
@@ -26,7 +28,7 @@ namespace DB
         public string Type { get; set; }
         public double Price { get; set; }
         public Product() { }
-        public Product(string name, string type, double price) { Name = name; Type = type; }
+        public Product(string name, string type, double price) { Name = name; Type = type; Price = price; }
         public Product(Product product)
         {
             this.Name = product.Name;
@@ -47,7 +49,7 @@ namespace DB
         public Dish() { }
         public Dish(Dish dish)
         {
-            this.Name= dish.Name;
+            this.Name = dish.Name;
             this.Price = dish.Price;
             this.Primecost = dish.Primecost;
         }
@@ -63,7 +65,7 @@ namespace DB
         public DateTime OrderDate { get; set; }
         public bool IsActive { get; set; }
         public Address? Address { get; set; }
-        public int? Table {  get; set; }
+        public int? Table { get; set; }
         public Order() { }
         public Order(Order order)
         {
@@ -73,7 +75,7 @@ namespace DB
         }
         public Order(DateTime _date, bool _isActive, Address? _address = null, int? _table = null)
         {
-            
+
             OrderDate = _date;
             IsActive = _isActive;
             Address = _address;
@@ -81,11 +83,11 @@ namespace DB
         }
         public override string ToString()
         {
-            if(Address!=null)
+            if (Address != null)
             {
                 return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Address: {this.Address};\n";
             }
-            else if (Table !=null)
+            else if (Table != null)
             {
                 return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Table: {this.Table};\n";
             }
@@ -95,7 +97,7 @@ namespace DB
     public class Employee
     {
         public int Id { get; set; }
-        public string Login {  get; set; }
+        public string Login { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -117,7 +119,7 @@ namespace DB
             this.Salary = employee.Salary;
             this.Post = employee.Post;
         }
-        public Employee(string login, string password,string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Phone = phone; Gender = gender; Post = post; Salary = salary; }
+        public Employee(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Phone = phone; Gender = gender; Post = post; Salary = salary; }
         public override string ToString()
         {
             return $"ID: {this.Id}; Login: {this.Login}; Password: {this.Password}; Name: {this.Name}; Surname: {this.Surname}; Birthday: {this.Birthday}; IsMale: {this.Gender}; Phone: {this.Phone}; Salary: {this.Salary}; Post: {this.Post};\n";
@@ -131,7 +133,7 @@ namespace DB
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime Birthday { get; set; }
-        public bool Gender {  get; set; }
+        public bool Gender { get; set; }
         public string Phone { get; set; }
         public User() { }
         public User(User user)
@@ -171,11 +173,13 @@ namespace DB
     public class OrdersDishes
     {
         public int Id { get; set; }
+        public int OrderId { get; set; }
         public int DishId { get; set; }
         public int Quantity { get; set; }
         public OrdersDishes() { }
-        public OrdersDishes(int dish_id, int quantity)
+        public OrdersDishes(int order_id, int dish_id, int quantity)
         {
+            OrderId = order_id;
             DishId = dish_id;
             Quantity = quantity;
         }
@@ -210,14 +214,105 @@ namespace DB
     {
         public static void Main()
         {
-            Employee employee = GetEmployee(1);
-            Console.WriteLine(employee.ToString());
+            // ADD
+
+            //AddProduct("beef", "meat food", 600.25);
+            Dictionary<int, int> prods = new Dictionary<int, int>() { { 1, 16 } };
+            //AddDish("chop", 100.5, 250.8, prods);
+            Dictionary<int, int> comp = new Dictionary<int, int>() { { 1, 5 } };
+            //AddOrder(DateTime.Today, comp, table: 1);
+            //AddUser("us", "user", "week", "joohn", DateTime.UtcNow, true, "+79834560126");
+            //AddEmployee("admin", "admin", "Rosveld", "Johns", DateTime.UtcNow, true, "+764028565933", 15000, "administrator");
+
+            // GET
+            //Product product = GetProduct(1);
+            //Console.WriteLine(product.ToString());
+            //List<Product> products = GetProducts();
+            //foreach (Product product1 in products)
+            //{
+            //    Console.WriteLine(product1.ToString());
+            //}
+            //Dish dish = GetDish(1);
+            //Console.WriteLine(dish.ToString());
+            //List<Dish> dishes = GetDishes();
+            //foreach (Dish dish1 in dishes)
+            //{
+            //    Console.WriteLine(dish1.ToString());
+            //}
+            //Order order = GetOrder(1);
+            //Console.WriteLine(order.ToString());
+            //List<Order> orders = GetOrders();
+            //foreach (Order order1 in orders)
+            //{
+            //    Console.WriteLine(order1.ToString());
+            //}
+            //User user = GetUser(1);
+            //Console.WriteLine(user.ToString());
+            //List<User> users = GetUsers();
+            //foreach (User user1 in users)
+            //{
+            //    Console.WriteLine(user1.ToString());
+            //}
+            //Employee employee = GetEmployee(1);
+            //Console.WriteLine(employee.ToString());
+            //List<Employee> employees = GetEmployees();
+            //foreach (Employee employee1 in employees)
+            //{
+            //    Console.WriteLine(employee1.ToString());
+            //}
+
+            // UPDATE 
+            //Product p = new Product("meat", "meat food", 50.6);
+            //UpdateProduct(1, p);
+            //Console.WriteLine(GetProduct(1));
+
+            //Dish d = new Dish("the beefshtacks", 150, 500.25);
+            //UpdateDish(1, d, prods);
+            //Console.WriteLine(GetDish(1));
+
+            //Dictionary<Product, int> prs = GetDishIngregients(1);
+            //foreach(KeyValuePair<Product, int> kvp in prs)
+            //{
+            //    Console.WriteLine($"{kvp.Key.ToString()}: {kvp.Value}");
+            //}
+
+            //Order o = new Order(DateTime.Now, true, _table: 2);
+            //UpdateOrder(1, o, comp);
+            //Console.WriteLine(GetOrder(1));
+
+            //Dictionary<Dish, int> compound = GetOrderCompound(2);
+            //foreach (KeyValuePair<Dish, int> pair in compound)
+            //{
+            //    Console.WriteLine($"{pair.Key}: {pair.Value}");
+            //}
+
+            //User u = new User("a", "a", "b", "c", DateTime.Now, true, "+79882385617");
+            //UpdateUser(1, u);
+            //Console.WriteLine(GetUser(1)); 
+
+            //Employee e = new Employee("ad", "ad", "bd", "cd", DateTime.Now, true, "+79882385617", 13500, "admin");
+            //UpdateEmployee(1, e);
+            //Console.WriteLine(GetEmployee(1));
+
+            // DELETE 
+            //DeleteProduct(2);
+            //DeleteDish(2);
+            //DeleteDish(3);
+            //DeleteOrder(2);
+            //DeleteOrder(3);
+            //DeleteOrder(4);
+            //DeleteOrder(5);
+            //DeleteOrder(6);
+            //DeleteOrder(7);
+            //DeleteOrder(8);
+            //DeleteUser(2);
+            //DeleteEmployee(2);
         }
-        public static void AddProduct(string name, string type,double price)
+        public static void AddProduct(string name, string type, double price)
         {
             using (ProjContext db = new ProjContext())
             {
-                Product product = new Product { Name = name, Type = type, Price = price};
+                Product product = new Product { Name = name, Type = type, Price = price };
                 db.Products.Add(product);
                 db.SaveChanges();
             }
@@ -229,9 +324,8 @@ namespace DB
             {
                 foreach (Product product in db.Products)
                 {
-                    
+
                     _products.Add(product);
-                    Console.WriteLine($"ID: {product.Id} | Name: {product.Name} | Type: {product.Type}");
                 }
             }
             return _products;
@@ -249,12 +343,14 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                Product? _product = db.Products.Find(id);
+                Product _product = db.Products.Find(id);
                 if (_product != null)
                 {
-                    _product = new Product(product);
+                    _product.Name = product.Name;
+                    _product.Type = product.Type;
+                    _product.Price = product.Price;
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
             }
         }
         public static void DeleteProduct(int id)
@@ -272,13 +368,14 @@ namespace DB
 
         public static List<Dish> GetDishes()
         {
-            List<Dish> _dishes  = new List<Dish>(); 
+            List<Dish> _dishes = new List<Dish>();
             using (ProjContext db = new ProjContext())
             {
                 foreach (Dish dish in db.Dishes)
                 {
-                    
+
                     _dishes.Add(dish);
+
                 }
                 return _dishes;
             }
@@ -291,7 +388,7 @@ namespace DB
                 return dish;
             }
         }
-        public static Dictionary<Product,int> GetDishIngregients(int id)
+        public static Dictionary<Product, int> GetDishIngregients(int id)
         {
             Dictionary<Product, int> _ingredients = new Dictionary<Product, int>();
             using (ProjContext db = new ProjContext())
@@ -300,42 +397,70 @@ namespace DB
                 {
                     if (ing.DishId == id)
                     {
-                        _ingredients.Add(GetProduct(ing.ProductId),ing.ProductQuantity);
+                        _ingredients.Add(GetProduct(ing.ProductId), ing.ProductQuantity);
                     }
                 }
             }
             return _ingredients;
         }
-        public static void AddDish(string name, string description, double primecost, double price, Dictionary<int, int> Recipe)
+        public static void AddDish(string name, double primecost, double price, Dictionary<int, int> Recipe)
         {
             using (ProjContext db = new ProjContext())
             {
-                Dish dish = new Dish(name,primecost, price);
+                Dish dish = new Dish(name, primecost, price);
                 db.Dishes.Add(dish);
                 db.SaveChanges();
+
+                AddRecipe(db.Dishes.ElementAt(db.Dishes.Count() - 1).Id, Recipe);
+                db.SaveChanges();
+
+            }
+
+        }
+        public static void DeleteRecipe(int id)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                foreach (Ingredient ing in db.Ingredients)
+                {
+                    if (ing.DishId == id)
+                    {
+                        db.Ingredients.Remove(ing);
+                    }
+                }
+                db.SaveChanges();
+            }
+        }
+        public static void AddRecipe(int id, Dictionary<int, int> Recipe)
+        {
+            using (ProjContext db = new ProjContext())
+            {
                 foreach (KeyValuePair<int, int> kvp in Recipe)
                 {
                     //int temp = db.Dishes.ElementAt(db.Dishes.Count() - 1).Id;
                     //temp = kvp.Key;
                     //temp = kvp.Value;
-                    Ingredient ing = new Ingredient(kvp.Key, kvp.Value, db.Dishes.ElementAt(db.Dishes.Count() - 1).Id);
+                    Ingredient ing = new Ingredient(kvp.Key, kvp.Value, id);
                     db.Ingredients.Add(ing);
                     db.SaveChanges();
                     //db.Ingredients.Add(new Ingredient( kvp.Key, kvp.Value, db.Dishes.ElementAt(db.Dishes.Count() - 1).Id));
 
                 }
-
+                db.SaveChanges();
             }
-
         }
-        public static void UpdateDish(int id, Dish dish)
+        public static void UpdateDish(int id, Dish dish, Dictionary<int, int> Recipe)
         {
             using (ProjContext db = new ProjContext())
             {
                 Dish? _dish = db.Dishes.Find(id);
                 if (_dish != null)
                 {
-                    _dish = new Dish(dish);
+                    _dish.Name = dish.Name;
+                    _dish.Price = dish.Price;
+                    _dish.Primecost = dish.Primecost;
+                    DeleteRecipe(id);
+                    AddRecipe(_dish.Id, Recipe);
                 }
                 db.SaveChanges();
             }
@@ -345,13 +470,7 @@ namespace DB
             using (ProjContext db = new ProjContext())
             {
                 Dish? dish = db.Dishes.Find(id);
-                foreach (Ingredient ing in db.Ingredients)
-                {
-                    if (ing.DishId == id)
-                    {
-                        db.Ingredients.Remove(ing);
-                    }
-                }
+                DeleteRecipe(id);
                 db.Dishes.Remove(dish);
                 db.SaveChanges();
             }
@@ -359,23 +478,47 @@ namespace DB
 
         //// CRUD for Order
 
-        public static Dictionary<Dish,int> GetOrderCompound(int id)
+        public static Dictionary<Dish, int> GetOrderCompound(int id)
         {
-            Dictionary<Dish,int> _compound = new Dictionary<Dish,int>();
+            Dictionary<Dish, int> _compound = new Dictionary<Dish, int>();
             using (ProjContext db = new ProjContext())
             {
                 foreach (OrdersDishes comp in db.Compound)
                 {
-                    if (comp.Id == id)
+                    if (comp.OrderId == id)
                     {
-                        _compound.Add(GetDish(comp.Id),comp.Quantity);
-                        Console.WriteLine(GetDish(comp.DishId));
+                        _compound.Add(GetDish(comp.DishId), comp.Quantity);
                     }
                 }
 
 
             }
             return _compound;
+        }
+        public static void DeleteCompound(int id)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                foreach (OrdersDishes comp in db.Compound)
+                {
+                    if (comp.OrderId == id)
+                    {
+                        db.Compound.Remove(comp);
+                    }
+                }
+            }
+        }
+        public static void AddCompound(int id, Dictionary<int, int> compound)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                foreach (KeyValuePair<int, int> kvp in compound)
+                {
+                    OrdersDishes compoundIndgredient = new OrdersDishes(id, kvp.Key, kvp.Value);
+                    db.Compound.Add(compoundIndgredient);
+                    db.SaveChanges();
+                }
+            }
         }
         public static List<Order> GetOrders()
         {
@@ -385,7 +528,6 @@ namespace DB
                 foreach (Order ord in db.Orders)
                 {
                     _orders.Add(ord);
-                    Console.WriteLine($"ID: {ord.Id}  | Date: {ord.OrderDate}");
                     GetOrderCompound(ord.Id);
                 }
             }
@@ -393,34 +535,34 @@ namespace DB
         }
         public static Order GetOrder(int id)
         {
-            using(ProjContext db = new ProjContext())
+            using (ProjContext db = new ProjContext())
             {
-                return db.Orders.ElementAt(id-1);
+                return db.Orders.ElementAt(id - 1);
             }
         }
-        public static void AddOrder(int userId, DateTime date, Dictionary<int, int> compound, Address? address = null)
+        public static void AddOrder(DateTime date, Dictionary<int, int> compound, Address? address = null, int? table = null)
         {
             using (ProjContext db = new ProjContext())
             {
-                Order ord = new Order(date,true, address);
+                Order ord = new Order(date, true, address, table);
                 db.Orders.Add(ord);
                 db.SaveChanges();
-                foreach (KeyValuePair<int, int> kvp in compound)
-                {
-                    OrdersDishes dish = new OrdersDishes(kvp.Key, kvp.Value);
-                    db.Compound.Add(dish);
-                }
+                AddCompound(db.Orders.ElementAt(db.Orders.Count() - 1).Id, compound);
                 db.SaveChanges();
             }
         }
-        public static void UpdateOrder(int id, Order order)
+        public static void UpdateOrder(int id, Order order, Dictionary<int, int> compound)
         {
             using (ProjContext db = new ProjContext())
             {
                 Order? _order = db.Orders.Find(id);
                 if (_order != null)
                 {
-                   _order =  new Order(order);
+                    _order.OrderDate = order.OrderDate;
+                    _order.Address = order.Address;
+                    _order.Table = order.Table;
+                    DeleteCompound(id);
+                    AddCompound(id, compound);
                 }
                 db.SaveChanges();
             }
@@ -430,6 +572,7 @@ namespace DB
             using (ProjContext db = new ProjContext())
             {
                 Order? ord = db.Orders.Find(id);
+                DeleteCompound(id);
                 db.Orders.Remove(ord);
                 db.SaveChanges();
             }
@@ -446,7 +589,6 @@ namespace DB
                 foreach (User user in db.Users)
                 {
                     users.Add(user);
-                    Console.WriteLine($"ID: {user.Id} | Name: {user.Name} | Surname: {user.Surname} | Phone: {user.Phone}\n");
                 }
             }
             return users;
@@ -455,7 +597,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                return db.Users.ElementAt(id-1);
+                return db.Users.ElementAt(id - 1);
             }
         }
         public static void AddUser(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone)
@@ -481,10 +623,17 @@ namespace DB
             using (ProjContext db = new ProjContext())
             {
                 User? _user = db.Users.Find(id);
-                if( _user != null )
+                if (_user != null)
                 {
-                    _user = new User(user);
+                    _user.Login = user.Login;
+                    _user.Password = user.Password;
+                    _user.Name = user.Name;
+                    _user.Surname = user.Surname;
+                    _user.Birthday = user.Birthday;
+                    _user.Gender = user.Gender;
+                    _user.Phone = user.Phone;
                 }
+                db.SaveChanges();
             }
         }
 
@@ -498,7 +647,6 @@ namespace DB
                 foreach (Employee emp in db.Employees)
                 {
                     _employees.Add(emp);
-                    Console.WriteLine($"ID: {emp.Id} | Name: {emp.Name} | Surname: {emp.Surname} | Salary: {emp.Salary} | Post: {emp.Post}");
                 }
             }
             return _employees;
@@ -506,12 +654,12 @@ namespace DB
         }
         public static Employee GetEmployee(int id)
         {
-            using(ProjContext db = new ProjContext())
+            using (ProjContext db = new ProjContext())
             {
-                return db.Employees.ElementAt(id-1);
+                return db.Employees.ElementAt(id - 1);
             }
         }
-        public static void AddEmployee(string login, string password, string name, string surname, DateTime birthday, bool gender,  string phone, double salary, string post)
+        public static void AddEmployee(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -535,15 +683,27 @@ namespace DB
             using (ProjContext db = new ProjContext())
             {
                 Employee? _employee = db.Employees.Find(id);
-                _employee = new Employee(employee);
+                if (_employee != null)
+                {
+                    _employee.Login = employee.Login;
+                    _employee.Password = employee.Password;
+                    _employee.Name = employee.Name;
+                    _employee.Surname = employee.Surname;
+                    _employee.Birthday = employee.Birthday;
+                    _employee.Gender = employee.Gender;
+                    _employee.Phone = employee.Phone;
+                    _employee.Salary = employee.Salary;
+                    _employee.Post = employee.Post;
+                }
+                db.SaveChanges();
             }
         }
         public static Dictionary<Product, int> GetWarehouse()
         {
-            Dictionary<Product,int> _warehouse = new Dictionary<Product, int>();
+            Dictionary<Product, int> _warehouse = new Dictionary<Product, int>();
             using (ProjContext db = new ProjContext())
             {
-                foreach(Warehouse warehouse in db.Warehouse)
+                foreach (Warehouse warehouse in db.Warehouse)
                 {
                     _warehouse.Add(GetProduct(warehouse.ProductId), warehouse.ProductQuantity);
                 }
