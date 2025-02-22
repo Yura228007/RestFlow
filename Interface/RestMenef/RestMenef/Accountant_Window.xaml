@@ -9,7 +9,7 @@
     <TabControl>
         <TabItem Header="Таблицы">
             <Grid>
-                <DataGrid x:Name="DataGrid_Acountant" Margin="10,10,10,111">
+                <DataGrid x:Name="DataGrid_Acountant" Margin="10,54,10,40">
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="15*" Header="Название" Binding="{Binding Dish}"></DataGridTextColumn>
                         <DataGridTextColumn Width="25*" Header="Цена" Binding="{Binding Цена}"></DataGridTextColumn>
@@ -17,21 +17,22 @@
                         <DataGridTextColumn Width="25*" Header="Расход" Binding="{Binding Расход}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Label Content="Итоговый доход:" Margin="10,297,682,83"></Label>
-                <Label x:Name="Label_TotalCost" Content="" Margin="117,297,402,83"></Label>
-                <Label Content="Итоговый расход:" Margin="397,297,288,83"></Label>
-                <Label x:Name="TotalExpanses" Content="" Margin="506,297,10,83"></Label>
+                <Label Content="Итоговый доход:" Margin="10,0,0,9" VerticalAlignment="Bottom" HorizontalAlignment="Left"></Label>
+                <Label x:Name="Label_TotalCost" Content="" Margin="117,0,0,9" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="150"></Label>
+                <Label Content="Итоговый расход:" Margin="300,0,0,9" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="108.096666666667"></Label>
+                <Label x:Name="TotalExpanses" Content="" Margin="411,0,0,9" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="150"></Label>
 
-                <Label Content="Начало:" Margin="10,328,733,47"></Label>
-                <DatePicker x:Name="DatePicker_StartData" HorizontalAlignment="Left" Margin="66,328,0,0" VerticalAlignment="Top" Height="31"/>
-                <Label Content="Конец:" Margin="397,328,349,47"></Label>
-                <DatePicker x:Name="DatePicker_FinishData" HorizontalAlignment="Left" Margin="450,328,0,0" VerticalAlignment="Top" Height="31"/>
+                <Label Content="Начало периода:" Margin="10,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+                <DatePicker x:Name="DatePicker_StartData" HorizontalAlignment="Left" Margin="115,8,0,0" VerticalAlignment="Top" Height="31"/>
+                <Label Content="Конец периода:" Margin="227,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></Label>
+                <DatePicker x:Name="DatePicker_FinishData" HorizontalAlignment="Left" Margin="327,8,0,0" VerticalAlignment="Top" Height="31"/>
 
-                <Button x:Name="Button_GetReport" Content="Получить отчёт" HorizontalAlignment="Center" Margin="0,364,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.025,-0.098" Height="32" Width="774" FontSize="15"/>
+                <Button x:Name="Button_GetReport" Content="Получить отчёт" HorizontalAlignment="Right" Margin="0,8,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.025,-0.098" Height="32" Width="343" FontSize="15"/>
             </Grid>
         </TabItem>
         <TabItem Header="Мой аккаунт" HorizontalAlignment="Left">
             <Grid>
+                <Button x:Name="Button_" Content="Выход" Margin="0,0,10,10" FontSize="16" Height="30" Width="101" HorizontalAlignment="Right" VerticalAlignment="Bottom" ></Button>
                 <Grid Margin="70,0,56,0">
                     <Label Content="Мой аккаунта" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
                     <Label Content="Логин" HorizontalAlignment="Left" Margin="5,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="94"/>

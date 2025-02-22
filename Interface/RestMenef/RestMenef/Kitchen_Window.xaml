@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RestMenef"
         mc:Ignorable="d"
-        Title="Kitchen_Window" Height="450" Width="800">
+        Title="Kitchen_Window" Height="450" Width="800
+        ">
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="20,20,20,40" FontSize="20" Padding="10" Width="762" >
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden" Margin="20,20,20,40" FontSize="20" Padding="10" >
             <ListBox x:Name="List_Kitchen">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -23,6 +24,6 @@
                 </Grid>
             </ListBox>
         </ScrollViewer>
-        <Button x:Name="Button_OrderCooked" Content="Заказ приготовлен" HorizontalAlignment="Left" Margin="31,394,0,0" VerticalAlignment="Top" Height="30" Width="741" FontSize="16"/>
+        <Button x:Name="Button_OrderCooked" Content="Заказ приготовлен" Margin="30,0,27,10" VerticalAlignment="Bottom" Height="30" FontSize="16"/>
     </Grid>
 </Window>

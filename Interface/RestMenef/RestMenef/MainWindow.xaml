@@ -7,36 +7,36 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid x:Name="Panel_Login" Visibility="Visible">
-            <Label Content="Логин" HorizontalAlignment="Left" Margin="257,181,0,0" VerticalAlignment="Top" FontSize="16"/>
-            <Label Content="Пароль" HorizontalAlignment="Left" Margin="257,215,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.509,-0.958"/>
-            <TextBox x:Name="TextBox_LoginUser" HorizontalAlignment="Left" Margin="322,185,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" FontSize="16"/>
-            <TextBox x:Name="TextBox_PasswordUser"  HorizontalAlignment="Left" Margin="322,219,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="192" FontSize="16"/>
-            <Button Content="Войти" x:Name="Button_EnterUser" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28" Width="118" FontSize="14" RenderTransformOrigin="0.565,3.876" Margin="400,254,0,0"/>
-            <Button Content="Регистрация" x:Name="Button_RegistUser" HorizontalAlignment="Left" Margin="432,147,0,0" VerticalAlignment="Top" Width="82" Height="29" UseLayoutRounding="False"/>
-            <Button Content="Войти как работник" x:Name="Button_EnterAsWorker" HorizontalAlignment="Right" Margin="0,0,427,152" VerticalAlignment="Bottom" Height="28" Width="119"/>
-            <Label Content="Войти в аккаунт" HorizontalAlignment="Left" Margin="257,142,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <Grid x:Name="Panel_Login" Margin="10" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="Логин" HorizontalAlignment="Left" Margin="2,46,0,0" VerticalAlignment="Top" FontSize="16" Width="57"/>
+            <Label Content="Пароль" HorizontalAlignment="Left" Margin="0,80,0,0" VerticalAlignment="Top" FontSize="16" RenderTransformOrigin="0.509,-0.958" Width="67"/>
+            <TextBox x:Name="TextBox_LoginUser" HorizontalAlignment="Left" Margin="67,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196" FontSize="16"/>
+            <TextBox x:Name="TextBox_PasswordUser"  HorizontalAlignment="Left" Margin="67,84,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="196" FontSize="16"/>
+            <Button Content="Войти" x:Name="Button_EnterUser" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28" Width="100" FontSize="14" RenderTransformOrigin="0.565,3.876" Margin="163,119,0,0"/>
+            <Button Content="Регистрация" x:Name="Button_RegistUser" HorizontalAlignment="Left" Margin="181,0,0,0" VerticalAlignment="Top" Width="82" Height="29" UseLayoutRounding="False"/>
+            <Button Content="Войти как работник" x:Name="Button_EnterAsWorker" HorizontalAlignment="Left" Margin="-1,119,0,0" VerticalAlignment="Top" Height="28" Width="144" FontSize="14"/>
+            <Label Content="Войти в аккаунт" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="18"/>
         </Grid>
-        <Grid x:Name="Panel_RegistUser" Visibility="Hidden">
-            <Label Content="Регистрация аккаунта" HorizontalAlignment="Left" Margin="261,57,0,0" VerticalAlignment="Top" FontSize="16"/>
-            <Label Content="Имя" HorizontalAlignment="Left" Margin="261,93,0,0" VerticalAlignment="Top"/>
-            <Label Content="Фамилия" HorizontalAlignment="Left" Margin="261,124,0,0" VerticalAlignment="Top"/>
-            <Label Content="Пол" HorizontalAlignment="Left" Margin="261,155,0,0" VerticalAlignment="Top"/>
-            <Label Content="Дата рождения" HorizontalAlignment="Left" Margin="261,186,0,0" VerticalAlignment="Top"/>
-            <Label Content="Телефон" HorizontalAlignment="Left" Margin="261,217,0,0" VerticalAlignment="Top"/>
-            <Label Content="Логин" HorizontalAlignment="Left" Margin="261,248,0,0" VerticalAlignment="Top"/>
-            <Label Content="Пароль" HorizontalAlignment="Left" Margin="261,279,0,0" VerticalAlignment="Top"/>
-            <TextBox x:Name="TextBox_RegistUserName" HorizontalAlignment="Left" Margin="356,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
-            <TextBox x:Name="TextBox_RegistUserSurename" HorizontalAlignment="Left" Margin="356,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
-            <TextBox x:Name="TextBox_RegistUserTelephoneNumber" HorizontalAlignment="Left" Margin="356,222,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
-            <TextBox x:Name="TextBox_RegistUserLogin" HorizontalAlignment="Left" Margin="356,253,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
-            <TextBox x:Name="TextBox_RegistUserPassword" HorizontalAlignment="Left" Margin="356,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
-            <Button x:Name="Button_FinishRegist" Content="Зарегистрироваться" HorizontalAlignment="Left" Margin="339,315,0,0" VerticalAlignment="Top" FontSize="16" Height="36"/>
-            <Label Content="Есть аккаунт?" HorizontalAlignment="Left" Margin="261,355,0,0" VerticalAlignment="Top" FontSize="10"/>
-            <Button x:Name="Button_LoginUser" Content="Войти" HorizontalAlignment="Left" Margin="332,358,0,0" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.477,0.595"/>
-            <RadioButton x:Name="RadioButton_RegistUserFemale" Content="Женщина" HorizontalAlignment="Left" Margin="355,161,0,0" VerticalAlignment="Top"  Height="23"/>
-            <RadioButton x:Name="RadioButton_RegistUserMale" Content="Мужчина" HorizontalAlignment="Left" Margin="442,161,0,0" VerticalAlignment="Top"  Height="23"/>
-            <DatePicker x:Name="DatePicker_RegistUserBirthday" HorizontalAlignment="Left" Margin="356,189,0,0" VerticalAlignment="Top" Height="25" Width="113"/>
+        <Grid x:Name="Panel_RegistUser" Margin="10" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="Регистрация аккаунта" HorizontalAlignment="Left" Margin="-1,2,0,0" VerticalAlignment="Top" FontSize="16"/>
+            <Label Content="Имя" HorizontalAlignment="Left" Margin="-1,38,0,0" VerticalAlignment="Top"/>
+            <Label Content="Фамилия" HorizontalAlignment="Left" Margin="0,69,0,0" VerticalAlignment="Top"/>
+            <Label Content="Пол" HorizontalAlignment="Left" Margin="-1,100,0,0" VerticalAlignment="Top"/>
+            <Label Content="Дата рождения" HorizontalAlignment="Left" Margin="-1,126,0,0" VerticalAlignment="Top"/>
+            <Label Content="Телефон" HorizontalAlignment="Left" Margin="-1,156,0,0" VerticalAlignment="Top"/>
+            <Label Content="Логин" HorizontalAlignment="Left" Margin="-1,193,0,0" VerticalAlignment="Top"/>
+            <Label Content="Пароль" HorizontalAlignment="Left" Margin="-1,224,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="TextBox_RegistUserName" HorizontalAlignment="Left" Margin="94,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
+            <TextBox x:Name="TextBox_RegistUserSurename" HorizontalAlignment="Left" Margin="94,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
+            <TextBox x:Name="TextBox_RegistUserTelephoneNumber" HorizontalAlignment="Left" Margin="94,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
+            <TextBox x:Name="TextBox_RegistUserLogin" HorizontalAlignment="Left" Margin="94,198,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
+            <TextBox x:Name="TextBox_RegistUserPassword" HorizontalAlignment="Left" Margin="94,229,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
+            <Button x:Name="Button_FinishRegist" Content="Зарегистрироваться" HorizontalAlignment="Left" Margin="77,260,0,0" VerticalAlignment="Top" FontSize="16" Height="36"/>
+            <Label Content="Есть аккаунт?" HorizontalAlignment="Left" Margin="-1,300,0,0" VerticalAlignment="Top" FontSize="10"/>
+            <Button x:Name="Button_LoginUser" Content="Войти" HorizontalAlignment="Left" Margin="64,303,0,0" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.477,0.595"/>
+            <RadioButton x:Name="RadioButton_RegistUserFemale" Content="Женщина" HorizontalAlignment="Left" Margin="89,106,0,0" VerticalAlignment="Top"  Height="23"/>
+            <RadioButton x:Name="RadioButton_RegistUserMale" Content="Мужчина" HorizontalAlignment="Left" Margin="180,106,0,0" VerticalAlignment="Top"  Height="23"/>
+            <DatePicker x:Name="DatePicker_RegistUserBirthday" HorizontalAlignment="Left" Margin="93,134,0,0" VerticalAlignment="Top" Height="25" Width="114"/>
         </Grid>
     </Grid>
 

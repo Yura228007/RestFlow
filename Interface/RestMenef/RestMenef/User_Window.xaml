@@ -20,15 +20,20 @@
                     <ListBox x:Name="List_Menu" Margin="10,10,10,84">
 
                     </ListBox>
-                    <Button x:Name="Button_CheckDishComposition" Content="Узнать состав" HorizontalAlignment="Center" Margin="0,330,0,0" VerticalAlignment="Top" Height="31" Width="774"/>
-                    <Button x:Name="Button_AddInBasket" Content="Добавить в корзину" HorizontalAlignment="Center" Margin="0,365,0,0" VerticalAlignment="Top" Height="31" Width="774"/>
+                    <Button x:Name="Button_CheckDishComposition" Content="Узнать состав" Margin="10,0,10,44" VerticalAlignment="Bottom" Height="31"/>
+                    <Button x:Name="Button_AddInBasket" Content="Добавить в корзину" Margin="10,0,10,5" VerticalAlignment="Bottom" Height="31"/>
 
                 </Grid>
             </TabItem>
             <TabItem Header="Корзина">
                 <Grid>
-                    <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Background="#FFE5E5E5"  Margin="20,20,0, 0" Height="357" Width="364">
-                        <DataGrid Margin="0,0,0,31" x:Name="DataGrid_Basket">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="225*"/>
+                        <ColumnDefinition Width="225*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Background="#FFE5E5E5"  Margin="20,20,0,20" Grid.Column="0">
+                        <DataGrid Margin="0,0,0,31" x:Name="DataGrid_Basket" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Width="100*" Header="Блюдо" Binding="{Binding Dish}"></DataGridTextColumn>
                                 <DataGridTextColumn Width="25*" Header="Цена" Binding="{Binding Цена}"></DataGridTextColumn>
@@ -36,41 +41,34 @@
                                 <DataGridTextColumn Width="30*" Header="Сумма" Binding="{Binding Sum}"></DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        <Label Content="Итого:"  VerticalAlignment="Bottom" Margin="0,0,313,0"></Label>
-                        <Label Content="" x:Name="Label_TotalCostBasket" VerticalAlignment="Bottom" Margin="51,0,-1,0" RenderTransformOrigin="0.5,0.5">
-                            <Label.RenderTransform>
-                                <TransformGroup>
-                                    <ScaleTransform ScaleX="-1"/>
-                                    <SkewTransform/>
-                                    <RotateTransform/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </Label.RenderTransform>
-                        </Label>
+                        <Label Content="Итого:"  VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        <Label Content="" x:Name="Label_TotalCostBasket" VerticalAlignment="Bottom" Margin="51,0,0,0" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left"></Label>
                     </Grid>
-                    <Grid  Margin="408,-18,20,29">
-                        <Label Content="Адрес:" VerticalAlignment="Top" Margin="0, 35, 0, 0" FontSize="14"></Label>
-                        <Label Content="Улица" Margin="10,65,297,262"></Label>
-                        <Label Content="Дом" Margin="10,95,297,237"></Label>
-                        <Label Content="Квартира" Margin="10,125,292,204"></Label>
-                        <TextBox x:Name="TextBox_AddressStreet" Height="25" Width="165" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="74,65,0,0"></TextBox>
-                        <TextBox x:Name="TextBox_AddressHouse" Height="25" Width="165" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="74,95,0,0"></TextBox>
-                        <TextBox x:Name="TextBox_AddressFlat" Height="25" Width="165" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="74,125,0,0"></TextBox>
-                        <Label Content="Комментарий" VerticalAlignment="Top" Margin="0,160,0,0"></Label>
-                        <TextBox x:Name="TextBox_Comment" Height="90" Width="366" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,190,0,0"></TextBox>
+                    <Grid  Margin="20" Grid.Column="1">
+                        <Label Content="Адрес:" VerticalAlignment="Top" Margin="0,3,0,0" FontSize="14"></Label>
+                        <Label Content="Улица" Margin="10,33,297,294"></Label>
+                        <Label Content="Дом" Margin="10,64,297,264"></Label>
+                        <Label Content="Квартира" Margin="10,93,292,236"></Label>
+                        <TextBox x:Name="TextBox_AddressStreet" Height="25" Width="165" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="74,33,0,0"></TextBox>
+                        <TextBox x:Name="TextBox_AddressHouse" Height="25" Width="165" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="74,63,0,0"></TextBox>
+                        <TextBox x:Name="TextBox_AddressFlat" Height="25" Width="165" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="74,93,0,0"></TextBox>
+                        <Label Content="Комментарий" VerticalAlignment="Top" Margin="0,128,0,0"></Label>
+                        <TextBox x:Name="TextBox_Comment" Height="90" Width="357" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,158,0,0"></TextBox>
                         <Button x:Name="Button_MakeOrder" Content="Заказать" VerticalAlignment="Bottom" HorizontalAlignment="Right" Height="30" Width="117" FontSize="16"></Button>
                     </Grid>
                 </Grid>
             </TabItem>
             <TabItem Header="Мой аккаунт" HorizontalAlignment="Left">
-                <Grid Margin="70,0,70,0">
-
-                    <Label Content="Мой аккаунта" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
-                    <Label Content="Логин" HorizontalAlignment="Left" Margin="5,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="94"/>
-                    <Label Content="Пароль" HorizontalAlignment="Left" Margin="324,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="75"/>
-                    <TextBox IsReadOnly="True" x:Name="TextBox_InfoLogin" HorizontalAlignment="Left" Margin="103,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" FontSize="15" Height="23"/>
-                    <TextBox IsReadOnly="True" x:Name="TextBox_InfoPassword" HorizontalAlignment="Left" Margin="404,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" FontSize="15" Height="23"/>
-                    <Label Content="ФИО" x:Name="Label_AllInfo" Margin="5,90,0,0"></Label>
+                <Grid>
+                    <Button x:Name="Button_LogOut" Content="Выход" Margin="0,0,10,10" FontSize="16" Height="36" Width="125" HorizontalAlignment="Right" VerticalAlignment="Bottom" ></Button>
+                    <Grid Margin="70,10,56,45">
+                        <Label Content="Мой аккаунта" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+                        <Label Content="Логин" HorizontalAlignment="Left" Margin="5,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="94"/>
+                        <Label Content="Пароль" HorizontalAlignment="Left" Margin="324,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="75"/>
+                        <TextBox IsReadOnly="True" x:Name="TextBox_InfoLogin" HorizontalAlignment="Left" Margin="103,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" FontSize="15" Height="23"/>
+                        <TextBox IsReadOnly="True" x:Name="TextBox_InfoPassword" HorizontalAlignment="Left" Margin="404,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" FontSize="15" Height="23"/>
+                        <Label Content="ФИО" x:Name="Label_AllInfo" Margin="5,90,0,0"></Label>
+                    </Grid>
                 </Grid>
             </TabItem>
         </TabControl>
