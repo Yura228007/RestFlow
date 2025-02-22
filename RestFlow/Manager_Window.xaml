@@ -11,7 +11,7 @@
             <TabItem Header="Таблица продуктов">
                 <StackPanel>
                     <Grid HorizontalAlignment="Left"  Height="383" Margin="10" Width="775">
-                        <ListBox x:Name="List_Products" Margin="0,0,385,0">
+                        <ListBox x:Name="List_Products" Margin="0,0,385,0" SelectionChanged="List_Products_SelectionChanged">
 
                         </ListBox>
                         <Grid Margin="406,0,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Height="255">
