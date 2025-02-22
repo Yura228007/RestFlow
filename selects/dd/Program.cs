@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using System.Reflection;
 namespace DB
 {
     public class Address
@@ -205,7 +203,7 @@ namespace DB
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=DESKTOP-MSB8Q41\SQLEXPRESS;Database=Restaraunt_Flow;Trusted_Connection=True;TrustServerCertificate=True");
+                optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=Restaraunt_Flow;Trusted_Connection=True;TrustServerCertificate=True");
             }
         }
 
@@ -293,20 +291,20 @@ namespace DB
             //Employee e = new Employee("ad", "ad", "bd", "cd", DateTime.Now, true, "+79882385617", 13500, "admin");
             //UpdateEmployee(1, e);
             //Console.WriteLine(GetEmployee(1));
-
-            // DELETE 
-            //DeleteProduct(2);
-            //DeleteDish(2);
-            //DeleteDish(3);
-            //DeleteOrder(2);
-            //DeleteOrder(3);
-            //DeleteOrder(4);
-            //DeleteOrder(5);
-            //DeleteOrder(6);
-            //DeleteOrder(7);
-            //DeleteOrder(8);
-            //DeleteUser(2);
-            //DeleteEmployee(2);
+            //DeleteEmployee(1);
+            //AddProductToWarehouse(1, 15);
+            //Dictionary<Product, int> warehouse = GetWarehouse();
+            //foreach (KeyValuePair<Product, int> kvp in warehouse)
+            //{
+            //    Console.WriteLine($"Product: {kvp.Key}; Quantity: {kvp.Value}\n");
+            //}
+           
+            //DeleteProductToWarehouse(2);
+            //warehouse = GetWarehouse();
+            //foreach (KeyValuePair<Product, int> kvp in warehouse)
+            //{
+            //    Console.WriteLine($"Product: {kvp.Key}; Quantity: {kvp.Value}\n");
+            //}
         }
         public static void AddProduct(string name, string type, double price)
         {
@@ -360,6 +358,8 @@ namespace DB
                 Product? product = db.Products.Find(id);
                 db.Products.Remove(product);
                 db.SaveChanges();
+                Warehouse prod = db.Warehouse.ElementAt(id - 1);
+                db.Warehouse.Remove(prod);
             }
         }
 
@@ -727,6 +727,14 @@ namespace DB
                 db.SaveChanges();
             }
         }
+        public static void AddProductToWarehouse(int productId, int productQuantity)
+        {
+            using(ProjContext db = new ProjContext())
+            {
+                db.Warehouse.Add(new Warehouse(productId, productQuantity));
+                db.SaveChanges();
+            }
+        }
         public static Dictionary<Product, int> GetWarehouse()
         {
             Dictionary<Product, int> _warehouse = new Dictionary<Product, int>();
@@ -739,6 +747,29 @@ namespace DB
             }
             return _warehouse;
         }
+        public static void UpdateProductInWarehouse(int id, Warehouse w)
+        {
+            using(ProjContext db = new ProjContext())
+            {
+                Warehouse product = db.Warehouse.Find(id);
+                if(product!=null)
+                {
+                    product.ProductId = w.ProductId;
+                    product.ProductQuantity = w.ProductQuantity;
+                    db.SaveChanges();
+                }
+            }
+        }
+        public static void DeleteProductToWarehouse(int id)
+        {
+            using(ProjContext db = new ProjContext())
+            {
+                Warehouse prod = db.Warehouse.Find(id);
+                db.Warehouse.Remove(prod);
+                db.SaveChanges();
+            }
+        }
+        
     }
 }
 
