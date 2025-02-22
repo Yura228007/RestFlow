@@ -19,14 +19,24 @@ namespace RestMenef
     /// </summary>
     public partial class Manager_Window : Window
     {
+        List<RestFlow.Product> products;
+
         public Manager_Window()
         {
             InitializeComponent();
+            LoadProducts();
+            
         }
 
         private void DataGrid_OrdersHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
+        }
 
+        private void LoadProducts()
+        {
+            products = DB.Tables.GetProducts().Select(e => new RestFlow.Product(e)).ToList();
+            List_Products.ItemsSource = products.ToList();
         }
     }
 }
