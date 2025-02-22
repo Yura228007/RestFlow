@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Identity.Client;
 
 namespace RestFlow
 {
@@ -24,6 +25,14 @@ namespace RestFlow
         public override string ToString()
         {
             return $"{Name}";
+        }
+
+        public Product(DB.Product product)
+        {
+            Id = product.Id;
+            Name = product.Name;
+            Price = product.Price;
+            Type = product.Type;
         }
     }
 }
