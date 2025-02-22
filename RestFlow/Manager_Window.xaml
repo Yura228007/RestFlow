@@ -39,14 +39,14 @@
                         </ListBox>
                         <Grid Margin="406,0,0,214" Background="WhiteSmoke">
                             <Label Content="Название: " FontSize="16" Margin="5,5,0,0" ></Label>
-                            <Label x:Name="Label_DishName" Content="выберите блюдо" FontSize="16" Margin="110,5,0,68" ></Label>
+                            <Label x:Name="Label_DishName" Content=" " FontSize="16" Margin="110,5,0,107" ></Label>
                             <Label Content="Продукты" FontSize="16" Margin="5,78,0,-11" ></Label>
                             <ComboBox x:Name="ComboBox_Products" Margin="110,79,2,58" FontSize="16"></ComboBox>
                             <Label Content="Количество" FontSize="16" Margin="0,123,264,0" ></Label>
                             <TextBox x:Name="TextBox_QuantityProductsForDish" FontSize="16" Margin="110,123,2,10" Height="30"/>
                         </Grid>
                         <Button x:Name="Button_SaveDishChanges" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="408,174,0,174" Width="168" FontSize="16" />
-                        <Button x:Name="Button_DelitDish" Content="Удалить продукт" HorizontalAlignment="Left" Margin="597,174,0,174" Width="176" FontSize="16" />
+                        <Button x:Name="Button_DeleteDish" Content="Удалить блюдо" HorizontalAlignment="Left" Margin="597,174,0,174" Width="176" FontSize="16" />
                         <Label Content="Новое блюдо" FontSize="16" Margin="406,270,0,0" ></Label>
                         <TextBox x:Name="TextBox_NewDishName" FontSize="16" Margin="406,305,4,43"/>
                         <Button x:Name="Button_AddNewDish" Content="Добавить новое блюдо" HorizontalAlignment="Left" Margin="408,345,0,2" Width="365" FontSize="16" />
@@ -58,16 +58,22 @@
             </TabItem>
             <TabItem Header="История заказов" HorizontalAlignment="Left">
                 <Grid Margin="10">
-                    <DataGrid x:Name="DataGrid_OrdersHistory" SelectionChanged="DataGrid_OrdersHistory_SelectionChanged" Margin="0,0,0,44" AutoGenerateColumns="True" SelectionMode="Single" ItemsSource="{Binding Orders, Mode=TwoWay}"/>
+                    <DataGrid x:Name="DataGrid_OrdersHistory">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="15*" Header="Название" Binding="{Binding Dish}"></DataGridTextColumn>
+                            <DataGridTextColumn Width="25*" Header="Дата" Binding="{Binding Дата}"></DataGridTextColumn>
+                            <DataGridTextColumn Width="25*" Header="Цена" Binding="{Binding Цена}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Мой аккаунт" HorizontalAlignment="Left">
                 <Grid Margin="70,0,56,0">
-                    <Label Content="Мой аккаунт" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+                    <Label Content="Мой аккаунта" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
                     <Label Content="Логин" HorizontalAlignment="Left" Margin="5,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="94"/>
                     <Label Content="Пароль" HorizontalAlignment="Left" Margin="324,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="75"/>
-                    <TextBox x:Name="TextBox_InfoLogin" HorizontalAlignment="Left" Margin="103,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" FontSize="15" Height="23"/>
-                    <TextBox x:Name="TextBox_InfoPassword" HorizontalAlignment="Left" Margin="404,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" FontSize="15" Height="23"/>
+                    <TextBox IsReadOnly="True" x:Name="TextBox_InfoLogin" HorizontalAlignment="Left" Margin="103,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" FontSize="15" Height="23"/>
+                    <TextBox IsReadOnly="True" x:Name="TextBox_InfoPassword" HorizontalAlignment="Left" Margin="404,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" FontSize="15" Height="23"/>
                     <Label Content="ФИО" x:Name="Label_AllInfo" Margin="5,90,0,0"></Label>
                 </Grid>
             </TabItem>
