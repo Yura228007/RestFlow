@@ -27,7 +27,7 @@ namespace DB
         public string Type { get; set; }
         public double Price { get; set; }
         public Product() { }
-        public Product(string name, string type, double price) { Name = name; Type = type; }
+        public Product(string name, string type, double price) { Name = name; Type = type; Price = price; }
         public Product(Product product)
         {
             this.Name = product.Name;
