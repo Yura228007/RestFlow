@@ -21,6 +21,8 @@
                             <TextBox x:Name="TextBox_QuantityProducts" FontSize="16" VerticalAlignment="Top" Margin="110,80,1,0" Height="30"></TextBox>
                             <Label Content="Тип" FontSize="16" Margin="7,124,5,0" VerticalAlignment="Top"/>
                             <TextBox x:Name="TextBox_TypeProducts" FontSize="16" VerticalAlignment="Top" Margin="110,126,1,0" Height="30"/>
+                            <Label Content="Цена" FontSize="16" Margin="7,169,5,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="TextBox_PriceProduct" FontSize="16" VerticalAlignment="Top" Margin="110,171,1,0" Height="30"/>
                         </Grid>
                         <Button x:Name="Button_SaveProductChanges" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="408,214,0,134" Width="168" FontSize="16" />
                         <Button x:Name="Button_DeleteProduct" Content="Удалить продукт" HorizontalAlignment="Left" Margin="597,214,0,134" Width="176" FontSize="16" />
