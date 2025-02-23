@@ -248,6 +248,17 @@ namespace DB
                 db.SaveChanges();
             }
         }
+
+        public static void AddProduct(Product productP)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Product product = new Product(productP);
+                db.Products.Add(product);
+                db.SaveChanges();
+            }
+        }
+
         public static List<Product> GetProducts()
         {
             List<Product> _products = new List<Product>();
@@ -278,7 +289,9 @@ namespace DB
                 Product? _product = db.Products.Find(id);
                 if (_product != null)
                 {
-                    _product = new Product(product);
+                    _product.Name = product.Name;
+                    _product.Type = product.Type;
+                    _product.Price = product.Price;
                 }
                 db.SaveChanges();
             }
