@@ -32,7 +32,7 @@ namespace RestMenef
 
         private void DataGrid_OrdersHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+                
         }
 
         private void LoadProducts()
@@ -43,7 +43,11 @@ namespace RestMenef
 
         private void LoadWarehouse()
         {
-            warehouse = DB.Tables.GetWarehouse().ToDictionary(kvp => new RestFlow.Product(kvp.Key), kvp => kvp.Value);
+            Dictionary<DB.Product, int> _warehouse = DB.Tables.GetWarehouse();
+            if (_warehouse != null && _warehouse.Count > 0)
+            {
+                warehouse = _warehouse.ToDictionary(kvp => new RestFlow.Product(kvp.Key), kvp => kvp.Value);
+            }
         }
 
         private void List_Products_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -56,7 +60,11 @@ namespace RestMenef
                     Label_ProductName.Content = selectedProduct.Name;
                     if (warehouse.TryGetValue(selectedProduct, out int value))
                     {
-                        TextBox_QuantityProducts.Text = Convert.ToString(warehouse.GetValueOrDefault(selectedProduct));
+                        TextBox_QuantityProducts.Text = $"{warehouse[selectedProduct]}";
+                    }
+                    else
+                    {
+                        MessageBox.Show("Не удалось вытащить количество");
                     }
                     TextBox_TypeProducts.Text = selectedProduct.Type;
                     TextBox_PriceProduct.Text = Convert.ToString(selectedProduct.Price);
@@ -79,20 +87,30 @@ namespace RestMenef
                     string? type = TextBox_TypeProducts.Text;
                     string? priceString = TextBox_PriceProduct.Text;
                     double price;
+                    int quantity;
+                    string? quantityString = TextBox_QuantityProducts.Text;
+                    bool flagQuantity = Int32.TryParse(quantityString, out quantity);
 
-                    //получение склада и изменение его количества
-
-                    bool flag = Double.TryParse(priceString, out price);
+                    bool flagPrice = Double.TryParse(priceString, out price);
                     if (name != null && type != null && priceString != null)
                     {
-                        if (flag)
+                        if (flagPrice)
                         {
-                            DB.Product tempProduct = new DB.Product(name, type, price);
-                            MessageBox.Show($"{selectedProduct.Id}");
-                            DB.Tables.UpdateProduct(selectedProduct.Id, tempProduct);
-                            MessageBox.Show("Изменения успешно сохранены");
-                            LoadProducts();
-                            CleanTextBoxProduct();
+                            if (flagQuantity)
+                            {
+                                DB.Product tempProduct = new DB.Product(name, type, price);
+                                DB.Tables.UpdateProduct(selectedProduct.Id, tempProduct);
+                                Warehouse tempWarehouse = new Warehouse(selectedProduct.Id, quantity);
+                                DB.Tables.UpdateProductInWarehouse(selectedProduct.Id, tempWarehouse);
+                                MessageBox.Show("Изменения успешно сохранены");
+                                LoadProducts();
+                                LoadWarehouse();
+                                CleanTextBoxProduct();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Введите корректное значение для количества");
+                            }
                         }
                         else
                         {
@@ -128,8 +146,10 @@ namespace RestMenef
                 {
                     DB.Tables.DeleteProduct(selectedProduct.Id);
                     MessageBox.Show("Продукт успешно удален");
+                    DB.Tables.DeleteProductToWarehouse(selectedProduct.Id);
                     LoadProducts();
                     CleanTextBoxProduct();
+                    LoadWarehouse();
                 }
             }
             else
@@ -145,9 +165,13 @@ namespace RestMenef
             {
                 DB.Product tempProductDB = new DB.Product(TextBox_NewProductName.Text, "неизвестный тип", 0);
                 DB.Tables.AddProduct(tempProductDB);
+                int hisId = DB.Tables.GetProducts().FirstOrDefault(x => x.Name == tempProductDB.Name).Id;
+                MessageBox.Show($"{hisId}");
+                DB.Tables.AddProductToWarehouse(hisId, 0);
                 MessageBox.Show("Продукт успешно добавлен");
-                LoadProducts();
                 TextBox_NewProductName.Text = string.Empty;
+                LoadProducts();
+                LoadWarehouse();
             }
             else
             {
