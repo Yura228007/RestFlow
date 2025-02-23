@@ -34,5 +34,19 @@ namespace RestFlow
             Price = product.Price;
             Type = product.Type;
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Product product &&
+                   Id == product.Id &&
+                   Name == product.Name &&
+                   Price == product.Price &&
+                   Type == product.Type;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name, Price, Type);
+        }
     }
 }
