@@ -24,11 +24,11 @@
                             <Label Content="Цена" FontSize="16" Margin="7,169,5,0" VerticalAlignment="Top"/>
                             <TextBox x:Name="TextBox_PriceProduct" FontSize="16" VerticalAlignment="Top" Margin="110,171,1,0" Height="30"/>
                         </Grid>
-                        <Button x:Name="Button_SaveProductChanges" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="408,214,0,134" Width="168" FontSize="16" />
-                        <Button x:Name="Button_DeleteProduct" Content="Удалить продукт" HorizontalAlignment="Left" Margin="597,214,0,134" Width="176" FontSize="16" />
+                        <Button x:Name="Button_SaveProductChanges" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="408,214,0,134" Width="168" FontSize="16" Click="Button_SaveProductChanges_Click"/>
+                        <Button x:Name="Button_DeleteProduct" Content="Удалить продукт" HorizontalAlignment="Left" Margin="597,214,0,134" Width="176" FontSize="16" Click="Button_DeleteProduct_Click" />
                         <Label Content="Новый продукт" FontSize="16" Margin="406,270,0,0" ></Label>
                         <TextBox x:Name="TextBox_NewProductName" FontSize="16" Margin="406,305,4,43"/>
-                        <Button x:Name="Button_AddNewProduct" Content="Добавить новый продукт" HorizontalAlignment="Left" Margin="408,345,0,2" Width="365" FontSize="16" />
+                        <Button x:Name="Button_AddNewProduct" Content="Добавить новый продукт" HorizontalAlignment="Left" Margin="408,345,0,2" Width="365" FontSize="16" Click ="Button_AddNewProduct_Click"/>
 
 
                     </Grid>

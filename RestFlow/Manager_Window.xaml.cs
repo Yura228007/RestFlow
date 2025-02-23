@@ -27,7 +27,7 @@ namespace RestMenef
         {
             InitializeComponent();
             LoadProducts();
-            
+            LoadWarehouse();
         }
 
         private void DataGrid_OrdersHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -65,6 +65,93 @@ namespace RestMenef
                 {
                     MessageBox.Show("Возникла ошибка. Данный продукт не найден в базе данных.");
                 }
+            }
+        }
+
+        private void Button_SaveProductChanges_Click(object sender, RoutedEventArgs e)
+        {
+            if (List_Products.SelectedItem != null)
+            {
+                RestFlow.Product? selectedProduct = products.FirstOrDefault(e => e.Name == List_Products.SelectedItem.ToString());
+                if (selectedProduct != null)
+                {
+                    string? name = selectedProduct.Name;
+                    string? type = TextBox_TypeProducts.Text;
+                    string? priceString = TextBox_PriceProduct.Text;
+                    double price;
+
+                    //получение склада и изменение его количества
+
+                    bool flag = Double.TryParse(priceString, out price);
+                    if (name != null && type != null && priceString != null)
+                    {
+                        if (flag)
+                        {
+                            DB.Product tempProduct = new DB.Product(name, type, price);
+                            MessageBox.Show($"{selectedProduct.Id}");
+                            DB.Tables.UpdateProduct(selectedProduct.Id, tempProduct);
+                            MessageBox.Show("Изменения успешно сохранены");
+                            LoadProducts();
+                            CleanTextBoxProduct();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Введите корректное значение для цены");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Заполните все поля");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Возникла ошибка. Данный продукт не найден в базе данных.");
+                }
+            }
+        }
+
+        private void CleanTextBoxProduct()
+        {
+            Label_ProductName.Content = "выберите продукт";
+            TextBox_QuantityProducts.Text = string.Empty;
+            TextBox_PriceProduct.Text = string.Empty;
+            TextBox_TypeProducts.Text = string.Empty;
+        }
+
+        private void Button_DeleteProduct_Click(object sender, RoutedEventArgs e)
+        {
+            if (List_Products.SelectedItem != null)
+            {
+                RestFlow.Product? selectedProduct = products.FirstOrDefault(e => e.Name == List_Products.SelectedItem.ToString());
+                if (selectedProduct != null)
+                {
+                    DB.Tables.DeleteProduct(selectedProduct.Id);
+                    MessageBox.Show("Продукт успешно удален");
+                    LoadProducts();
+                    CleanTextBoxProduct();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите продукт из списка");
+            }
+        }
+
+        private void Button_AddNewProduct_Click(object sender, RoutedEventArgs e)
+        {
+            DB.Product? isHave = DB.Tables.GetProducts().FirstOrDefault(x => x.Name == TextBox_NewProductName.Text);
+            if (isHave == null)
+            {
+                DB.Product tempProductDB = new DB.Product(TextBox_NewProductName.Text, "неизвестный тип", 0);
+                DB.Tables.AddProduct(tempProductDB);
+                MessageBox.Show("Продукт успешно добавлен");
+                LoadProducts();
+                TextBox_NewProductName.Text = string.Empty;
+            }
+            else
+            {
+                MessageBox.Show("Данный продукт уже существует");
             }
         }
     }
