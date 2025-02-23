@@ -24,6 +24,5 @@ namespace RestMenef
             InitializeComponent();
         }
 
-
     }
 }
