@@ -30,6 +30,15 @@ namespace RestFlow
             PrimeCost = 0;
         }
 
+        public Dish(DB.Dish dish)
+        {
+            Id = dish.Id;
+            Name = dish.Name;
+            Price = dish.Price;
+            Ingredients = DB.Tables.GetDishIngregients(Id).ToDictionary(kvp => new RestFlow.Product(kvp.Key), kvp => kvp.Value);
+            CalculatePrimeCost();
+        }
+
         public void AddIngredient(Product product, int quantity)
         {
             if (product != null)
