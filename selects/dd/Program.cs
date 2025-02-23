@@ -409,7 +409,7 @@ namespace DB
             }
             return _ingredients;
         }
-        public static void AddDish(string name, double primecost, double price, Dictionary<int, int> Recipe)
+        public static void AddDish(string name, double primecost, double price, Dictionary<Product, int> Recipe)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -437,16 +437,16 @@ namespace DB
                 db.SaveChanges();
             }
         }
-        public static void AddRecipe(int id, Dictionary<int, int> Recipe)
+        public static void AddRecipe(int id, Dictionary<Product, int> Recipe)
         {
             using (ProjContext db = new ProjContext())
             {
-                foreach (KeyValuePair<int, int> kvp in Recipe)
+                foreach (KeyValuePair<Product, int> kvp in Recipe)
                 {
                     //int temp = db.Dishes.ElementAt(db.Dishes.Count() - 1).Id;
                     //temp = kvp.Key;
                     //temp = kvp.Value;
-                    Ingredient ing = new Ingredient(kvp.Key, kvp.Value, id);
+                    Ingredient ing = new Ingredient(kvp.Key.Id, kvp.Value, id);
                     db.Ingredients.Add(ing);
                     db.SaveChanges();
                     //db.Ingredients.Add(new Ingredient( kvp.Key, kvp.Value, db.Dishes.ElementAt(db.Dishes.Count() - 1).Id));
@@ -455,7 +455,7 @@ namespace DB
                 db.SaveChanges();
             }
         }
-        public static void UpdateDish(int id, Dish dish, Dictionary<int, int> Recipe)
+        public static void UpdateDish(int id, Dish dish, Dictionary<Product, int> Recipe)
         {
             using (ProjContext db = new ProjContext())
             {
