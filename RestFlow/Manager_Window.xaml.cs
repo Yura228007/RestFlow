@@ -50,6 +50,7 @@ namespace RestMenef
             }
         }
 
+        #region all interaction with products
         private void List_Products_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (List_Products.SelectedItem != null)
@@ -178,5 +179,7 @@ namespace RestMenef
                 MessageBox.Show("Данный продукт уже существует");
             }
         }
+#endregion
+
     }
 }
