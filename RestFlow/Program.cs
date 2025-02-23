@@ -613,17 +613,51 @@ namespace DB
                 }
             }
         }
-        public static Dictionary<Product, int> GetWarehouse()
+        public static void AddProductToWarehouse(int productId, int productQuantity)
         {
-            Dictionary<Product,int> _warehouse = new Dictionary<Product, int>();
             using (ProjContext db = new ProjContext())
             {
-                foreach(Warehouse warehouse in db.Warehouse)
+                db.Warehouse.Add(new Warehouse(productId, productQuantity));
+                db.SaveChanges();
+            }
+        }
+
+        public static Dictionary<Product, int> GetWarehouse()
+        {
+            Dictionary<Product, int> _warehouse = new Dictionary<Product, int>();
+            using (ProjContext db = new ProjContext())
+            {
+                if (db.Warehouse.Count() > 0)
                 {
-                    _warehouse.Add(GetProduct(warehouse.ProductId), warehouse.ProductQuantity);
+                    foreach (Warehouse warehouse in db.Warehouse)
+                    {
+                        _warehouse.Add(GetProduct(warehouse.ProductId), warehouse.ProductQuantity);
+                    }
                 }
             }
             return _warehouse;
+        }
+        public static void UpdateProductInWarehouse(int id, Warehouse w)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Warehouse product = db.Warehouse.Find(id);
+                if (product != null)
+                {
+                    product.ProductId = w.ProductId;
+                    product.ProductQuantity = w.ProductQuantity;
+                    db.SaveChanges();
+                }
+            }
+        }
+        public static void DeleteProductToWarehouse(int id)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Warehouse prod = db.Warehouse.Find(id);
+                db.Warehouse.Remove(prod);
+                db.SaveChanges();
+            }
         }
     }
 }
