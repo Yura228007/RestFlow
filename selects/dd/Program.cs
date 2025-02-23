@@ -157,6 +157,10 @@ namespace DB
         public int ProductQuantity { get; set; }
         public Warehouse() { }
         public Warehouse(int product_id, int product_quan) { ProductId = product_id; ProductQuantity = product_quan; }
+        public override string ToString()
+        {
+            return $"ID: {this.Id}; ProductId: {this.ProductId}; Quantity: {ProductQuantity}";
+        }
     }
     public class Ingredient
     {
@@ -298,13 +302,15 @@ namespace DB
             //{
             //    Console.WriteLine($"Product: {kvp.Key}; Quantity: {kvp.Value}\n");
             //}
-           
+
             //DeleteProductToWarehouse(2);
             //warehouse = GetWarehouse();
             //foreach (KeyValuePair<Product, int> kvp in warehouse)
             //{
             //    Console.WriteLine($"Product: {kvp.Key}; Quantity: {kvp.Value}\n");
             //}
+            //Warehouse prod = GetProductToWarehouse(1);
+            //Console.WriteLine(prod);
         }
         public static void AddProduct(string name, string type, double price)
         {
@@ -332,7 +338,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                Product product = db.Products.ElementAt(id - 1);
+                Product product = db.Products.Find(id);
                 return product;
                 //return $"Name: {product.Name} | Type: {product.Type}";
             }
@@ -384,7 +390,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                Dish dish = db.Dishes.ElementAt(id - 1);
+                Dish dish = db.Dishes.Find(id);
                 return dish;
             }
         }
@@ -551,7 +557,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                return db.Orders.ElementAt(id - 1);
+                return db.Orders.Find(id);
             }
         }
         public static void AddOrder(DateTime date, Dictionary<int, int> compound, Address? address = null, int? table = null)
@@ -626,7 +632,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                return db.Users.ElementAt(id - 1);
+                return db.Users.Find(id);
             }
         }
         public static void AddUser(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone)
@@ -685,7 +691,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                return db.Employees.ElementAt(id - 1);
+                return db.Employees.Find(id);
             }
         }
         public static void AddEmployee(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post)
@@ -746,6 +752,13 @@ namespace DB
                 }
             }
             return _warehouse;
+        }
+        public static Warehouse GetProductToWarehouse(int id)
+        {
+            using (ProjContext db = new ProjContext()) 
+            {
+                return db.Warehouse.Find(id);
+            }
         }
         public static void UpdateProductInWarehouse(int id, Warehouse w)
         {
