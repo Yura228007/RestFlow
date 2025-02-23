@@ -311,6 +311,11 @@ namespace DB
             //}
             //Warehouse prod = GetProductToWarehouse(1);
             //Console.WriteLine(prod);
+            //List<Order> ActiveOrderCollection = GetActiveOrderCollection();
+            //foreach(Order o in ActiveOrderCollection)
+            //{
+            //    Console.WriteLine(o);
+            //}
         }
         public static void AddProduct(string name, string type, double price)
         {
@@ -560,11 +565,11 @@ namespace DB
                 return db.Orders.Find(id);
             }
         }
-        public static void AddOrder(DateTime date, Dictionary<int, int> compound, Address? address = null, int? table = null)
+        public static void AddOrder(DateTime date,  Dictionary<int, int> compound, Address? address = null, int? table = null)
         {
             using (ProjContext db = new ProjContext())
             {
-                Order ord = new Order(date, true, address, table);
+                Order ord = new Order(date,true, address, table);
                 db.Orders.Add(ord);
                 db.SaveChanges();
                 AddCompound(db.Orders.ElementAt(db.Orders.Count() - 1).Id, compound);
@@ -581,6 +586,7 @@ namespace DB
                     _order.OrderDate = order.OrderDate;
                     _order.Address = order.Address;
                     _order.Table = order.Table;
+                    _order.IsActive = order.IsActive;
                     DeleteCompound(id);
                     AddCompound(id, compound);
                 }
@@ -782,7 +788,22 @@ namespace DB
                 db.SaveChanges();
             }
         }
-        
+        public static List<Order> GetActiveOrderCollection()
+        {
+            List<Order> orders = new List<Order>();
+            using (ProjContext db = new ProjContext())
+            {
+                foreach (Order order in db.Orders)
+                {
+                    if(order.IsActive)
+                    {
+                        orders.Add(order);
+                        
+                    }
+                }
+            }
+            return orders;
+        }
     }
 }
 
