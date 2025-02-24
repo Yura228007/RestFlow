@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RestMenef"
         mc:Ignorable="d"
-        Title="Manager_Window" Height="450" Width="800">
+        Title="Manager_Window" Height="600" Width="850">
     <Grid>
         <TabControl>
             <TabItem Header="Таблица продуктов">
-                <StackPanel>
-                    <Grid HorizontalAlignment="Left"  Height="383" Margin="10" Width="775">
-                        <ListBox x:Name="List_Products" Margin="0,0,385,0" SelectionChanged="List_Products_SelectionChanged">
+                <StackPanel Height="Auto">
+                    <Grid HorizontalAlignment="Left"  Height="Auto" Margin="10" Width="775">
+                        <ListBox x:Name="List_Products" Margin="0,0,385,10" SelectionChanged="List_Products_SelectionChanged" Height="Auto">
 
                         </ListBox>
                         <Grid Margin="406,0,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Height="255">
@@ -37,23 +37,30 @@
             </TabItem>
             <TabItem Header="Таблица блюд">
                 <StackPanel>
-                    <Grid HorizontalAlignment="Left"  Height="383" Margin="10" Width="775">
-                        <ListBox x:Name="List_Dishes" Margin="0,0,385,0">
+                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="Auto" Margin="10" Width="775">
+                        <ListBox x:Name="List_Dishes" Margin="0,0,385,0" Height="530" SelectionChanged="List_Dishes_SelectionChanged">
 
                         </ListBox>
                         <Grid Margin="406,0,0,214" Background="WhiteSmoke">
-                            <Label Content="Название: " FontSize="16" Margin="5,5,0,0" ></Label>
-                            <Label x:Name="Label_DishName" Content=" " FontSize="16" Margin="110,5,0,107" ></Label>
-                            <Label Content="Продукты" FontSize="16" Margin="5,78,0,-11" ></Label>
-                            <ComboBox x:Name="ComboBox_Products" Margin="110,79,2,58" FontSize="16"></ComboBox>
-                            <Label Content="Количество" FontSize="16" Margin="0,123,264,0" ></Label>
-                            <TextBox x:Name="TextBox_QuantityProductsForDish" FontSize="16" Margin="110,123,2,10" Height="30"/>
+                            <Label Content="Название: " FontSize="16" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                            <Button x:Name="Button_ShowIngredients" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" Height="25" Width="75" Content="Состав" FontSize="16" Click="Button_ShowIngredients_Click"/>
+                            <Label x:Name="Label_DishName" Content=" " FontSize="16" Margin="110,5,0,107" Height="70" VerticalAlignment="Top"></Label>
+                            <Label Content="Продукты" FontSize="16" Margin="5,78,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                            <ComboBox x:Name="ComboBox_Products" Margin="110,79,2,58" FontSize="16" VerticalAlignment="Top"></ComboBox>
+                            <Label Content="Количество" FontSize="16" Margin="0,123,264,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                            <TextBox x:Name="TextBox_QuantityProductsForDish" FontSize="16" Margin="110,123,2,10" Height="30" VerticalAlignment="Top"/>
                         </Grid>
-                        <Button x:Name="Button_SaveDishChanges" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="408,174,0,174" Width="168" FontSize="16" />
-                        <Button x:Name="Button_DeleteDish" Content="Удалить блюдо" HorizontalAlignment="Left" Margin="597,174,0,174" Width="176" FontSize="16" />
-                        <Label Content="Новое блюдо" FontSize="16" Margin="406,270,0,0" ></Label>
-                        <TextBox x:Name="TextBox_NewDishName" FontSize="16" Margin="406,305,4,43"/>
-                        <Button x:Name="Button_AddNewDish" Content="Добавить новое блюдо" HorizontalAlignment="Left" Margin="408,345,0,2" Width="365" FontSize="16" />
+                        <Button x:Name="Button_AddProductForDish" Click="Button_AddProductForDish_Click" Content="Добавить ингредиент" HorizontalAlignment="Left" Margin="408,174,0,174" Width="168" FontSize="16" VerticalAlignment="Top"/>
+                        <Button x:Name="Button_DeleteDish" Click="Button_DeleteDish_Click" Content="Удалить блюдо" HorizontalAlignment="Left" Margin="597,174,0,174" Width="176" FontSize="16" VerticalAlignment="Top"/>
+                        <Label Content="Состав" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="415,220,0,0"/>
+                        <ComboBox x:Name="ComboBox_Ingredients" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="180" Margin="480,220,0,0"/>
+                        <Button x:Name="Button_DeleteIngredient" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="85" Margin="675,220,0,0" Content="Удалить" FontSize="16" Click="Button_DeleteIngredient_Click"/>
+                        <Label Content="Цена" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="415,260,0,0"/>
+                        <TextBox x:Name="TextBox_DishPrice" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="180" Margin="480,260,0,0"/>
+                        <Button Click="Button_Dish_SavePrice_Click"  x:Name="Button_Dish_SavePrice" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="85" Margin="675,260,0,0" Content="Сохранить" FontSize="16"/>
+                        <Label Content="Название нового блюда" FontSize="16" Margin="406,270,0,75" VerticalAlignment="Bottom"></Label>
+                        <TextBox x:Name="TextBox_NewDishName" FontSize="16" Margin="406,305,4,43" VerticalAlignment="Bottom" Height="30"/>
+                        <Button x:Name="Button_AddNewDish" Click="Button_AddNewDish_Click" Content="Добавить новое блюдо" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="406,345,0,10" Height="30" Width="365" FontSize="16" />
 
 
                     </Grid>
