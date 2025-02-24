@@ -345,27 +345,63 @@ namespace DB
             }
             return _ingredients;
         }
-        public static void AddDish(string name, string description, double primecost, double price, Dictionary<int, int> Recipe)
+        public static void AddDish(string name, double primecost, double price, Dictionary<Product, int> Recipe)
         {
             using (ProjContext db = new ProjContext())
             {
-                Dish dish = new Dish(name,primecost, price);
+                Dish dish = new Dish(name, primecost, price);
                 db.Dishes.Add(dish);
                 db.SaveChanges();
-                foreach (KeyValuePair<int, int> kvp in Recipe)
-                {
-                    //int temp = db.Dishes.ElementAt(db.Dishes.Count() - 1).Id;
-                    //temp = kvp.Key;
-                    //temp = kvp.Value;
-                    Ingredient ing = new Ingredient(kvp.Key, kvp.Value, db.Dishes.ElementAt(db.Dishes.Count() - 1).Id);
-                    db.Ingredients.Add(ing);
-                    db.SaveChanges();
-                    //db.Ingredients.Add(new Ingredient( kvp.Key, kvp.Value, db.Dishes.ElementAt(db.Dishes.Count() - 1).Id));
 
-                }
+                AddRecipe(db.Dishes.ElementAt(db.Dishes.Count() - 1).Id, Recipe);
+                db.SaveChanges();
 
             }
 
+        }
+        public static void DeleteRecipe(int id)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                foreach (Ingredient ing in db.Ingredients)
+                {
+                    if (ing.DishId == id)
+                    {
+                        db.Ingredients.Remove(ing);
+                    }
+                }
+                db.SaveChanges();
+            }
+        }
+        public static void AddRecipe(int id, Dictionary<Product, int> Recipe)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                foreach (KeyValuePair<Product, int> kvp in Recipe)
+                {
+                    Ingredient ing = new Ingredient(kvp.Key.Id, kvp.Value, id);
+                    db.Ingredients.Add(ing);
+                    db.SaveChanges();
+
+                }
+                db.SaveChanges();
+            }
+        }
+        public static void UpdateDish(int id, Dish dish, Dictionary<Product, int> Recipe)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Dish? _dish = db.Dishes.Find(id);
+                if (_dish != null)
+                {
+                    _dish.Name = dish.Name;
+                    _dish.Price = dish.Price;
+                    _dish.Primecost = dish.Primecost;
+                    DeleteRecipe(id);
+                    AddRecipe(_dish.Id, Recipe);
+                }
+                db.SaveChanges();
+            }
         }
         public static void UpdateDish(int id, Dish dish)
         {
@@ -374,7 +410,9 @@ namespace DB
                 Dish? _dish = db.Dishes.Find(id);
                 if (_dish != null)
                 {
-                    _dish = new Dish(dish);
+                    _dish.Name = dish.Name;
+                    _dish.Price = dish.Price;
+                    _dish.Primecost = dish.Primecost;
                 }
                 db.SaveChanges();
             }
@@ -384,13 +422,7 @@ namespace DB
             using (ProjContext db = new ProjContext())
             {
                 Dish? dish = db.Dishes.Find(id);
-                foreach (Ingredient ing in db.Ingredients)
-                {
-                    if (ing.DishId == id)
-                    {
-                        db.Ingredients.Remove(ing);
-                    }
-                }
+                DeleteRecipe(id);
                 db.Dishes.Remove(dish);
                 db.SaveChanges();
             }
