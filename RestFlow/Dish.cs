@@ -39,6 +39,11 @@ namespace RestFlow
             CalculatePrimeCost();
         }
 
+        public override string ToString()
+        {
+            return $"{Name} — {Price}";
+        }
+
         public void AddIngredient(Product product, int quantity)
         {
             if (product != null)
