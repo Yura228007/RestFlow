@@ -277,9 +277,12 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                Product product = db.Products.ElementAt(id - 1);
-                return product;
-                //return $"Name: {product.Name} | Type: {product.Type}";
+                Product? product = db.Products.Find(id);
+                if (product != null)
+                {
+                    return product;
+                }
+                return null;
             }
         }
         public static void UpdateProduct(int id, Product product)
