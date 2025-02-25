@@ -32,7 +32,7 @@ namespace RestMenef
         RestFlow.Employee currentEmployee;
 
 #region 1 вкладка
-        public class MainViewModel : INotifyPropertyChanged
+        /*public class MainViewModel : INotifyPropertyChanged
         {
             private ObservableCollection<RestFlow.Employee> _employees;
             public ObservableCollection<RestFlow.Employee> Employees
@@ -113,41 +113,70 @@ namespace RestMenef
             if (e.EditAction == DataGridEditAction.Commit)
             {
                 var editedEmployee = e.Row.Item as RestFlow.Employee;
+
                 if (editedEmployee != null)
                 {
+                    MessageBox.Show(editedEmployee.Surname);
                     DB.Employee? ed = DB.Tables.GetEmployees().FirstOrDefault(x => x.Login == editedEmployee.Login);
                     if (ed != null)
                     {
-                        DB.Tables.UpdateEmployee(ed.Id, 
+
+                        DB.Tables.UpdateEmployee(ed.Id,
                             new DB.Employee(
-                                editedEmployee.Login, 
-                                editedEmployee.Password, 
-                                editedEmployee.Name, 
-                                editedEmployee.Surname, 
-                                editedEmployee.Birthday, 
-                                editedEmployee.Gender, 
-                                editedEmployee.Phone, 
-                                editedEmployee.Salary, 
+                                editedEmployee.Login,
+                                editedEmployee.Password,
+                                editedEmployee.Name,
+                                editedEmployee.Surname,
+                                editedEmployee.Birthday,
+                                editedEmployee.Gender,
+                                editedEmployee.Phone,
+                                editedEmployee.Salary,
                                 editedEmployee.Post
                                 )
                             );
+
                         MessageBox.Show("Изменения успешно сохранены");
                     }
 
                 }
+                else
+                {
+                    MessageBox.Show("12345");
+                }
             }
-        }
+        }*/
 
         public Admin_Window(RestFlow.Employee employee)
         {
             InitializeComponent();
-            DataContext = new MainViewModel();
+            /*DataContext = new MainViewModel();*/
             currentEmployee = employee;
             Label_AllInfo.Content = currentEmployee.ToString();
             List <string> Posts = new List<string> {"Admin", "Manager", "Waiter", "Accountant", "Kitchen"};
             ComboBox_NewWorkerPost.ItemsSource = Posts;
+            LoadEmployees();
         }
         #endregion
+
+        private void LoadEmployees()
+        {
+            DataGrid_WorkersInfo.ItemsSource = DB.Tables.GetEmployees().Select(e => new RestFlow.Employee(e)).ToList();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S)
+            {
+                foreach (var item in DataGrid_WorkersInfo.Items)
+                {
+                    DB.Employee tempBdEmp = DB.Tables.GetEmployees().FirstOrDefault(e => e.Login == (item as RestFlow.Employee).Login);
+                    var tempEmp = item as RestFlow.Employee;
+                    DB.Employee emp = new DB.Employee(tempEmp.Login, tempEmp.Password, tempEmp.Name, tempEmp.Surname, tempEmp.Birthday, tempEmp.Gender, tempEmp.Phone, tempEmp.Salary, tempEmp.Post);
+                    DB.Tables.UpdateEmployee(tempBdEmp.Id, emp);
+                    LoadEmployees();
+                }
+            }
+        }
 
         #region добавление работника
         private void Button_AddWorker_Click(object sender, RoutedEventArgs e)
@@ -180,6 +209,7 @@ namespace RestMenef
                     DB.Tables.AddEmployee(tempEmployee);
                     MessageBox.Show("Работник  успешно добавлен");
                     CleanNewWorker();
+                    LoadEmployees();
                 }
                 else
                 {
@@ -289,6 +319,7 @@ namespace RestMenef
                     DB.Tables.UpdateEmployee(selectedEmployeeId, new DB.Employee(login, password, name, surname, (DateTime)birthday, (bool)gender, phone, salaryInt, post));
                     MessageBox.Show("Изменения успешно сохранены!");
                     CleanFieldsWorker();
+                    LoadEmployees();
                 }
                 else
                 {
@@ -313,6 +344,7 @@ namespace RestMenef
                     DB.Tables.DeleteEmployee(selectedEmployeeId);
                     MessageBox.Show("Работник успешно уволен");
                     CleanFieldsWorker();
+                    LoadEmployees();
                 }
             }
             else

@@ -11,10 +11,8 @@
             <TabItem Header="Заказ" VerticalAlignment="Top">
                 <Grid>
                     <Grid x:Name="dish" Background="#FFE5E5E5" Margin="10,10,10,45">
-                        <DataGrid Margin="0,0,1,68" x:Name="DataGrid_NewOrderDishes" ItemsSource="{Binding currentDish, Mode=TwoWay}" AutoGenerateColumns="False">
-                            <DataGrid.Columns>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <ListBox x:Name ="List_CompoundOrder" Margin="10,10,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Background="White" Height="250" Width="500" FontSize="16"/>
+                        
                         <Label Content="Сумма:" Margin="0,0,0,38" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                         <Label x:Name="Label_TotalCost" Margin="65,0,0,38" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="29"/>
                         <Label Content="Столик:" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,2"/>

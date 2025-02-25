@@ -5,24 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RestMenef"
         mc:Ignorable="d"
-        Title="Admin_Window" Height="450" Width="1080">
+        Title="Admin_Window" Height="450" Width="1080"
+        KeyDown="Window_KeyDown">
     <Grid>
         <TabControl>
             <TabItem Header="Таблица работников">
                 <StackPanel>
                     <Grid HorizontalAlignment="Left"  Height="383" Margin="10" Width="Auto">
-                        <DataGrid Margin="0,0,10,66" x:Name="DataGrid_WorkersInfo" SelectionMode="Single" ItemsSource="{Binding Employees, Mode=TwoWay}" AutoGenerateColumns="False" SelectionChanged="DataGrid_WorkersInfo_SelectionChanged"  RowEditEnding="DataGrid_WorkersInfo_RowEditEnding">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Width="2*" Header="Логин" Binding="{Binding Login}" FontSize="12" IsReadOnly="True"/>
-                                <DataGridTextColumn Width="2*" Header="Пароль" Binding="{Binding Password}" FontSize="12"/>
-                                <DataGridTextColumn Width="3*" Header="Имя" Binding="{Binding Name}" FontSize="14"/>
-                                <DataGridTextColumn Width="3*" Header="Фамилия" Binding="{Binding Surname}" FontSize="14"/>
-                                <DataGridTextColumn Width="2*" Header="Должность" Binding="{Binding Post}" FontSize="10"/>
-                                <DataGridTextColumn Width="2*" Header="ЗП" Binding="{Binding Salary}" FontSize="10"/>
-                                <DataGridTextColumn Width="3*" Header="Д/М/ГГГГ" Binding="{Binding Birthday}" FontSize="10"/>
-                                <DataGridTextColumn Width="2*" Header="Телефон" Binding="{Binding Phone}" FontSize="10"/>
-                                <DataGridCheckBoxColumn Width="2*" Header="Пол (муж - галочка)" Binding="{Binding Gender}"/>
-                            </DataGrid.Columns>
+                        <DataGrid Margin="0,0,10,66" x:Name="DataGrid_WorkersInfo" SelectionMode="Single" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="2*" Header="Логин" Binding="{Binding Login}" FontSize="12" IsReadOnly="True"/>
+                            <DataGridTextColumn Width="2*" Header="Пароль" Binding="{Binding Password}" FontSize="12"/>
+                            <DataGridTextColumn Width="3*" Header="Имя" Binding="{Binding Name}" FontSize="14"/>
+                            <DataGridTextColumn Width="3*" Header="Фамилия" Binding="{Binding Surname}" FontSize="14"/>
+                            <DataGridTextColumn Width="2*" Header="Должность" Binding="{Binding Post}" FontSize="10"/>
+                            <DataGridTextColumn Width="2*" Header="ЗП" Binding="{Binding Salary}" FontSize="10"/>
+                            <DataGridTextColumn Width="3*" Header="Д/М/ГГГГ" Binding="{Binding Birthday}" FontSize="10"/>
+                            <DataGridTextColumn Width="2*" Header="Телефон" Binding="{Binding Phone}" FontSize="10"/>
+                            <DataGridCheckBoxColumn Width="2*" Header="Пол (муж - галочка)" Binding="{Binding Gender}"/>
+                        </DataGrid.Columns>
                         </DataGrid>
                         <Grid Margin="406,0,0,73" Background="WhiteSmoke" Visibility="Hidden">
                             <Label Content="Имя" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" FontSize="14"  Width="40"/>
