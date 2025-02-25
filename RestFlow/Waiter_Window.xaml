@@ -11,7 +11,7 @@
             <TabItem Header="Заказ" VerticalAlignment="Top">
                 <Grid>
                     <Grid x:Name="dish" Background="#FFE5E5E5" Margin="10,10,10,45">
-                        <DataGrid Margin="0,0,1,68" x:Name="DataGrid_NewOrderDishes" ItemsSource="{Binding Dishes, Mode=TwoWay}" AutoGenerateColumns="False">
+                        <DataGrid Margin="0,0,1,68" x:Name="DataGrid_NewOrderDishes" ItemsSource="{Binding currentDish, Mode=TwoWay}" AutoGenerateColumns="False">
                             <DataGrid.Columns>
                             </DataGrid.Columns>
                         </DataGrid>
@@ -21,7 +21,7 @@
                         <TextBox x:Name="TextBox_TableNumber" FontSize="15" VerticalAlignment="Bottom" Margin="60,0,350,2" Height="28" />
                         <ComboBox x:Name="ComboBox_ChooseDish" HorizontalAlignment="Right" Margin="0,0,1,38" VerticalAlignment="Bottom" Width="218" FontSize="15"/>
                         <Label Content="Выберите блюдо" HorizontalAlignment="Right" Margin="0,284,225,38" VerticalAlignment="Bottom"/>
-                        <Button x:Name="Button_AddDish" Content="Добавить блюдо" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="327" Height="28" FontSize="15" Margin="0,0,1,2"/>
+                        <Button x:Name="Button_AddDish" Click="Button_AddDish_Click" Content="Добавить блюдо" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="327" Height="28" FontSize="15" Margin="0,0,1,2"/>
                     </Grid>
                     <Button x:Name="Button_SendKitxhen" Content="Отправить на кухню" Height="37" Margin="10,0,10,5" FontSize="16" VerticalAlignment="Bottom" />
                 </Grid>

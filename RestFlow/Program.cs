@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Windows;
+using Microsoft.EntityFrameworkCore;
 namespace DB
 {
     public class Address
@@ -659,6 +660,17 @@ namespace DB
                 db.SaveChanges();
             }
         }
+
+        public static void AddEmployee(Employee employee)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Employee emp = new Employee(employee);
+                db.Employees.Add(emp);
+                db.SaveChanges();
+            }
+        }
+
         public static void DeleteEmployee(int id)
         {
             using (ProjContext db = new ProjContext())

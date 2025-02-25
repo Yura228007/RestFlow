@@ -179,7 +179,6 @@ namespace RestMenef
                     DB.Product tempProductDB = new DB.Product(TextBox_NewProductName.Text, "неизвестный тип", 0);
                     DB.Tables.AddProduct(tempProductDB);
                     int hisId = DB.Tables.GetProducts().FirstOrDefault(x => x.Name == tempProductDB.Name).Id;
-                    MessageBox.Show($"{hisId}");
                     DB.Tables.AddProductToWarehouse(hisId, 0);
                     MessageBox.Show("Продукт успешно добавлен");
                     TextBox_NewProductName.Text = string.Empty;
@@ -201,7 +200,6 @@ namespace RestMenef
         #region all interaction with dishes
         private void CleanTextBoxDish()
         {
-            ComboBox_Ingredients.Items.Clear();
             TextBox_DishPrice.Text = string.Empty;
             TextBox_QuantityProductsForDish.Text = string.Empty;
             TextBox_NewDishName.Text = string.Empty;
