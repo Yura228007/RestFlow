@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 namespace DB
 {
     public class Address
@@ -48,7 +47,7 @@ namespace DB
         public Dish() { }
         public Dish(Dish dish)
         {
-            this.Name= dish.Name;
+            this.Name = dish.Name;
             this.Price = dish.Price;
             this.Primecost = dish.Primecost;
         }
@@ -64,7 +63,7 @@ namespace DB
         public DateTime OrderDate { get; set; }
         public bool IsActive { get; set; }
         public Address? Address { get; set; }
-        public int? Table {  get; set; }
+        public int? Table { get; set; }
         public Order() { }
         public Order(Order order)
         {
@@ -74,7 +73,7 @@ namespace DB
         }
         public Order(DateTime _date, bool _isActive, Address? _address = null, int? _table = null)
         {
-            
+
             OrderDate = _date;
             IsActive = _isActive;
             Address = _address;
@@ -82,11 +81,11 @@ namespace DB
         }
         public override string ToString()
         {
-            if(Address!=null)
+            if (Address != null)
             {
                 return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Address: {this.Address};\n";
             }
-            else if (Table !=null)
+            else if (Table != null)
             {
                 return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Table: {this.Table};\n";
             }
@@ -96,7 +95,7 @@ namespace DB
     public class Employee
     {
         public int Id { get; set; }
-        public string Login {  get; set; }
+        public string Login { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -150,7 +149,7 @@ namespace DB
         public string Name { get; set; }
         public string Surname { get; set; }
         public DateTime Birthday { get; set; }
-        public bool Gender {  get; set; }
+        public bool Gender { get; set; }
         public string Phone { get; set; }
         public User() { }
         public User(User user)
@@ -183,6 +182,10 @@ namespace DB
         public int ProductQuantity { get; set; }
         public Warehouse() { }
         public Warehouse(int product_id, int product_quan) { ProductId = product_id; ProductQuantity = product_quan; }
+        public override string ToString()
+        {
+            return $"ID: {this.Id}; ProductId: {this.ProductId}; Quantity: {ProductQuantity}";
+        }
     }
     public class Ingredient
     {
@@ -197,11 +200,13 @@ namespace DB
     public class OrdersDishes
     {
         public int Id { get; set; }
+        public int OrderId { get; set; }
         public int DishId { get; set; }
         public int Quantity { get; set; }
         public OrdersDishes() { }
-        public OrdersDishes(int dish_id, int quantity)
+        public OrdersDishes(int order_id, int dish_id, int quantity)
         {
+            OrderId = order_id;
             DishId = dish_id;
             Quantity = quantity;
         }
@@ -258,7 +263,6 @@ namespace DB
                 db.SaveChanges();
             }
         }
-
         public static List<Product> GetProducts()
         {
             List<Product> _products = new List<Product>();
@@ -266,9 +270,8 @@ namespace DB
             {
                 foreach (Product product in db.Products)
                 {
-                    
+
                     _products.Add(product);
-                    Console.WriteLine($"ID: {product.Id} | Name: {product.Name} | Type: {product.Type}");
                 }
             }
             return _products;
@@ -295,8 +298,8 @@ namespace DB
                     _product.Name = product.Name;
                     _product.Type = product.Type;
                     _product.Price = product.Price;
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
             }
         }
         public static void DeleteProduct(int id)
@@ -306,6 +309,8 @@ namespace DB
                 Product? product = db.Products.Find(id);
                 db.Products.Remove(product);
                 db.SaveChanges();
+                Warehouse prod = db.Warehouse.ElementAt(id - 1);
+                db.Warehouse.Remove(prod);
             }
         }
 
@@ -314,13 +319,14 @@ namespace DB
 
         public static List<Dish> GetDishes()
         {
-            List<Dish> _dishes  = new List<Dish>(); 
+            List<Dish> _dishes = new List<Dish>();
             using (ProjContext db = new ProjContext())
             {
                 foreach (Dish dish in db.Dishes)
                 {
-                    
+
                     _dishes.Add(dish);
+
                 }
                 return _dishes;
             }
@@ -329,11 +335,11 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                Dish dish = db.Dishes.ElementAt(id - 1);
+                Dish dish = db.Dishes.Find(id);
                 return dish;
             }
         }
-        public static Dictionary<Product,int> GetDishIngregients(int id)
+        public static Dictionary<Product, int> GetDishIngregients(int id)
         {
             Dictionary<Product, int> _ingredients = new Dictionary<Product, int>();
             using (ProjContext db = new ProjContext())
@@ -342,7 +348,7 @@ namespace DB
                 {
                     if (ing.DishId == id)
                     {
-                        _ingredients.Add(GetProduct(ing.ProductId),ing.ProductQuantity);
+                        _ingredients.Add(GetProduct(ing.ProductId), ing.ProductQuantity);
                     }
                 }
             }
@@ -382,9 +388,13 @@ namespace DB
             {
                 foreach (KeyValuePair<Product, int> kvp in Recipe)
                 {
+                    //int temp = db.Dishes.ElementAt(db.Dishes.Count() - 1).Id;
+                    //temp = kvp.Key;
+                    //temp = kvp.Value;
                     Ingredient ing = new Ingredient(kvp.Key.Id, kvp.Value, id);
                     db.Ingredients.Add(ing);
                     db.SaveChanges();
+                    //db.Ingredients.Add(new Ingredient( kvp.Key, kvp.Value, db.Dishes.ElementAt(db.Dishes.Count() - 1).Id));
 
                 }
                 db.SaveChanges();
@@ -433,23 +443,47 @@ namespace DB
 
         //// CRUD for Order
 
-        public static Dictionary<Dish,int> GetOrderCompound(int id)
+        public static Dictionary<Dish, int> GetOrderCompound(int id)
         {
-            Dictionary<Dish,int> _compound = new Dictionary<Dish,int>();
+            Dictionary<Dish, int> _compound = new Dictionary<Dish, int>();
             using (ProjContext db = new ProjContext())
             {
                 foreach (OrdersDishes comp in db.Compound)
                 {
-                    if (comp.Id == id)
+                    if (comp.OrderId == id)
                     {
-                        _compound.Add(GetDish(comp.Id),comp.Quantity);
-                        Console.WriteLine(GetDish(comp.DishId));
+                        _compound.Add(GetDish(comp.DishId), comp.Quantity);
                     }
                 }
 
 
             }
             return _compound;
+        }
+        public static void DeleteCompound(int id)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                foreach (OrdersDishes comp in db.Compound)
+                {
+                    if (comp.OrderId == id)
+                    {
+                        db.Compound.Remove(comp);
+                    }
+                }
+            }
+        }
+        public static void AddCompound(int id, Dictionary<int, int> compound)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                foreach (KeyValuePair<int, int> kvp in compound)
+                {
+                    OrdersDishes compoundIndgredient = new OrdersDishes(id, kvp.Key, kvp.Value);
+                    db.Compound.Add(compoundIndgredient);
+                    db.SaveChanges();
+                }
+            }
         }
         public static List<Order> GetOrders()
         {
@@ -459,7 +493,6 @@ namespace DB
                 foreach (Order ord in db.Orders)
                 {
                     _orders.Add(ord);
-                    Console.WriteLine($"ID: {ord.Id}  | Date: {ord.OrderDate}");
                     GetOrderCompound(ord.Id);
                 }
             }
@@ -467,26 +500,40 @@ namespace DB
         }
         public static Order GetOrder(int id)
         {
-            using(ProjContext db = new ProjContext())
+            using (ProjContext db = new ProjContext())
             {
-                return db.Orders.ElementAt(id-1);
+                return db.Orders.Find(id);
             }
         }
-        public static void AddOrder(int userId, DateTime date, Dictionary<int, int> compound, Address? address = null)
+        public static void AddOrder(DateTime date, Dictionary<int, int> compound, Address? address = null, int? table = null)
         {
             using (ProjContext db = new ProjContext())
             {
-                Order ord = new Order(date,true, address);
+                Order ord = new Order(date, true, address, table);
                 db.Orders.Add(ord);
                 db.SaveChanges();
-                foreach (KeyValuePair<int, int> kvp in compound)
+                AddCompound(db.Orders.ElementAt(db.Orders.Count() - 1).Id, compound);
+                db.SaveChanges();
+            }
+        }
+        public static void UpdateOrder(int id, Order order, Dictionary<int, int> compound)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Order? _order = db.Orders.Find(id);
+                if (_order != null)
                 {
-                    OrdersDishes dish = new OrdersDishes(kvp.Key, kvp.Value);
-                    db.Compound.Add(dish);
+                    _order.OrderDate = order.OrderDate;
+                    _order.Address = order.Address;
+                    _order.Table = order.Table;
+                    _order.IsActive = order.IsActive;
+                    DeleteCompound(id);
+                    AddCompound(id, compound);
                 }
                 db.SaveChanges();
             }
         }
+
         public static void UpdateOrder(int id, Order order)
         {
             using (ProjContext db = new ProjContext())
@@ -494,7 +541,9 @@ namespace DB
                 Order? _order = db.Orders.Find(id);
                 if (_order != null)
                 {
-                   _order =  new Order(order);
+                    _order.OrderDate = order.OrderDate;
+                    _order.Address = order.Address;
+                    _order.Table = order.Table;
                 }
                 db.SaveChanges();
             }
@@ -504,6 +553,7 @@ namespace DB
             using (ProjContext db = new ProjContext())
             {
                 Order? ord = db.Orders.Find(id);
+                DeleteCompound(id);
                 db.Orders.Remove(ord);
                 db.SaveChanges();
             }
@@ -520,7 +570,6 @@ namespace DB
                 foreach (User user in db.Users)
                 {
                     users.Add(user);
-                    Console.WriteLine($"ID: {user.Id} | Name: {user.Name} | Surname: {user.Surname} | Phone: {user.Phone}\n");
                 }
             }
             return users;
@@ -529,7 +578,7 @@ namespace DB
         {
             using (ProjContext db = new ProjContext())
             {
-                return db.Users.ElementAt(id-1);
+                return db.Users.Find(id);
             }
         }
         public static void AddUser(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone)
@@ -565,10 +614,17 @@ namespace DB
             using (ProjContext db = new ProjContext())
             {
                 User? _user = db.Users.Find(id);
-                if( _user != null )
+                if (_user != null)
                 {
-                    _user = new User(user);
+                    _user.Login = user.Login;
+                    _user.Password = user.Password;
+                    _user.Name = user.Name;
+                    _user.Surname = user.Surname;
+                    _user.Birthday = user.Birthday;
+                    _user.Gender = user.Gender;
+                    _user.Phone = user.Phone;
                 }
+                db.SaveChanges();
             }
         }
 
@@ -582,7 +638,6 @@ namespace DB
                 foreach (Employee emp in db.Employees)
                 {
                     _employees.Add(emp);
-                    Console.WriteLine($"ID: {emp.Id} | Name: {emp.Name} | Surname: {emp.Surname} | Salary: {emp.Salary} | Post: {emp.Post}");
                 }
             }
             return _employees;
@@ -590,26 +645,16 @@ namespace DB
         }
         public static Employee GetEmployee(int id)
         {
-            using(ProjContext db = new ProjContext())
+            using (ProjContext db = new ProjContext())
             {
-                return db.Employees.ElementAt(id-1);
+                return db.Employees.Find(id);
             }
         }
-        public static void AddEmployee(string login, string password, string name, string surname, DateTime birthday, bool gender,  string phone, double salary, string post)
+        public static void AddEmployee(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone, double salary, string post)
         {
             using (ProjContext db = new ProjContext())
             {
                 Employee emp = new Employee(login, password, name, surname, birthday, gender, phone, salary, post);
-                db.Employees.Add(emp);
-                db.SaveChanges();
-            }
-        }
-
-        public static void AddEmployee(Employee employee)
-        {
-            using (ProjContext db = new ProjContext())
-            {
-                Employee emp = new Employee(employee);
                 db.Employees.Add(emp);
                 db.SaveChanges();
             }
@@ -631,11 +676,11 @@ namespace DB
                 Employee? _employee = db.Employees.Find(id);
                 if (_employee != null)
                 {
+                    _employee.Login = employee.Login;
+                    _employee.Password = employee.Password;
                     _employee.Name = employee.Name;
                     _employee.Surname = employee.Surname;
-                    _employee.Post = employee.Post;
                     _employee.Birthday = employee.Birthday;
-                    _employee.Phone = employee.Phone;
                     _employee.Gender = employee.Gender;
                     _employee.Password = employee.Password;
                     _employee.Salary = employee.Salary;
@@ -646,6 +691,7 @@ namespace DB
                     // Обрабатываем случай, если сотрудник с указанным ID не найден
                     throw new ArgumentException("Сотрудник не найден");
                 }
+                db.SaveChanges();
             }
         }
         public static void AddProductToWarehouse(int productId, int productQuantity)
@@ -672,6 +718,13 @@ namespace DB
             }
             return _warehouse;
         }
+        public static Warehouse GetProductToWarehouse(int id)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                return db.Warehouse.Find(id);
+            }
+        }
         public static void UpdateProductInWarehouse(int id, Warehouse w)
         {
             using (ProjContext db = new ProjContext())
@@ -693,6 +746,22 @@ namespace DB
                 db.Warehouse.Remove(prod);
                 db.SaveChanges();
             }
+        }
+        public static List<Order> GetActiveOrderCollection()
+        {
+            List<Order> orders = new List<Order>();
+            using (ProjContext db = new ProjContext())
+            {
+                foreach (Order order in db.Orders)
+                {
+                    if (order.IsActive)
+                    {
+                        orders.Add(order);
+
+                    }
+                }
+            }
+            return orders;
         }
     }
 }
