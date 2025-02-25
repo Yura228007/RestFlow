@@ -64,6 +64,8 @@ namespace DB
         public bool IsActive { get; set; }
         public Address? Address { get; set; }
         public int? Table { get; set; }
+        public double Primecost { get; set; }
+        public double TotalPrice { get; set; }
         public Order() { }
         public Order(Order order)
         {
@@ -71,14 +73,16 @@ namespace DB
             this.Address = order.Address;
             this.Table = order.Table;
         }
-        public Order(DateTime _date, bool _isActive, Address? _address = null, int? _table = null)
+        public Order(DateTime _date, bool _isActive,  Address? _address = null, int? _table = null, int totalPrice = 0)
         {
 
             OrderDate = _date;
             IsActive = _isActive;
             Address = _address;
             Table = _table;
+            TotalPrice = totalPrice;
         }
+        
         public override string ToString()
         {
             if (Address != null)
