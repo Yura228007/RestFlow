@@ -410,16 +410,16 @@ namespace DB
                 return db.Orders.ElementAt(id-1);
             }
         }
-        public static void AddOrder(int userId, DateTime date, Dictionary<int, int> compound, Address? address = null)
+        public static void AddOrder(int userId, DateTime date, Dictionary<Dish, int> compound, Address? address = null)
         {
             using (ProjContext db = new ProjContext())
             {
-                Order ord = new Order(date,true, address);
+                Order ord = new Order(date, true, address);
                 db.Orders.Add(ord);
                 db.SaveChanges();
-                foreach (KeyValuePair<int, int> kvp in compound)
+                foreach (KeyValuePair<Dish, int> kvp in compound)
                 {
-                    OrdersDishes dish = new OrdersDishes(kvp.Key, kvp.Value);
+                    OrdersDishes dish = new OrdersDishes(kvp.Key.Id, kvp.Value);
                     db.Compound.Add(dish);
                 }
                 db.SaveChanges();
@@ -432,7 +432,39 @@ namespace DB
                 Order? _order = db.Orders.Find(id);
                 if (_order != null)
                 {
-                   _order =  new Order(order);
+                    _order.OrderDate = order.OrderDate;
+                    _order.Address = order.Address;
+                    _order.Table = order.Table;
+                    _order.IsActive = order.IsActive;
+                }
+                db.SaveChanges();
+            }
+        }
+        public static void UpdateOrder(int id, Order order, Dictionary<Dish, int> compound)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Order? _order = db.Orders.Find(id);
+                if (_order != null)
+                {
+                    _order.OrderDate = order.OrderDate;
+                    _order.Address = order.Address;
+                    _order.Table = order.Table;
+                    _order.IsActive = order.IsActive;
+                    foreach (OrdersDishes dish in db.Compound)
+                    {
+                        if (dish.DishId == _order.Id)
+                        {
+                            db.Compound.Remove(dish);
+                            db.SaveChanges();
+                        }
+                    }
+                    foreach (KeyValuePair<Dish, int> kvp in compound)
+                    {
+                        OrdersDishes dish = new OrdersDishes(kvp.Key.Id, kvp.Value);
+                        db.Compound.Add(dish);
+                        db.SaveChanges();
+                    }
                 }
                 db.SaveChanges();
             }
