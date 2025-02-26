@@ -5,23 +5,40 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace RestFlow
 {
     internal class Order
     {
-        public Address? Address { get; set; }
+        public int Id { get; set; }
         public int? Table { get; set; }
         public Dictionary<Dish, int>? List { get; set; }
         public DateTime OrderDate { get; set; }
+        public bool IsActive { get; set; }
         public double TotalPrice { get; set; }
         public double PrimeCost { get; set; }
 
-        public Order (DateTime orderDate, Address? address = null, int? table = null)
+        public Order (DateTime orderDate, bool isActive, Address? address = null, int? table = null)
         {
             OrderDate = orderDate;
-            Address = address;
+            IsActive = isActive;
             Table = table;
+        }
+
+        public Order (DB.Order order)
+        {
+            Id = order.Id;
+            OrderDate = order.OrderDate;
+            Table = order.Table;
+            IsActive = order.IsActive;
+            List = DB.Tables.GetOrderCompound(order.Id).ToDictionary
+                (
+                kvp => new RestFlow.Dish(kvp.Key), 
+                kvp => kvp.Value
+                );
+            CalculateTotalPrice();
+            CalculatePrimeCost();
         }
 
         public void AddIngredient(Dish dish, int quantity)
@@ -37,7 +54,7 @@ namespace RestFlow
                     List[dish] = quantity; // Добавляем новый продукт
                 }
                 CalculatePrimeCost(); // Пересчитываем себестоимость
-                CalculateTotalPrice();
+                CalculateTotalPrice(); 
             }
         }
 
@@ -73,6 +90,11 @@ namespace RestFlow
             {
                 PrimeCost += (dish.Key.Price * dish.Value);
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{Table} столик";
         }
     }
 }

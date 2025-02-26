@@ -2,24 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 namespace DB
 {
-    public class Address
-    {
-        public int Id { get; set; }
-        public string Street { get; set; }
-        public string House { get; set; }
-        public string Apartment { get; set; }
-        public Address() { }
-        public Address(string street, string building, string apartment)
-        {
-            Street = street;
-            House = building;
-            Apartment = apartment;
-        }
-        public override string ToString()
-        {
-            return $"Ул.{this.Street}, д.{this.House}, кв.{this.Apartment}";
-        }
-    }
     public class Product
     {
         public int Id { get; set; }
@@ -63,30 +45,33 @@ namespace DB
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public bool IsActive { get; set; }
-        public Address? Address { get; set; }
         public int? Table { get; set; }
+        public double TotalPrice { get; set; }
+        public double PrimeCost { get; set; }
         public Order() { }
         public Order(Order order)
         {
             this.OrderDate = order.OrderDate;
-            this.Address = order.Address;
             this.Table = order.Table;
         }
-        public Order(DateTime _date, bool _isActive, Address? _address = null, int? _table = null)
+        public Order(DateTime _date, bool _isActive, int? _table = null)
         {
 
             OrderDate = _date;
             IsActive = _isActive;
-            Address = _address;
             Table = _table;
+        }
+        public Order(DateTime _date, bool _isActive, int? _table, double _totalPrice, double _primeCost)
+        {
+            OrderDate = _date;
+            IsActive = _isActive;
+            Table = _table;
+            TotalPrice = _totalPrice;
+            PrimeCost = _primeCost;
         }
         public override string ToString()
         {
-            if (Address != null)
-            {
-                return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Address: {this.Address};\n";
-            }
-            else if (Table != null)
+            if (Table != null)
             {
                 return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Table: {this.Table};\n";
             }
@@ -363,7 +348,7 @@ namespace DB
                 db.Dishes.Add(dish);
                 db.SaveChanges();
 
-                AddRecipe(db.Dishes.ElementAt(db.Dishes.Count() - 1).Id, Recipe);
+                AddRecipe(db.Dishes.Find(db.Dishes.Count() - 1).Id, Recipe);
                 db.SaveChanges();
 
             }
@@ -389,13 +374,9 @@ namespace DB
             {
                 foreach (KeyValuePair<Product, int> kvp in Recipe)
                 {
-                    //int temp = db.Dishes.ElementAt(db.Dishes.Count() - 1).Id;
-                    //temp = kvp.Key;
-                    //temp = kvp.Value;
                     Ingredient ing = new Ingredient(kvp.Key.Id, kvp.Value, id);
                     db.Ingredients.Add(ing);
                     db.SaveChanges();
-                    //db.Ingredients.Add(new Ingredient( kvp.Key, kvp.Value, db.Dishes.ElementAt(db.Dishes.Count() - 1).Id));
 
                 }
                 db.SaveChanges();
@@ -471,10 +452,13 @@ namespace DB
                     {
                         db.Compound.Remove(comp);
                     }
+                    Order ord = GetOrder(id);
+                    ord.PrimeCost = 0;
+                    ord.TotalPrice = 0;
                 }
             }
         }
-        public static void AddCompound(int id, Dictionary<int, int> compound)
+        public static void AddCompound(int id, Dictionary<int, int> compound, double totalPrice, double primeCost)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -484,6 +468,10 @@ namespace DB
                     db.Compound.Add(compoundIndgredient);
                     db.SaveChanges();
                 }
+                Order ord = GetOrder(id);
+                ord.TotalPrice = totalPrice;
+                ord.PrimeCost = primeCost;
+                UpdateOrder(id, ord);
             }
         }
         public static List<Order> GetOrders()
@@ -506,18 +494,38 @@ namespace DB
                 return db.Orders.Find(id);
             }
         }
-        public static void AddOrder(DateTime date, Dictionary<int, int> compound, Address? address = null, int? table = null)
+        public static void AddOrder(DateTime date, Dictionary<int, int> compound, int? table, double totalPrice, double primeCost)
         {
             using (ProjContext db = new ProjContext())
             {
-                Order ord = new Order(date, true, address, table);
+                Order ord = new Order(date, true, table, totalPrice, primeCost);
                 db.Orders.Add(ord);
                 db.SaveChanges();
-                AddCompound(db.Orders.ElementAt(db.Orders.Count() - 1).Id, compound);
+                AddCompound(db.Orders.Find(db.Orders.Count() - 1).Id, compound, totalPrice, primeCost);
                 db.SaveChanges();
             }
         }
-        public static void UpdateOrder(int id, Order order, Dictionary<int, int> compound)
+        public static void AddOrder(DateTime date, int? table, double totalPrice, double primeCost)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Order ord = new Order(date, true, table, totalPrice, primeCost);
+                db.Orders.Add(ord);
+                db.SaveChanges();
+            }
+        }
+        /*public static void AddOrder(DateTime date, Dictionary<int, int> compound, int? table = null)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Order ord = new Order(date, true, table);
+                db.Orders.Add(ord);
+                db.SaveChanges();
+                AddCompound(db.Orders.Find(db.Orders.Count() - 1).Id, compound);
+                db.SaveChanges();
+            }
+        }*/
+        public static void UpdateOrder(int id, Order order, Dictionary<int, int> compound, double totalPrice, double primeCost)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -525,11 +533,10 @@ namespace DB
                 if (_order != null)
                 {
                     _order.OrderDate = order.OrderDate;
-                    _order.Address = order.Address;
                     _order.Table = order.Table;
                     _order.IsActive = order.IsActive;
                     DeleteCompound(id);
-                    AddCompound(id, compound);
+                    AddCompound(id, compound, totalPrice, primeCost);
                 }
                 db.SaveChanges();
             }
@@ -543,7 +550,6 @@ namespace DB
                 if (_order != null)
                 {
                     _order.OrderDate = order.OrderDate;
-                    _order.Address = order.Address;
                     _order.Table = order.Table;
                 }
                 db.SaveChanges();
@@ -696,6 +702,7 @@ namespace DB
                     _employee.Gender = employee.Gender;
                     _employee.Password = employee.Password;
                     _employee.Salary = employee.Salary;
+                    _employee.Post = employee.Post;
                     db.SaveChanges();
                 }
                 else
