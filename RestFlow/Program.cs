@@ -45,35 +45,35 @@ namespace DB
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public bool IsActive { get; set; }
-        public int? Table { get; set; }
+        public int? OrderTable{ get; set; }
         public double TotalPrice { get; set; }
         public double PrimeCost { get; set; }
         public Order() { }
         public Order(Order order)
         {
             this.OrderDate = order.OrderDate;
-            this.Table = order.Table;
+            this.OrderTable = order.OrderTable;
         }
         public Order(DateTime _date, bool _isActive, int? _table = null)
         {
 
             OrderDate = _date;
             IsActive = _isActive;
-            Table = _table;
+            OrderTable = _table;
         }
         public Order(DateTime _date, bool _isActive, int? _table, double _totalPrice, double _primeCost)
         {
             OrderDate = _date;
             IsActive = _isActive;
-            Table = _table;
+            OrderTable = _table;
             TotalPrice = _totalPrice;
             PrimeCost = _primeCost;
         }
         public override string ToString()
         {
-            if (Table != null)
+            if (OrderTable != null)
             {
-                return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Table: {this.Table};\n";
+                return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive}; Table: {this.OrderTable};\n";
             }
             return $"ID: {this.Id}; Date: {this.OrderDate}; IsActive: {this.IsActive};\n";
         }
@@ -533,7 +533,7 @@ namespace DB
                 if (_order != null)
                 {
                     _order.OrderDate = order.OrderDate;
-                    _order.Table = order.Table;
+                    _order.OrderTable = order.OrderTable;
                     _order.IsActive = order.IsActive;
                     DeleteCompound(id);
                     AddCompound(id, compound, totalPrice, primeCost);
@@ -550,7 +550,7 @@ namespace DB
                 if (_order != null)
                 {
                     _order.OrderDate = order.OrderDate;
-                    _order.Table = order.Table;
+                    _order.OrderTable = order.OrderTable;
                 }
                 db.SaveChanges();
             }
