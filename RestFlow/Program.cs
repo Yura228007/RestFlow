@@ -458,13 +458,13 @@ namespace DB
                 }
             }
         }
-        public static void AddCompound(int id, Dictionary<int, int> compound, double totalPrice, double primeCost)
+        public static void AddCompound(int id, Dictionary<Dish, int> compound, double totalPrice, double primeCost)
         {
             using (ProjContext db = new ProjContext())
             {
-                foreach (KeyValuePair<int, int> kvp in compound)
+                foreach (KeyValuePair<Dish, int> kvp in compound)
                 {
-                    OrdersDishes compoundIndgredient = new OrdersDishes(id, kvp.Key, kvp.Value);
+                    OrdersDishes compoundIndgredient = new OrdersDishes(id, kvp.Key.Id, kvp.Value);
                     db.Compound.Add(compoundIndgredient);
                     db.SaveChanges();
                 }
@@ -494,7 +494,7 @@ namespace DB
                 return db.Orders.Find(id);
             }
         }
-        public static void AddOrder(DateTime date, Dictionary<int, int> compound, int? table, double totalPrice, double primeCost)
+        public static void AddOrder(DateTime date, Dictionary<Dish, int> compound, int? table, double totalPrice, double primeCost)
         {
             using (ProjContext db = new ProjContext())
             {
@@ -525,7 +525,7 @@ namespace DB
                 db.SaveChanges();
             }
         }*/
-        public static void UpdateOrder(int id, Order order, Dictionary<int, int> compound, double totalPrice, double primeCost)
+        public static void UpdateOrder(int id, Order order, Dictionary<Dish, int> compound, double totalPrice, double primeCost)
         {
             using (ProjContext db = new ProjContext())
             {
