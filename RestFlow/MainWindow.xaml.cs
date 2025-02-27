@@ -84,21 +84,21 @@ namespace RestFlow
 
         private Window? IdentifyTheEmployee(string post)
         { 
-            switch (post)
+            switch (post.Trim().ToLower())
             {
-                case "Manager":
+                case "менеджер":
                     Manager_Window window_manager = new Manager_Window(logEmployee);
                     return window_manager;
-                case "Waiter":
+                case "официант":
                     Waiter_Window window_waiter = new Waiter_Window(logEmployee);
                     return window_waiter;
-                case "Accountant":
+                case "бухгалтер":
                     Accountant_Window window_accountant = new Accountant_Window(logEmployee);
                     return window_accountant;
-                case "Admin":
+                case "админ":
                     Admin_Window window_admin = new Admin_Window(logEmployee);
                     return window_admin;
-                case "Kitchen":
+                case "кухонный работник":
                     Kitchen_Window window_kitchen = new Kitchen_Window();
                     return window_kitchen;
             }

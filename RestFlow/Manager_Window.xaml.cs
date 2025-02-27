@@ -25,6 +25,7 @@ namespace RestMenef
         List<RestFlow.Product> products;
         List<RestFlow.Dish> dishes;
         List<RestFlow.Order> orders;
+        List<RestFlow.Order> ordersDataGrid;
         Dictionary<RestFlow.Product, int> warehouse;
         RestFlow.Dish? selectedDish;
         RestFlow.Employee currentEmployee;
@@ -38,12 +39,14 @@ namespace RestMenef
             Label_AllInfo.Content = currentEmployee.ToString();
             TextBox_InfoPassword.Text = currentEmployee.Password;
             TextBox_InfoLogin.Text = currentEmployee.Login;
+            LoadOrdersDataGrid();
         }
 
-
-        private void DataGrid_OrdersHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LoadOrdersDataGrid()
         {
-                
+            List<DB.Order> ordersDB = DB.Tables.GetOrders();
+            ordersDataGrid = ordersDB.Select(e => new RestFlow.Order(e)).ToList();
+            DataGrid_OrdersHistory.ItemsSource = ordersDataGrid;
         }
 
         private void LoadProducts()

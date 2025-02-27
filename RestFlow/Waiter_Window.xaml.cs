@@ -38,8 +38,8 @@ namespace RestMenef
 
         public Waiter_Window(RestFlow.Employee employee)
         {
-            Task.Run(() => StartUpdateOrdersAsync());
             InitializeComponent();
+            Task.Run(() => StartUpdateOrdersAsync());
             LoadDishes();
             currentEmployee = employee;
             Label_AllInfo.Content = currentEmployee.ToString();
@@ -53,7 +53,7 @@ namespace RestMenef
         {
             while (true)
             {
-                LoadActiveOrders();
+                await Dispatcher.InvokeAsync(() => LoadActiveOrders());
 
                 await Task.Delay(TimeSpan.FromMinutes(1));
             }
@@ -102,13 +102,13 @@ namespace RestMenef
         {
             if (List_ActiveOrders.SelectedItem != null)
             {
-                char? tableChar = List_ActiveOrders.SelectedItem.ToString()[0];
-                int currentTable = Int32.Parse($"{tableChar}");
+                string? line = List_ActiveOrders.SelectedItem.ToString();
+                string? tableString = line.Substring(0,line.IndexOf(" "));
+                int currentTable = Int32.Parse($"{tableString}");
                 DB.Order? tempBdOrder = DB.Tables.GetOrders().FirstOrDefault(e => (e.IsActive == true && e.OrderTable == currentTable));
                 if (tempBdOrder != null)
                 {
                     currentOrder = new RestFlow.Order(tempBdOrder);
-                    MessageBox.Show($"{currentOrder.Id}");
                 }
                 else
                 {
@@ -121,7 +121,6 @@ namespace RestMenef
         {
             if (currentOrder != null && currentOrder != new RestFlow.Order() && currentOrder.Id != 0)
             {
-                MessageBox.Show($"{currentOrder.Id}");
                 Dictionary<DB.Dish, int> currentCompoundDB = DB.Tables.GetOrderCompound(currentOrder.Id);
                 Dictionary<RestFlow.Dish, int> currentCompound = currentCompoundDB.ToDictionary(kvp => new RestFlow.Dish(kvp.Key), kvp => kvp.Value);
                 currentOrder.List = currentCompound;
@@ -147,7 +146,6 @@ namespace RestMenef
                     if (currentOrder.List == null) 
                     {
                         currentOrder.List = new Dictionary<RestFlow.Dish, int> { };
-                        MessageBox.Show($"{currentOrder.List}");
                     }
                     currentOrder.AddDish(tempDish, 1);
                     LoadCurrentOrderCompound();
@@ -161,6 +159,7 @@ namespace RestMenef
             {
                 LoadCurrentOrderCompound();
                 Header_currentOrder.Focusable = true;
+                TextBox_TableNumber.IsReadOnly = true;
             }
         }
 
@@ -173,11 +172,7 @@ namespace RestMenef
                 {
                     item.Id = DB.Tables.GetDishes().FirstOrDefault(e => e.Name == item.Name).Id;
                 }
-                /*DB.Tables.DeleteCompound(currentOrder.Id);
-                DB.Tables.DeleteOrder(currentOrder.Id);
-                DB.Tables.AddOrder(currentOrder.OrderDate, currentOrder.Table, currentOrder.TotalPrice, currentOrder.PrimeCost);
-                DB.Tables.AddCompound(currentOrder.Id, tempCompoundDB, currentOrder.TotalPrice, currentOrder.PrimeCost);
-                */DB.Tables.UpdateOrder(currentOrder.Id, new DB.Order(currentOrder.OrderDate, currentOrder.IsActive, currentOrder.Table, currentOrder.TotalPrice, currentOrder.PrimeCost), tempCompoundDB, currentOrder.TotalPrice, currentOrder.PrimeCost);
+                DB.Tables.UpdateOrder(currentOrder.Id, new DB.Order(currentOrder.OrderDate, currentOrder.IsActive, currentOrder.Table, currentOrder.TotalPrice, currentOrder.PrimeCost), tempCompoundDB, currentOrder.TotalPrice, currentOrder.PrimeCost);
                 LoadActiveOrders();
                 LoadCurrentOrderCompound();
                 ResettingCurrentOrderValues();
@@ -197,7 +192,6 @@ namespace RestMenef
                     Dictionary<DB.Dish, int> tempCompound = currentCompound.ToDictionary(kvp => new DB.Dish(kvp.Key.Name, kvp.Key.PrimeCost, kvp.Key.Price), kvp => kvp.Value);
                     foreach (var item in tempCompound.Keys)
                     {
-                        MessageBox.Show($"{DB.Tables.GetDishes().FirstOrDefault(e => e.Name == item.Name).Id}");
                         item.Id = DB.Tables.GetDishes().FirstOrDefault(e => e.Name == item.Name).Id;
                     }
                     DB.Tables.AddCompound(tempId, tempCompound, currentOrder.TotalPrice, currentOrder.PrimeCost);
@@ -239,6 +233,7 @@ namespace RestMenef
 
             // Очищаем номер стола
             TextBox_TableNumber.Text = string.Empty;
+            TextBox_TableNumber.IsReadOnly = false;
 
             // Сбрасываем общую стоимость
             Label_TotalCost.Content = string.Empty;

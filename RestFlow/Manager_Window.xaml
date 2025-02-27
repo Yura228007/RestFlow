@@ -78,7 +78,15 @@
             </TabItem>
             <TabItem Header="История заказов" HorizontalAlignment="Left">
                 <Grid Margin="10">
-                    <DataGrid x:Name="DataGrid_OrdersHistory" AutoGenerateColumns="True" ItemsSource="{Binding orders}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" IsReadOnly="True">
+                    <DataGrid x:Name="DataGrid_OrdersHistory" Margin="10,10,10,10" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" Height="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="2*" Header="ID" Binding="{Binding Id}" FontSize="12" IsReadOnly="True"/>
+                            <DataGridTextColumn Width="2*" Header="Стол" Binding="{Binding Table}" FontSize="14"/>
+                            <DataGridTextColumn Width="3*" Header="Дата" Binding="{Binding OrderDate}" FontSize="14"/>
+                            <DataGridTextColumn Width="3*" Header="Итоговая стоимость" Binding="{Binding TotalPrice}" FontSize="14"/>
+                            <DataGridTextColumn Width="2*" Header="Итоговые затраты" Binding="{Binding PrimeCost}" FontSize="14"/>
+                            <DataGridCheckBoxColumn Width="2*" Header="Активный" Binding="{Binding IsActive}"/>
+                        </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
             </TabItem>

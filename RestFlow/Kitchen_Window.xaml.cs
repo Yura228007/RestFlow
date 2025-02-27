@@ -24,6 +24,7 @@ namespace RestMenef
         public Kitchen_Window()
         {
             InitializeComponent();
+
             Task.Run(() => StartUpdateOrdersAsync());
         }
 
@@ -31,9 +32,9 @@ namespace RestMenef
         {
             while (true)
             {
-                LoadActiveOrders();
+                await Dispatcher.InvokeAsync(() => LoadActiveOrders());
 
-                await Task.Delay(TimeSpan.FromMinutes(1));
+                await Task.Delay(TimeSpan.FromSeconds(30));
             }
         }
 
@@ -45,16 +46,12 @@ namespace RestMenef
             foreach (var order in orders)
             {
                 Dictionary<RestFlow.Dish, int> dishes = order.List;
-                ListBox dishBox = new ListBox()
+                foreach (var dish in dishes)
                 {
-                    ItemsSource = dishes.Select(kvp => ($"{kvp.Key.Name}")).ToList(),
-                    Width = 200,
-                    BorderThickness = new Thickness(2),
-                    BorderBrush = Brushes.Blue,
-                    Margin = new Thickness(10)
-                };
-                List_Kitchen.Items.Add(dishBox);
+                    List_Kitchen.Items.Add($"{dish.Key.Name} - {dish.Value}");
+                }
             }
+            List_Kitchen.Items.Refresh();
         }
 
         private void Button_LogOut_Click(object sender, RoutedEventArgs e)

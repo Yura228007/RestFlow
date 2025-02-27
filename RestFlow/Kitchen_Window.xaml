@@ -10,11 +10,9 @@
         <TabControl>
             <TabItem Header="Активные заказы" Height="Auto">
                 <Grid>
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="20,40,20,10" FontSize="20" Padding="10">
-                    <ItemsControl x:Name="List_Kitchen">
-                    </ItemsControl>
-                </ScrollViewer>
-                    <Grid>
+                        <ListBox x:Name="List_Kitchen" Margin="10">
+                        </ListBox>
+                        <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="255*"></ColumnDefinition>
                             <ColumnDefinition Width="255*"></ColumnDefinition>

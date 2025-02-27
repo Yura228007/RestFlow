@@ -31,7 +31,7 @@ namespace RestMenef
         List<RestFlow.Employee> employees;
         int selectedEmployeeId = -1;
         RestFlow.Employee currentEmployee;
-        List <string> Posts = new List<string> {"Admin", "Manager", "Waiter", "Accountant", "Kitchen"};
+        List <string> Posts = new List<string> {"админ", "менеджер", "официант", "бухгалтер", "кухонный работник"};
 
         public Admin_Window(RestFlow.Employee employee)
         {
@@ -42,7 +42,6 @@ namespace RestMenef
             TextBox_InfoLogin.Text = currentEmployee.Login;
             ComboBox_NewWorkerPost.ItemsSource = Posts;
             LoadEmployees();
-            ComboBox_NewWorkerPost.Background = Brushes.Aqua;
         }
 
 
