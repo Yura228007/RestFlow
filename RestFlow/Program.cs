@@ -636,6 +636,7 @@ namespace DB
                     _employee.Birthday = employee.Birthday;
                     _employee.Gender = employee.Gender;
                     _employee.Password = employee.Password;
+                    _employee.Phone = employee.Phone;
                     _employee.Salary = employee.Salary;
                     _employee.Post = employee.Post;
                     db.SaveChanges();
