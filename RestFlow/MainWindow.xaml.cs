@@ -35,7 +35,7 @@ namespace RestFlow
 
             if (!hasAdmin)
             {
-                DB.Employee emp = new DB.Employee("admin", "admin", "admin", "admin", DateTime.Now, true, "71234567890", 150000, "Admin");
+                DB.Employee emp = new DB.Employee("admin", "admin", "admin", "admin", DateTime.Now, true, "71234567890", 150000, "админ");
                 DB.Tables.AddEmployee(emp);
             }
 
