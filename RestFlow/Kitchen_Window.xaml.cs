@@ -20,11 +20,16 @@ namespace RestMenef
     /// </summary>
     public partial class Kitchen_Window : Window
     {
-        List<RestFlow.Order> orders;
-        public Kitchen_Window()
+        List<RestFlow.Order> orders; 
+        RestFlow.Employee currentEmployee;
+
+        public Kitchen_Window(RestFlow.Employee employee)
         {
             InitializeComponent();
-
+            currentEmployee = employee;
+            Label_AllInfo.Content = currentEmployee.ToString();
+            TextBox_InfoPassword.Text = currentEmployee.Password;
+            TextBox_InfoLogin.Text = currentEmployee.Login;
             Task.Run(() => StartUpdateOrdersAsync());
         }
 
