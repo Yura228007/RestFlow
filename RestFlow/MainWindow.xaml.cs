@@ -28,7 +28,6 @@ namespace RestFlow
     {
 
         Employee logEmployee = null;
-        User logUser = null;
 
         public MainWindow()
         {
@@ -44,26 +43,24 @@ namespace RestFlow
         }
         private void Button_EnterAsWorker_Click(object sender, RoutedEventArgs e)
         {
-            // Получение введённых данных
-            string login = TextBox_LoginUser.Text.Trim();     // Логин (без пробелов)
-            string password = TextBox_PasswordUser.Text.Trim(); // Пароль
+            string login = TextBox_LoginUser.Text.Trim();   
+            string password = TextBox_PasswordUser.Text.Trim(); 
 
-            // Проверка на пустые поля
+            
             if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Введите логин и пароль");
-                return;  // Прерывание выполнения
+                return;  
             }
 
             try
             {
-                //получение массива Users
 
                 List<DB.Employee> employees = DB.Tables.GetEmployees();
 
                 DB.Employee? employee = employees.FirstOrDefault(u => u.Login == login);
 
-                if (employee == null)  // Если пользователь не найден
+                if (employee == null)  
                 {
                     MessageBox.Show("Пользователь не найден");
                     return;
@@ -75,55 +72,11 @@ namespace RestFlow
                     return;
                 }
 
-                // Успешная авторизация
                 MessageBox.Show("Авторизация успешна!");
                 logEmployee = new RestFlow.Employee(employee);
-                OpenEmployeeWindow(employee.Post);  // Открытие основного окна
+                OpenEmployeeWindow(employee.Post); 
             }
-            catch (Exception ex)  // Обработка ошибок
-            {
-                MessageBox.Show($"Ошибка: {ex.Message}");
-            }
-        }
-
-        private void Button_EnterUser_Click(object sender, RoutedEventArgs e)
-        {
-            // Получение введённых данных
-            string login = TextBox_LoginUser.Text.Trim();     // Логин (без пробелов)
-            string password = TextBox_PasswordUser.Text.Trim(); // Пароль
-
-            // Проверка на пустые поля
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
-            {
-                MessageBox.Show("Введите логин и пароль");
-                return;  // Прерывание выполнения
-            }
-
-            try
-            {
-                //получение массива Users
-
-                List<DB.User> users = DB.Tables.GetUsers();
-
-                DB.User? user = users.FirstOrDefault(u => u.Login == login);
-
-                if (user == null)  // Если пользователь не найден
-                {
-                    MessageBox.Show("Пользователь не найден");
-                    return;
-                }
-
-                if (user.Password != password)
-                {
-                    MessageBox.Show("Неверный пароль");
-                    return;
-                }
-
-                // Успешная авторизация
-                MessageBox.Show("Авторизация успешна!");
-                OpenUserWindow();  // Открытие основного окна
-            }
-            catch (Exception ex)  // Обработка ошибок
+            catch (Exception ex) 
             {
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
@@ -163,56 +116,6 @@ namespace RestFlow
             else
             {
                 this.Close();             
-            }
-        }
-
-        private void OpenUserWindow()
-        {
-            var WindowUser = new User_Window();
-            WindowUser.Show();
-            this.Visibility = Visibility.Hidden;
-        }
-
-        private void Button_LoginUser_Click(object sender, RoutedEventArgs e)
-        {
-            Panel_RegistUser.Visibility = Visibility.Hidden;
-            Panel_Login.Visibility = Visibility.Visible;
-        }
-
-        private void Button_RegistUser_Click(object sender, RoutedEventArgs e)
-        {
-            Panel_Login.Visibility = Visibility.Hidden;
-            Panel_RegistUser.Visibility = Visibility.Visible;
-        }
-
-        private void Button_FinishRegist_Click(object sender, RoutedEventArgs e)
-        {
-            string? login = TextBox_RegistUserLogin.Text;
-            string? password = TextBox_RegistUserPassword.Text; 
-            string? name = TextBox_RegistUserName.Text;
-            string? surname = TextBox_RegistUserSurename.Text;
-            DateTime? dateTime = DatePicker_RegistUserBirthday.SelectedDate;
-            bool? gender = null;
-            string? phoneNumber = TextBox_RegistUserTelephoneNumber.Text;
-            if (RadioButton_RegistUserMale.IsChecked == true)
-            {
-                gender = true;
-            }
-            else if (RadioButton_RegistUserFemale.IsChecked == true)
-            {
-                gender = false;
-            }
-            if (login != null && password != null && name != null && surname != null && dateTime != null && gender != null && phoneNumber != null)
-            {
-                DB.User tempUser = new DB.User(login, password, name, surname, Convert.ToDateTime(dateTime), (bool)gender, phoneNumber);
-
-                DB.Tables.AddUser(tempUser);
-
-                MessageBox.Show("Вы успешно зарегестрировались");
-            }
-            else
-            {
-                MessageBox.Show("Заполните все поля!");
             }
         }
     }
