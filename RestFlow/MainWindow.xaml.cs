@@ -100,7 +100,7 @@ namespace RestFlow
                     Admin_Window window_admin = new Admin_Window(logEmployee);
                     return window_admin;
                 case "кухонный работник":
-                    Kitchen_Window window_kitchen = new Kitchen_Window();
+                    Kitchen_Window window_kitchen = new Kitchen_Window(logEmployee);
                     return window_kitchen;
             }
             return null;

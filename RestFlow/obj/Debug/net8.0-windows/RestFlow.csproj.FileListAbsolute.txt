@@ -130,7 +130,6 @@ C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Admin_Window.g.cs
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Kitchen_Window.g.cs
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\MainWindow.g.cs
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Manager_Window.g.cs
-C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\User_Window.g.cs
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Waiter_Window.g.cs
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Window1.g.cs
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\App.g.cs
@@ -141,7 +140,6 @@ C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Admin_Window.baml
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Kitchen_Window.baml
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\MainWindow.baml
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Manager_Window.baml
-C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\User_Window.baml
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Waiter_Window.baml
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\Window1.baml
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\RestFlow.g.resources
