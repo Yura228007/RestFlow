@@ -5,89 +5,97 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RestMenef"
         mc:Ignorable="d"
-        Title="Manager_Window" Height="600" Width="850">
+        Title="Менеджер" Height="450" Width="800">
     <Grid>
         <TabControl>
             <TabItem Header="Таблица продуктов">
-                <StackPanel Height="Auto">
-                    <Grid HorizontalAlignment="Left"  Height="Auto" Margin="10" Width="775">
-                        <ListBox x:Name="List_Products" Margin="0,0,385,10" SelectionChanged="List_Products_SelectionChanged" Height="Auto">
-
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="225*"/>
+                        <ColumnDefinition Width="225*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" >
+                        <ListBox x:Name="List_Products" Margin="0,0,2,0" SelectionChanged="List_Products_SelectionChanged" >
                         </ListBox>
-                        <Grid Margin="406,0,0,0" VerticalAlignment="Top" Background="WhiteSmoke" Height="255">
-                            <Label Content="Название: " FontSize="16" Margin="5,5,0,0" Height="30" VerticalAlignment="Top"></Label>
-                            <Label x:Name="Label_ProductName" Content="выберите продукт" FontSize="16" Margin="110,5,5,0" Height="70" VerticalAlignment="Top"></Label>
-                            <Label Content="Количество" FontSize="16" Margin="5,78,5,0" VerticalAlignment="Top"></Label>
-                            <TextBox x:Name="TextBox_QuantityProducts" FontSize="16" VerticalAlignment="Top" Margin="110,80,1,0" Height="30"></TextBox>
-                            <Label Content="Тип" FontSize="16" Margin="7,124,5,0" VerticalAlignment="Top"/>
-                            <TextBox x:Name="TextBox_TypeProducts" FontSize="16" VerticalAlignment="Top" Margin="110,126,1,0" Height="30"/>
-                            <Label Content="Цена" FontSize="16" Margin="7,169,5,0" VerticalAlignment="Top"/>
-                            <TextBox x:Name="TextBox_PriceProduct" FontSize="16" VerticalAlignment="Top" Margin="110,171,1,0" Height="30"/>
-                        </Grid>
-                        <Button x:Name="Button_SaveProductChanges" Content="Сохранить изменения" HorizontalAlignment="Left" Margin="408,214,0,134" Width="168" FontSize="16" Click="Button_SaveProductChanges_Click"/>
-                        <Button x:Name="Button_DeleteProduct" Content="Удалить продукт" HorizontalAlignment="Left" Margin="597,214,0,134" Width="176" FontSize="16" Click="Button_DeleteProduct_Click" />
-                        <Label Content="Новый продукт" FontSize="16" Margin="406,270,0,0" ></Label>
-                        <TextBox x:Name="TextBox_NewProductName" FontSize="16" Margin="406,305,4,43"/>
-                        <Button x:Name="Button_AddNewProduct" Content="Добавить новый продукт" HorizontalAlignment="Left" Margin="408,345,0,2" Width="365" FontSize="16" Click ="Button_AddNewProduct_Click"/>
-
-
                     </Grid>
+                    <Grid Background="WhiteSmoke" Grid.Column="1">
+                        <Label Content="Название: " FontSize="16" Margin="5,5,0,0" Height="30" VerticalAlignment="Top"></Label>
+                        <Label x:Name="Label_ProductName" Content="выберите продукт" FontSize="16" Margin="110,5,6,310"/>
+                        <Label Content="Количество" FontSize="16" Margin="5,78,286,273"/>
+                        <TextBox x:Name="TextBox_QuantityProducts" FontSize="16" VerticalAlignment="Top" Margin="110,80,10,0" Height="30"/>
+                        <Label Content="Тип" FontSize="16" Margin="7,124,5,0" VerticalAlignment="Top"/>
+                        <TextBox x:Name="TextBox_TypeProducts" FontSize="16" VerticalAlignment="Top" Margin="110,126,10,0" Height="30"/>
+                        <Label Content="Цена" FontSize="16" Margin="7,169,5,0" VerticalAlignment="Top"/>
+                        <TextBox x:Name="TextBox_PriceProduct" FontSize="16" VerticalAlignment="Top" Margin="110,171,10,0" Height="30"/>
+                        <Button x:Name="Button_SaveProductChanges" Content="Сохранить изменения" Margin="10,214,0,0" FontSize="16" Click="Button_SaveProductChanges_Click" HorizontalAlignment="Left" Width="179" Height="30" VerticalAlignment="Top"/>
+                        <Button x:Name="Button_DeleteProduct" Content="Удалить продукт" Margin="0,214,10,0" FontSize="16" Click="Button_DeleteProduct_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="174" />
+                        <Label Content="Новый продукт" FontSize="16" Margin="10,0,0,100" HorizontalAlignment="Left" VerticalAlignment="Bottom" ></Label>
+                        <TextBox x:Name="TextBox_NewProductName" FontSize="16" Margin="10,0,10,60" VerticalAlignment="Bottom" Height="35"/>
+                        <Button x:Name="Button_AddNewProduct" Content="Добавить новый продукт" Margin="10,0,10,10" FontSize="16" Click ="Button_AddNewProduct_Click" VerticalAlignment="Bottom" Height="40"/>
+                    </Grid>
+                </Grid>
 
-                </StackPanel>
             </TabItem>
             <TabItem Header="Таблица блюд">
-                <StackPanel>
-                    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="Auto" Margin="10" Width="775">
-                        <ListBox x:Name="List_Dishes" Margin="0,0,385,0" Height="530" SelectionChanged="List_Dishes_SelectionChanged">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="225*"/>
+                        <ColumnDefinition Width="225*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <ListBox x:Name="List_Dishes" Margin="0,0,2,0" SelectionChanged="List_Dishes_SelectionChanged">
 
                         </ListBox>
-                        <Grid Margin="406,0,0,214" Background="WhiteSmoke">
-                            <Label Content="Название: " FontSize="16" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                            <Button x:Name="Button_ShowIngredients" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" Height="25" Width="75" Content="Состав" FontSize="16" Click="Button_ShowIngredients_Click"/>
-                            <Label x:Name="Label_DishName" Content=" " FontSize="16" Margin="110,5,0,107" Height="70" VerticalAlignment="Top"></Label>
-                            <Label Content="Продукты" FontSize="16" Margin="5,78,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                            <ComboBox x:Name="ComboBox_Products" Margin="110,79,2,58" FontSize="16" VerticalAlignment="Top"></ComboBox>
-                            <Label Content="Количество" FontSize="16" Margin="0,123,264,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
-                            <TextBox x:Name="TextBox_QuantityProductsForDish" FontSize="16" Margin="110,123,2,10" Height="30" VerticalAlignment="Top"/>
-                        </Grid>
-                        <Button x:Name="Button_AddProductForDish" Click="Button_AddProductForDish_Click" Content="Добавить ингредиент" HorizontalAlignment="Left" Margin="408,174,0,174" Width="168" FontSize="16" VerticalAlignment="Top"/>
-                        <Button x:Name="Button_DeleteDish" Click="Button_DeleteDish_Click" Content="Удалить блюдо" HorizontalAlignment="Left" Margin="597,174,0,174" Width="176" FontSize="16" VerticalAlignment="Top"/>
-                        <Label Content="Состав" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="415,220,0,0"/>
-                        <ComboBox x:Name="ComboBox_Ingredients" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="180" Margin="480,220,0,0"/>
-                        <Button x:Name="Button_DeleteIngredient" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="85" Margin="675,220,0,0" Content="Удалить" FontSize="16" Click="Button_DeleteIngredient_Click"/>
-                        <Label Content="Цена" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="415,260,0,0"/>
-                        <TextBox x:Name="TextBox_DishPrice" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="180" Margin="480,260,0,0"/>
-                        <Button Click="Button_Dish_SavePrice_Click"  x:Name="Button_Dish_SavePrice" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="85" Margin="675,260,0,0" Content="Сохранить" FontSize="16"/>
-                        <Label Content="Название нового блюда" FontSize="16" Margin="406,270,0,75" VerticalAlignment="Bottom"></Label>
-                        <TextBox x:Name="TextBox_NewDishName" FontSize="16" Margin="406,305,4,43" VerticalAlignment="Bottom" Height="30"/>
-                        <Button x:Name="Button_AddNewDish" Click="Button_AddNewDish_Click" Content="Добавить новое блюдо" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="406,345,0,10" Height="30" Width="365" FontSize="16" />
-
-
                     </Grid>
 
-                </StackPanel>
+                    <Grid Background="WhiteSmoke" Grid.Column="1">
+                        <Label Content="Название: " FontSize="16" Margin="5,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                        <Button x:Name="Button_ShowIngredients" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,45,0,0" Height="25" Width="75" Content="Состав" FontSize="16" Click="Button_ShowIngredients_Click"/>
+                        <Label x:Name="Label_DishName" Content=" " FontSize="16" Margin="110,5,0,107" Height="70" VerticalAlignment="Top"></Label>
+                        <Label Content="Продукты" FontSize="16" Margin="5,78,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                        <ComboBox x:Name="ComboBox_Products" Margin="110,79,5,58" FontSize="16" VerticalAlignment="Top"></ComboBox>
+                        <Label Content="Количество" FontSize="16" Margin="0,123,264,0" VerticalAlignment="Top" HorizontalAlignment="Left"></Label>
+                        <TextBox x:Name="TextBox_QuantityProductsForDish" FontSize="16" Margin="110,123,5,10" Height="30" VerticalAlignment="Top"/>
+                        <Grid Margin="0,159,0,188">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="112,5*"/>
+                                <ColumnDefinition Width="112,5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="Button_AddProductForDish" Click="Button_AddProductForDish_Click" Content="Добавить ингредиент" FontSize="16" VerticalAlignment="Top" Height="30" Margin="5,0,5,0"/>
+                            <Button Grid.Column="1" x:Name="Button_DeleteDish" Click="Button_DeleteDish_Click" Content="Удалить блюдо" Margin="5,0,5,0" FontSize="16" VerticalAlignment="Top" Height="30"/>
+                        </Grid>
+                        <Label Content="Состав" FontSize="16" Margin="0,203,0,0" VerticalAlignment="Top"/>
+                        <ComboBox x:Name="ComboBox_Ingredients" VerticalAlignment="Top" Height="30" Margin="68,203,95,0"/>
+                        <Button x:Name="Button_DeleteIngredient" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Width="85" Margin="0,203,5,0" Content="Удалить" FontSize="16" Click="Button_DeleteIngredient_Click"/>
+                        <Label Content="Цена" FontSize="16" Margin="0,243,0,17"/>
+                        <TextBox x:Name="TextBox_DishPrice" Height="30" Margin="68,243,95,0" VerticalAlignment="Top"/>
+                        <Button Click="Button_Dish_SavePrice_Click"  x:Name="Button_Dish_SavePrice" VerticalAlignment="Top" Height="30" Width="85" Margin="0,243,5,0" Content="Сохранить" FontSize="16" HorizontalAlignment="Right"/>
+                        <Label Content="Название нового блюда" FontSize="16" Margin="10,270,10,80" VerticalAlignment="Bottom" HorizontalAlignment="Left"></Label>
+                        <TextBox x:Name="TextBox_NewDishName" FontSize="16" Margin="10,0,4,50" VerticalAlignment="Bottom" Height="30"/>
+                        <Button x:Name="Button_AddNewDish" Click="Button_AddNewDish_Click" Content="Добавить новое блюдо" VerticalAlignment="Bottom" Margin="10,0,0,10" Height="30" FontSize="16" />
+                    </Grid>
+                </Grid>
             </TabItem>
             <TabItem Header="История заказов" HorizontalAlignment="Left">
                 <Grid Margin="10">
-                    <DataGrid x:Name="DataGrid_OrdersHistory">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Width="15*" Header="Название" Binding="{Binding Dish}"></DataGridTextColumn>
-                            <DataGridTextColumn Width="25*" Header="Дата" Binding="{Binding Дата}"></DataGridTextColumn>
-                            <DataGridTextColumn Width="25*" Header="Цена" Binding="{Binding Цена}"></DataGridTextColumn>
-                        </DataGrid.Columns>
+                    <DataGrid x:Name="DataGrid_OrdersHistory" AutoGenerateColumns="True" ItemsSource="{Binding orders}" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" IsReadOnly="True">
                     </DataGrid>
                 </Grid>
             </TabItem>
             <TabItem Header="Мой аккаунт" HorizontalAlignment="Left">
-                <Grid Margin="70,0,56,0">
-                    <Label Content="Мой аккаунта" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
-                    <Label Content="Логин" HorizontalAlignment="Left" Margin="5,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="94"/>
-                    <Label Content="Пароль" HorizontalAlignment="Left" Margin="324,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="75"/>
-                    <TextBox IsReadOnly="True" x:Name="TextBox_InfoLogin" HorizontalAlignment="Left" Margin="103,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" FontSize="15" Height="23"/>
-                    <TextBox IsReadOnly="True" x:Name="TextBox_InfoPassword" HorizontalAlignment="Left" Margin="404,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" FontSize="15" Height="23"/>
-                    <Label Content="ФИО" x:Name="Label_AllInfo" Margin="5,90,0,0"></Label>
+                <Grid>
+                    <Button x:Name="Button_LogOut" Content="Выход" Margin="0,0,10,10" FontSize="16" Height="36" Width="125" HorizontalAlignment="Right" VerticalAlignment="Bottom" ></Button>
+                    <Grid Margin="70,10,56,45">
+                        <Label Content="Мой аккаунта" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" FontSize="20"/>
+                        <Label Content="Логин" HorizontalAlignment="Left" Margin="5,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="94"/>
+                        <Label Content="Пароль" HorizontalAlignment="Left" Margin="324,60,0,0" VerticalAlignment="Top" FontSize="15" Height="30" Width="75"/>
+                        <TextBox IsReadOnly="True" x:Name="TextBox_InfoLogin" IsEnabled="False" HorizontalAlignment="Left" Margin="103,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="205" FontSize="15" Height="23"/>
+                        <TextBox IsReadOnly="True" x:Name="TextBox_InfoPassword" IsEnabled="False" HorizontalAlignment="Left" Margin="404,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" FontSize="15" Height="23"/>
+                        <Label Content="ФИО" x:Name="Label_AllInfo" Margin="5,90,0,0"></Label>
+                    </Grid>
                 </Grid>
             </TabItem>
+
         </TabControl>
     </Grid>
 </Window>

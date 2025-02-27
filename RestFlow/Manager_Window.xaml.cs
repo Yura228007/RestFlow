@@ -23,15 +23,22 @@ namespace RestMenef
     {
         List<RestFlow.Product> products;
         List<RestFlow.Dish> dishes;
+        List<RestFlow.Order> orders;
         Dictionary<RestFlow.Product, int> warehouse;
         RestFlow.Dish? selectedDish;
-        public Manager_Window()
+        RestFlow.Employee currentEmployee;
+        public Manager_Window(RestFlow.Employee employee)
         {
             InitializeComponent();
             LoadProducts();
             LoadWarehouse();
             LoadDishes();
+            currentEmployee = employee;
+            Label_AllInfo.Content = currentEmployee.ToString();
+            TextBox_InfoPassword.Text = currentEmployee.Password;
+            TextBox_InfoLogin.Text = currentEmployee.Login;
         }
+
 
         private void DataGrid_OrdersHistory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -58,6 +65,12 @@ namespace RestMenef
         {
             dishes = DB.Tables.GetDishes().Select(e => new RestFlow.Dish(e)).ToList();
             List_Dishes.ItemsSource = dishes;
+        }
+
+        private void LoadOrders()
+        {
+            orders = DB.Tables.GetOrders().Select(e => new RestFlow.Order(e)).ToList();
+            DataGrid_OrdersHistory.ItemsSource = orders;
         }
 
         #region all interaction with products

@@ -28,155 +28,23 @@ namespace RestMenef
     public partial class Admin_Window : Window
     {
         RestFlow.Employee? selectedEmployee = null;
+        List<RestFlow.Employee> employees;
         int selectedEmployeeId = -1;
         RestFlow.Employee currentEmployee;
-
-#region 1 вкладка
-        /*public class MainViewModel : INotifyPropertyChanged
-        {
-            private ObservableCollection<RestFlow.Employee> _employees;
-            public ObservableCollection<RestFlow.Employee> Employees
-            {
-                get => _employees;
-                set
-                {
-                    _employees = value;
-                    OnPropertyChanged();
-                }
-            }
-
-            public MainViewModel()
-            {
-                Employees = new ObservableCollection<RestFlow.Employee>();
-                Employees.CollectionChanged += Employees_CollectionChanged;
-                _ = LoadEmployeesAsync();
-            }
-
-            private async void Employees_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-            {
-                // Добавление
-                if (e.NewItems != null)
-                {
-                    foreach (RestFlow.Employee newEmp in e.NewItems)
-                    {
-                        DB.Employee? newDBEmployee = DB.Tables.GetEmployees().FirstOrDefault(employee => employee.Login == newEmp.Login);
-                        if (newDBEmployee != null)
-                        {
-                            DB.Tables.AddEmployee(newDBEmployee);
-                            //добавление
-                        }
-                    }
-                }
-
-                // Удаление
-                if (e.OldItems != null)
-                {
-                    foreach (RestFlow.Employee oldEmp in e.OldItems)
-                    {
-                        //удаление
-                        DB.Employee? oldDBEmployee = DB.Tables.GetEmployees().FirstOrDefault(employee => employee.Login == oldEmp.Login);
-                        if (oldDBEmployee != null)
-                        {
-                            DB.Tables.DeleteEmployee(oldDBEmployee.Id);
-                        }
-                    }
-                }
-            }
-
-            private async Task LoadEmployeesAsync()
-            {
-                try
-                {
-                    using (var context = new DB.ProjContext())
-                    {
-                        var employees = await context.Employees
-                            .Select(e => new RestFlow.Employee(e))
-                            .ToListAsync();
-                        Employees = new ObservableCollection<RestFlow.Employee>(employees);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // Логирование ошибки или уведомление пользователя
-                    MessageBox.Show($"Ошибка загрузки данных: {ex.Message}");
-                }
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        private void DataGrid_WorkersInfo_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-            if (e.EditAction == DataGridEditAction.Commit)
-            {
-                var editedEmployee = e.Row.Item as RestFlow.Employee;
-
-                if (editedEmployee != null)
-                {
-                    MessageBox.Show(editedEmployee.Surname);
-                    DB.Employee? ed = DB.Tables.GetEmployees().FirstOrDefault(x => x.Login == editedEmployee.Login);
-                    if (ed != null)
-                    {
-
-                        DB.Tables.UpdateEmployee(ed.Id,
-                            new DB.Employee(
-                                editedEmployee.Login,
-                                editedEmployee.Password,
-                                editedEmployee.Name,
-                                editedEmployee.Surname,
-                                editedEmployee.Birthday,
-                                editedEmployee.Gender,
-                                editedEmployee.Phone,
-                                editedEmployee.Salary,
-                                editedEmployee.Post
-                                )
-                            );
-
-                        MessageBox.Show("Изменения успешно сохранены");
-                    }
-
-                }
-                else
-                {
-                    MessageBox.Show("12345");
-                }
-            }
-        }*/
+        List <string> Posts = new List<string> {"Admin", "Manager", "Waiter", "Accountant", "Kitchen"};
 
         public Admin_Window(RestFlow.Employee employee)
         {
             InitializeComponent();
-            /*DataContext = new MainViewModel();*/
             currentEmployee = employee;
             Label_AllInfo.Content = currentEmployee.ToString();
-            List <string> Posts = new List<string> {"Admin", "Manager", "Waiter", "Accountant", "Kitchen"};
+            TextBox_InfoPassword.Text = currentEmployee.Password;
+            TextBox_InfoLogin.Text = currentEmployee.Login;
             ComboBox_NewWorkerPost.ItemsSource = Posts;
             LoadEmployees();
-        }
-        #endregion
-
-        private void LoadEmployees()
-        {
-            DataGrid_WorkersInfo.ItemsSource = DB.Tables.GetEmployees().Select(e => new RestFlow.Employee(e)).ToList();
+            ComboBox_NewWorkerPost.Background = Brushes.Aqua;
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S)
-            {
-                foreach (var item in DataGrid_WorkersInfo.Items)
-                {
-                    DB.Employee tempBdEmp = DB.Tables.GetEmployees().FirstOrDefault(e => e.Login == (item as RestFlow.Employee).Login);
-                    var tempEmp = item as RestFlow.Employee;
-                    DB.Employee emp = new DB.Employee(tempEmp.Login, tempEmp.Password, tempEmp.Name, tempEmp.Surname, tempEmp.Birthday, tempEmp.Gender, tempEmp.Phone, tempEmp.Salary, tempEmp.Post);
-                    DB.Tables.UpdateEmployee(tempBdEmp.Id, emp);
-                    LoadEmployees();
-                }
-            }
-        }
 
         #region добавление работника
         private void Button_AddWorker_Click(object sender, RoutedEventArgs e)
@@ -233,11 +101,51 @@ namespace RestMenef
             RadioButton_NewWorkerMale.IsChecked = false;
             RadioButton_NewWorkerFemale.IsChecked = false;
             ComboBox_NewWorkerPost.Text = "";
+            DatePicker_NewWorkerBirthday.SelectedDate = null;
         }
 
         #endregion
 
-        #region ...
+        #region взаимодействие с DataGrid
+        private void LoadEmployees()
+        {
+            employees = DB.Tables.GetEmployees().Select(e => new RestFlow.Employee(e)).ToList();
+            DataGrid_WorkersInfo.ItemsSource = employees;
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S)
+            {
+                bool flag = true;
+                foreach (var item in DataGrid_WorkersInfo.Items)
+                {
+                    if (item != null)
+                    {
+                        DB.Employee? tempBdEmp = DB.Tables.GetEmployees().FirstOrDefault(e => e.Login == (item as RestFlow.Employee).Login);
+                        if (tempBdEmp != null)
+                        {
+                            var tempEmp = item as RestFlow.Employee;
+                            if (Posts.Contains(tempEmp.Post))
+                            {
+                                DB.Employee emp = new DB.Employee(tempEmp.Login, tempEmp.Password, tempEmp.Name, tempEmp.Surname, tempEmp.Birthday, tempEmp.Gender, tempEmp.Phone, tempEmp.Salary, tempEmp.Post);
+                                DB.Tables.UpdateEmployee(tempBdEmp.Id, emp);
+                                LoadEmployees();
+                            }
+                            else
+                            {
+                                flag = false;
+                                MessageBox.Show($"Введите у пользователя {tempEmp.FullName()} существующую должность");
+                            }
+                        }
+                    }
+                }
+                if (flag)
+                {
+                    MessageBox.Show("Изменения успешно сохранены");
+                }
+            }
+        }
         private void DataGrid_WorkersInfo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DataGrid_WorkersInfo.SelectedItem as RestFlow.Employee != null)
@@ -251,79 +159,6 @@ namespace RestMenef
                     {
                         selectedEmployeeId = tempEmployee.Id;
                     }
-                }
-            }
-        }
-
-        private void FillingEmployeeInformation(RestFlow.Employee selectedEmployee)
-        {
-            TextBox_WorkerLogin.Text = selectedEmployee.Login;
-            TextBox_NewWorkerPassword.Text = selectedEmployee.Password;
-            TextBox_WorkerName.Text = selectedEmployee.Name;
-            TextBox_WorkerSurname.Text = selectedEmployee.Surname;
-            TextBox_WorkerSalary.Text = Convert.ToString(selectedEmployee.Salary);
-            TextBox_WorkerTelephoneNumber.Text = selectedEmployee.Phone;
-            if (selectedEmployee.Gender == true)
-            {
-                RadioButton_WorkerMale.IsChecked = true;
-            }
-            else
-            {
-                RadioButton_WorkerFemale.IsChecked = true;
-            }
-            DatePicker_WorkerBirthday.SelectedDate = selectedEmployee.Birthday;
-        }
-
-        private void CleanFieldsWorker()
-        {
-            TextBox_WorkerLogin.Text = "";
-            TextBox_NewWorkerPassword.Text = "";
-            TextBox_WorkerName.Text = "";
-            TextBox_WorkerSurname.Text = "";
-            TextBox_WorkerSalary.Text = "";
-            TextBox_WorkerTelephoneNumber.Text = "";
-            RadioButton_WorkerMale.IsChecked = false;
-            RadioButton_WorkerFemale.IsChecked = false;
-            DatePicker_WorkerBirthday.SelectedDate = null;
-        }
-
-        private void Button_SaveChanges_Click(object sender, RoutedEventArgs e)
-        {
-            string? name = TextBox_WorkerName.Text;
-            string? surname = TextBox_WorkerSurname.Text;
-            string? login = TextBox_WorkerLogin.Text;
-            string? password = TextBox_WorkerPassword.Text;
-            string? phone = TextBox_NewWorkerTelephoneNumber.Text;
-            string? salaryString = TextBox_NewWorkerSalary.Text;
-            DateTime? birthday = DatePicker_WorkerBirthday.SelectedDate;
-            int salaryInt;
-            bool flag = Int32.TryParse(salaryString, out salaryInt);
-            bool? gender = null;
-            if (RadioButton_WorkerFemale.IsChecked == true || RadioButton_WorkerMale.IsChecked == true) 
-            {
-                if (RadioButton_WorkerMale.IsChecked == true)
-                {
-                    gender = true;
-                }
-                else
-                {
-                    gender = false;
-                }
-            }
-            string? post = ComboBox_WorkerPost.Text;
-
-            if (name != null && surname != null && login != null && password != null && phone != null && birthday != null && salaryString != null && gender != null && post != null) 
-            {
-                if (flag)
-                {
-                    DB.Tables.UpdateEmployee(selectedEmployeeId, new DB.Employee(login, password, name, surname, (DateTime)birthday, (bool)gender, phone, salaryInt, post));
-                    MessageBox.Show("Изменения успешно сохранены!");
-                    CleanFieldsWorker();
-                    LoadEmployees();
-                }
-                else
-                {
-                    MessageBox.Show("Для поля 'зарплата' используйте только цифры");
                 }
             }
         }
@@ -343,7 +178,7 @@ namespace RestMenef
                 {
                     DB.Tables.DeleteEmployee(selectedEmployeeId);
                     MessageBox.Show("Работник успешно уволен");
-                    CleanFieldsWorker();
+                    selectedEmployee = null;
                     LoadEmployees();
                 }
             }

@@ -28,6 +28,7 @@ namespace DB
         public double Primecost { get; set; }
         public double Price { get; set; }
         public Dish() { }
+        
         public Dish(Dish dish)
         {
             this.Name = dish.Name;
@@ -347,10 +348,11 @@ namespace DB
                 Dish dish = new Dish(name, primecost, price);
                 db.Dishes.Add(dish);
                 db.SaveChanges();
-
-                AddRecipe(db.Dishes.Find(db.Dishes.Count() - 1).Id, Recipe);
+                if (Recipe.Count > 0)
+                {
+                    AddRecipe(db.Dishes.Find(db.Dishes.Count() - 1).Id, Recipe);
+                }
                 db.SaveChanges();
-
             }
 
         }
@@ -456,6 +458,7 @@ namespace DB
                     ord.PrimeCost = 0;
                     ord.TotalPrice = 0;
                 }
+                db.SaveChanges();
             }
         }
         public static void AddCompound(int id, Dictionary<Dish, int> compound, double totalPrice, double primeCost)
@@ -474,6 +477,27 @@ namespace DB
                 UpdateOrder(id, ord);
             }
         }
+
+        public static List<Order> GetOrders(DateTime startDate, DateTime endDate)
+        {
+            List<Order> _orders = new List<Order>();
+
+            using (ProjContext db = new ProjContext())
+            {
+                var filteredOrders = db.Orders
+                    .Where(order => order.OrderDate >= startDate && order.OrderDate <= endDate)
+                    .ToList();
+
+                foreach (Order ord in filteredOrders)
+                {
+                    _orders.Add(ord);
+                    GetOrderCompound(ord.Id);
+                }
+            }
+
+            return _orders;
+        }
+
         public static List<Order> GetOrders()
         {
             List<Order> _orders = new List<Order>();
@@ -537,6 +561,21 @@ namespace DB
                     _order.IsActive = order.IsActive;
                     DeleteCompound(id);
                     AddCompound(id, compound, totalPrice, primeCost);
+                    _order.TotalPrice = totalPrice;
+                    _order.PrimeCost = primeCost;
+                }
+                db.SaveChanges();
+            }
+        }
+
+        public static void FinishOrder(int id)
+        {
+            using (ProjContext db = new ProjContext())
+            {
+                Order? _order = db.Orders.Find(id);
+                if (_order != null)
+                {
+                    _order.IsActive = false;
                 }
                 db.SaveChanges();
             }

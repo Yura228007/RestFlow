@@ -18,6 +18,7 @@ namespace RestFlow
         public bool IsActive { get; set; }
         public double TotalPrice { get; set; }
         public double PrimeCost { get; set; }
+        public Order() { }
 
         public Order (DateTime orderDate, bool isActive, Address? address = null, int? table = null)
         {
@@ -30,7 +31,7 @@ namespace RestFlow
         {
             Id = order.Id;
             OrderDate = order.OrderDate;
-            Table = order.Table;
+            Table = order.OrderTable;
             IsActive = order.IsActive;
             List = DB.Tables.GetOrderCompound(order.Id).ToDictionary
                 (
@@ -41,7 +42,7 @@ namespace RestFlow
             CalculatePrimeCost();
         }
 
-        public void AddIngredient(Dish dish, int quantity)
+        public void AddDish(Dish dish, int quantity)
         {
             if (dish != null)
             {
@@ -58,7 +59,7 @@ namespace RestFlow
             }
         }
 
-        public void RemoveIngredient(Dish dish)
+        public void RemoveDish(Dish dish)
         {
             if (dish != null)
             {
@@ -71,7 +72,7 @@ namespace RestFlow
             }
         }
 
-        private void CalculatePrimeCost()
+        public void CalculatePrimeCost()
         {
             PrimeCost = 0; // Инициализация себестоимости
             foreach (var dish in List)
@@ -83,12 +84,12 @@ namespace RestFlow
             }
         }
 
-        private void CalculateTotalPrice()
+        public void CalculateTotalPrice()
         {
-            PrimeCost = 0; // Инициализация себестоимости
+            TotalPrice = 0; // Инициализация себестоимости
             foreach (var dish in List)
             {
-                PrimeCost += (dish.Key.Price * dish.Value);
+                TotalPrice += (dish.Key.Price * dish.Value);
             }
         }
 

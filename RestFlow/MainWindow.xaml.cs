@@ -134,13 +134,13 @@ namespace RestFlow
             switch (post)
             {
                 case "Manager":
-                    Manager_Window window_manager = new Manager_Window();
+                    Manager_Window window_manager = new Manager_Window(logEmployee);
                     return window_manager;
                 case "Waiter":
-                    Waiter_Window window_waiter = new Waiter_Window();
+                    Waiter_Window window_waiter = new Waiter_Window(logEmployee);
                     return window_waiter;
                 case "Accountant":
-                    Accountant_Window window_accountant = new Accountant_Window();
+                    Accountant_Window window_accountant = new Accountant_Window(logEmployee);
                     return window_accountant;
                 case "Admin":
                     Admin_Window window_admin = new Admin_Window(logEmployee);
@@ -214,13 +214,6 @@ namespace RestFlow
             {
                 MessageBox.Show("Заполните все поля!");
             }
-        }
-
-        private void EnterAsAdmin_Click(object sender, RoutedEventArgs e)
-        {
-            TextBox_LoginUser.Text = "admin";
-            TextBox_PasswordUser.Text = "1234";
-            Button_LoginUser_Click(sender, e);
         }
     }
 }

@@ -19,9 +19,41 @@ namespace RestMenef
     /// </summary>
     public partial class Kitchen_Window : Window
     {
+        List<RestFlow.Order> orders;
         public Kitchen_Window()
         {
             InitializeComponent();
+            Task.Run(() => StartUpdateOrdersAsync());
+        }
+
+        private async Task StartUpdateOrdersAsync()
+        {
+            while (true)
+            {
+                LoadActiveOrders();
+
+                await Task.Delay(TimeSpan.FromMinutes(1));
+            }
+        }
+
+        private void LoadActiveOrders()
+        {
+            List_Kitchen.Items.Clear();
+            List<DB.Order> ordersDB = DB.Tables.GetActiveOrderCollection();
+            orders = ordersDB.Select(e => new RestFlow.Order(e)).ToList();
+            foreach (var order in orders)
+            {
+                Dictionary<RestFlow.Dish, int> dishes = order.List;
+                ListBox dishBox = new ListBox()
+                {
+                    ItemsSource = dishes.Select(kvp => ($"{kvp.Key.Name}")).ToList(),
+                    Width = 200,
+                    BorderThickness = new Thickness(2),
+                    BorderBrush = Brushes.Blue,
+                    Margin = new Thickness(10)
+                };
+                List_Kitchen.Items.Add(dishBox);
+            }
         }
     }
 }

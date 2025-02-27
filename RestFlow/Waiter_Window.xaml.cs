@@ -29,84 +29,43 @@ namespace RestMenef
     public partial class Waiter_Window : Window
     {
         List<RestFlow.Dish> dishes;
+        Dictionary<RestFlow.Dish,int> currentCompound = new Dictionary<RestFlow.Dish, int> { };
+        List<RestFlow.Order> orders;
         RestFlow.Dish? currentDish = null;
-        public Waiter_Window()
+        RestFlow.Employee currentEmployee;
+        RestFlow.Order? currentOrder = new RestFlow.Order();
+
+        public Waiter_Window(RestFlow.Employee employee)
         {
+            Task.Run(() => StartUpdateOrdersAsync());
             InitializeComponent();
             LoadDishes();
-            DataContext = new MainViewModel(-1);
+            currentEmployee = employee;
+            Label_AllInfo.Content = currentEmployee.ToString();
+            TextBox_InfoPassword.Text = currentEmployee.Password;
+            TextBox_InfoLogin.Text = currentEmployee.Login;
         }
 
+        #region Loads
 
-        #region MainViewModel
-        public class MainViewModel : INotifyPropertyChanged
+        private async Task StartUpdateOrdersAsync()
         {
-            internal ObservableCollection<RestFlow.Dish> _currentDish;
-            internal ObservableCollection<RestFlow.Dish> CurrentDish
+            while (true)
             {
-                get => _currentDish;
-                set
-                {
-                    if (_currentDish != null)
-                        _currentDish.CollectionChanged -= CurrentDish_CollectionChanged;
+                LoadActiveOrders();
 
-                    _currentDish = value;
-
-                    if (_currentDish != null)
-                        _currentDish.CollectionChanged += CurrentDish_CollectionChanged;
-
-                    OnPropertyChanged();
-                }
-            }
-
-            public MainViewModel(int id)
-            {
-                if (id >= 0)
-                {
-                    CurrentDish = new ObservableCollection<RestFlow.Dish>();
-                    CurrentDish.CollectionChanged += CurrentDish_CollectionChanged;
-                    _ = LoadCurrentDishAsync(id);
-                }
-            }
-
-            private async void CurrentDish_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-            {
-                if (_isCollectionUpdating) return;
-                
-                //логика
-            }
-
-            private bool _isCollectionUpdating;
-
-            private async Task LoadCurrentDishAsync(int id)
-            {
-                try
-                {
-                    _isCollectionUpdating = true;
-
-                    var currentOrderCompound = DB.Tables.GetOrderCompound(id)
-                        .SelectMany(kvp => Enumerable.Repeat(new RestFlow.Dish(kvp.Key), kvp.Value));
-
-                    CurrentDish = new ObservableCollection<RestFlow.Dish>(currentOrderCompound);
-                }
-                finally
-                {
-                    _isCollectionUpdating = false;
-                }
-            }
-
-            private static void AddDish(RestFlow.Dish dish)
-            {
-
-            }
-
-            public event PropertyChangedEventHandler? PropertyChanged;
-            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                await Task.Delay(TimeSpan.FromMinutes(1));
             }
         }
-        #endregion
+
+        private void LoadActiveOrders()
+        {
+            orders = DB.Tables.GetActiveOrderCollection().Select(e => new RestFlow.Order(e)).ToList();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                List_ActiveOrders.ItemsSource = orders;
+            });
+        }
 
         private void LoadDishes()
         {
@@ -114,19 +73,227 @@ namespace RestMenef
             ComboBox_ChooseDish.ItemsSource = dishes.Select(e => e.Name).ToList();
         }
 
-        private void Button_AddDish_Click(object sender, RoutedEventArgs e)
+        private void LoadCurrentOrderCompound()
         {
-            if (currentDish != null)
+            if (currentOrder != null && currentOrder != new RestFlow.Order())
             {
-                DataContext = new MainViewModel(currentDish.Id);
-
+                currentCompound = currentOrder.List;
+                List_CompoundOrder.ItemsSource = currentCompound.Keys.Select(e => e.Name).ToList();
+                Label_TotalCost.Content = $"{currentOrder.TotalPrice}";
+                if (currentOrder.Table != null)
+                {
+                    TextBox_TableNumber.Text = $"{currentOrder.Table}";
+                }
             }
             else
             {
-                int newId = DB.Tables.GetOrders()[-1].Id + 1;
-                DataContext = new MainViewModel(newId);
-
+                currentCompound.Clear();
+                List_CompoundOrder.ItemsSource = currentCompound.Keys.Select(e => e.Name).ToList();
+                Label_TotalCost.Content = string.Empty;
+                currentOrder = new RestFlow.Order();
+                currentOrder.List = new Dictionary<RestFlow.Dish, int> { };
             }
         }
+
+        #endregion
+
+        private void List_ActiveOrders_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (List_ActiveOrders.SelectedItem != null)
+            {
+                char? tableChar = List_ActiveOrders.SelectedItem.ToString()[0];
+                int currentTable = Int32.Parse($"{tableChar}");
+                DB.Order? tempBdOrder = DB.Tables.GetOrders().FirstOrDefault(e => (e.IsActive == true && e.OrderTable == currentTable));
+                if (tempBdOrder != null)
+                {
+                    currentOrder = new RestFlow.Order(tempBdOrder);
+                    MessageBox.Show($"{currentOrder.Id}");
+                }
+                else
+                {
+                    MessageBox.Show("Возникла ошибка");
+                }
+            }
+        }
+        
+        private void Button_AddDish_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentOrder != null && currentOrder != new RestFlow.Order() && currentOrder.Id != 0)
+            {
+                MessageBox.Show($"{currentOrder.Id}");
+                Dictionary<DB.Dish, int> currentCompoundDB = DB.Tables.GetOrderCompound(currentOrder.Id);
+                Dictionary<RestFlow.Dish, int> currentCompound = currentCompoundDB.ToDictionary(kvp => new RestFlow.Dish(kvp.Key), kvp => kvp.Value);
+                currentOrder.List = currentCompound;
+                RestFlow.Dish? tempDish = dishes.FirstOrDefault(e => e.Name == ComboBox_ChooseDish.Text);
+                bool isHaveDish = currentOrder.List.Keys.FirstOrDefault(e => e.Name == ComboBox_ChooseDish.Text) != null;
+                if (tempDish != null && !isHaveDish)
+                {
+                    currentOrder.AddDish(tempDish, 1);
+                    currentCompound = currentOrder.List;
+                    LoadCurrentOrderCompound();
+                    TextBox_QuantityDishes.Text = string.Empty;
+                }
+                else
+                {
+                    MessageBox.Show("Данное блюдо уже есть. Вы можете изменить его количество");
+                }
+            }
+            else
+            {
+                RestFlow.Dish? tempDish = dishes.FirstOrDefault(e => e.Name == ComboBox_ChooseDish.Text);
+                if (tempDish != null)
+                {
+                    if (currentOrder.List == null) 
+                    {
+                        currentOrder.List = new Dictionary<RestFlow.Dish, int> { };
+                        MessageBox.Show($"{currentOrder.List}");
+                    }
+                    currentOrder.AddDish(tempDish, 1);
+                    LoadCurrentOrderCompound();
+                }
+            }
+        }
+        
+        private void Button_EditOrder_Click(object sender, RoutedEventArgs e)
+        {
+            if (List_ActiveOrders.SelectedItem != null && currentOrder != null)
+            {
+                LoadCurrentOrderCompound();
+                Header_currentOrder.Focusable = true;
+            }
+        }
+
+        private async void Button_SendToKitchen_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentOrder != null && currentOrder != new RestFlow.Order() && currentOrder.List.Count != 0 && currentOrder.Id != 0)
+            {
+                Dictionary<DB.Dish, int> tempCompoundDB = currentCompound.ToDictionary(kvp => new DB.Dish(kvp.Key.Name, kvp.Key.PrimeCost, kvp.Key.Price), kvp => kvp.Value);
+                foreach (var item in tempCompoundDB.Keys)
+                {
+                    item.Id = DB.Tables.GetDishes().FirstOrDefault(e => e.Name == item.Name).Id;
+                }
+                /*DB.Tables.DeleteCompound(currentOrder.Id);
+                DB.Tables.DeleteOrder(currentOrder.Id);
+                DB.Tables.AddOrder(currentOrder.OrderDate, currentOrder.Table, currentOrder.TotalPrice, currentOrder.PrimeCost);
+                DB.Tables.AddCompound(currentOrder.Id, tempCompoundDB, currentOrder.TotalPrice, currentOrder.PrimeCost);
+                */DB.Tables.UpdateOrder(currentOrder.Id, new DB.Order(currentOrder.OrderDate, currentOrder.IsActive, currentOrder.Table, currentOrder.TotalPrice, currentOrder.PrimeCost), tempCompoundDB, currentOrder.TotalPrice, currentOrder.PrimeCost);
+                LoadActiveOrders();
+                LoadCurrentOrderCompound();
+                ResettingCurrentOrderValues();
+            }
+            else
+            {
+                string tableString = TextBox_TableNumber.Text;
+                int table;
+                bool flag = Int32.TryParse(tableString, out table);
+                if (flag)
+                {
+                    DB.Order tempOrderDB = new DB.Order(DateTime.Now, true, table);
+                    double totalPrice = currentOrder.TotalPrice;
+                    double primeCost = currentOrder.PrimeCost;
+                    DB.Tables.AddOrder(DateTime.Now, table, totalPrice, primeCost);
+                    int tempId = DB.Tables.GetOrders().Last().Id;
+                    Dictionary<DB.Dish, int> tempCompound = currentCompound.ToDictionary(kvp => new DB.Dish(kvp.Key.Name, kvp.Key.PrimeCost, kvp.Key.Price), kvp => kvp.Value);
+                    foreach (var item in tempCompound.Keys)
+                    {
+                        MessageBox.Show($"{DB.Tables.GetDishes().FirstOrDefault(e => e.Name == item.Name).Id}");
+                        item.Id = DB.Tables.GetDishes().FirstOrDefault(e => e.Name == item.Name).Id;
+                    }
+                    DB.Tables.AddCompound(tempId, tempCompound, currentOrder.TotalPrice, currentOrder.PrimeCost);
+                    LoadActiveOrders();
+                    ResettingCurrentOrderValues();
+                    LoadCurrentOrderCompound();
+                }
+            }
+        }
+
+        private void Button_FinishOrder_Click(object sender, RoutedEventArgs e)
+        {
+            if (List_ActiveOrders.SelectedItem != null && currentOrder != null)
+            {
+                DB.Tables.FinishOrder(currentOrder.Id);
+                ResettingCurrentOrderValues();
+                LoadActiveOrders();
+                LoadCurrentOrderCompound();
+                MessageBox.Show("Заказ завершен");
+            }
+        }
+
+        private void Button_CreateNewOrder_Click(object sender, RoutedEventArgs e)
+        {
+            ResettingCurrentOrderValues();
+        }
+
+        private void ResettingCurrentOrderValues()
+        {
+            // Сбрасываем текущий заказ
+            currentOrder = new RestFlow.Order();
+            currentOrder.List = new Dictionary<RestFlow.Dish, int> { };
+
+            // Очищаем текущий состав заказа
+            currentCompound = new Dictionary<RestFlow.Dish, int> { };
+
+            // Сбрасываем текущее блюдо
+            currentDish = null;
+
+            // Очищаем номер стола
+            TextBox_TableNumber.Text = string.Empty;
+
+            // Сбрасываем общую стоимость
+            Label_TotalCost.Content = string.Empty;
+
+            // Обновляем список блюд в интерфейсе
+            List_CompoundOrder.ItemsSource = null;
+            List_CompoundOrder.ItemsSource = currentCompound.Keys.Select(e => e.Name).ToList();
+
+            //Изменяем поля текущего блюда
+            Label_CurrentDishName.Content = string.Empty;
+            TextBox_QuantityDishes.Text = string.Empty;
+        }
+
+        private async void List_CompoundOrder_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (List_CompoundOrder.SelectedItem != null)
+            {
+                currentDish = dishes.FirstOrDefault(e => e.Name == List_CompoundOrder.SelectedItem.ToString());
+                if (currentDish != null)
+                {
+                    RestFlow.Dish tempDish = currentOrder.List.Keys.FirstOrDefault(e => e.Name == currentDish.Name);
+                    if (tempDish != null)
+                    {
+                        TextBox_QuantityDishes.Text = $"{currentOrder.List[tempDish]}";
+                        Label_CurrentDishName.Content = $"{currentDish.Name}";
+                    }
+                }
+            }
+        }
+
+        private void Button_SaveQuantity_Click(object sender, RoutedEventArgs e)
+        {
+            if (List_CompoundOrder.SelectedItem != null && currentOrder != null)
+            {
+                string quantityString = TextBox_QuantityDishes.Text;
+                int quantity;
+                bool flag = Int32.TryParse(quantityString, out quantity);
+                if (flag)
+                {
+                    RestFlow.Dish tempDish = currentOrder.List.Keys.FirstOrDefault(e => e.Name == currentDish.Name);
+                    if (tempDish != null)
+                    {
+                        currentOrder.List[tempDish] = quantity;
+                        currentOrder.CalculateTotalPrice();
+                        currentOrder.CalculatePrimeCost();
+                        TextBox_QuantityDishes.Text = string.Empty;
+                        currentDish = null;
+                        LoadCurrentOrderCompound();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Введите корректное значение для количества");
+                }
+            }
+        }
+
     }
 }
