@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RestFlow;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,6 +55,13 @@ namespace RestMenef
                 };
                 List_Kitchen.Items.Add(dishBox);
             }
+        }
+
+        private void Button_LogOut_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DB;
+using RestFlow;
 
 namespace RestMenef
 {
@@ -414,5 +415,11 @@ namespace RestMenef
         }
         #endregion
 
+        private void Button_LogOut_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
     }
 }

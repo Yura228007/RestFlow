@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Extensions.Primitives;
+using RestFlow;
 
 namespace RestMenef
 {
@@ -73,6 +74,13 @@ namespace RestMenef
                 TotalPrice += order.TotalPrice;
                 PrimeCost += order.PrimeCost;
             }
+        }
+
+        private void Button_LogOut_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }
