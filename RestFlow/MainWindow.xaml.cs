@@ -96,6 +96,7 @@ namespace RestFlow
                     Accountant_Window window_accountant = new Accountant_Window(logEmployee);
                     return window_accountant;
                 case "админ":
+                case "admin":
                     Admin_Window window_admin = new Admin_Window(logEmployee);
                     return window_admin;
                 case "кухонный работник":

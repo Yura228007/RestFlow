@@ -269,7 +269,7 @@ namespace RestMenef {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/RestFlow;component/manager_window.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/RestFlow;V1.0.0.0;component/manager_window.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Manager_Window.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);
