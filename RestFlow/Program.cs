@@ -128,40 +128,6 @@ namespace DB
             return $"ID: {this.Id}; Login: {this.Login}; Password: {this.Password}; Name: {this.Name}; Surname: {this.Surname}; Birthday: {this.Birthday}; IsMale: {this.Gender}; Phone: {this.Phone}; Salary: {this.Salary}; Post: {this.Post};\n";
         }
     }
-    public class User
-    {
-        public int Id { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public DateTime Birthday { get; set; }
-        public bool Gender { get; set; }
-        public string Phone { get; set; }
-        public User() { }
-        public User(User user)
-        {
-            if (user != null)
-            {
-                this.Login = user.Login;
-                this.Password = user.Password;
-                this.Name = user.Name;
-                this.Surname = user.Surname;
-                this.Birthday = user.Birthday;
-                this.Gender = user.Gender;
-                this.Phone = user.Phone;
-            }
-            else
-            {
-                MessageBox.Show("Возникла ошибка");
-            }
-        }
-        public User(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone) { Login = login; Password = password; Name = name; Surname = surname; Birthday = birthday; Gender = gender; Phone = phone; }
-        public override string ToString()
-        {
-            return $"ID: {this.Id}; Login: {this.Login}; Password: {this.Password}; Name: {this.Name}; Surname: {this.Surname}; Birthday: {this.Birthday}; IsMale: {this.Gender}; Phone: {this.Phone};\n";
-        }
-    }
     public class Warehouse
     {
         public int? Id { get; set; }
@@ -206,7 +172,6 @@ namespace DB
         public DbSet<Dish> Dishes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Warehouse> Warehouse { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
         public DbSet<OrdersDishes> Compound { get; set; }
@@ -601,75 +566,6 @@ namespace DB
                 Order? ord = db.Orders.Find(id);
                 DeleteCompound(id);
                 db.Orders.Remove(ord);
-                db.SaveChanges();
-            }
-        }
-
-
-        //CRUD for User
-
-        public static List<User> GetUsers()
-        {
-            List<User> users = new List<User>();
-            using (ProjContext db = new ProjContext())
-            {
-                foreach (User user in db.Users)
-                {
-                    users.Add(user);
-                }
-            }
-            return users;
-        }
-        public static User GetUser(int id)
-        {
-            using (ProjContext db = new ProjContext())
-            {
-                return db.Users.Find(id);
-            }
-        }
-        public static void AddUser(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone)
-        {
-            using (ProjContext db = new ProjContext())
-            {
-                User user = new User(login, password, name, surname, birthday, gender, phone);
-                db.Users.Add(user);
-                db.SaveChanges();
-            }
-        }
-        public static void AddUser(User userP)
-        {
-            using (ProjContext db = new ProjContext())
-            {
-                User user = new User(userP);
-                db.Users.Add(user);
-                db.SaveChanges();
-            }
-        }
-
-        public static void DeleteUser(int id)
-        {
-            using (ProjContext db = new ProjContext())
-            {
-                User? user = db.Users.Find(id);
-                db.Users.Remove(user);
-                db.SaveChanges();
-            }
-        }
-        public static void UpdateUser(int id, User user)
-        {
-            using (ProjContext db = new ProjContext())
-            {
-                User? _user = db.Users.Find(id);
-                if (_user != null)
-                {
-                    _user.Login = user.Login;
-                    _user.Password = user.Password;
-                    _user.Name = user.Name;
-                    _user.Surname = user.Surname;
-                    _user.Birthday = user.Birthday;
-                    _user.Gender = user.Gender;
-                    _user.Phone = user.Phone;
-                }
                 db.SaveChanges();
             }
         }

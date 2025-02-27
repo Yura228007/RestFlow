@@ -68,14 +68,12 @@ C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Admin_Window.g.cs
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Kitchen_Window.g.cs
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Manager_Window.g.cs
-C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\User_Window.g.cs
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Waiter_Window.g.cs
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Window1.g.cs
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Accountant_Window.baml
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Admin_Window.baml
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Kitchen_Window.baml
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Manager_Window.baml
-C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\User_Window.baml
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Waiter_Window.baml
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\Window1.baml
 C:\Group_Project\RestFlow\bin\Debug\net8.0-windows\RestFlow.exe
@@ -321,3 +319,4 @@ C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\bin\Debug\net8.0-windows\
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\bin\Debug\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\bin\Debug\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Group_Project\RestFlow\obj\Debug\net8.0-windows\RestFlow_Content.g.cs
+C:\Users\Student_07\Documents\GitHub\RestFlow\RestFlow\obj\Debug\net8.0-windows\RestFlow_Content.g.cs
