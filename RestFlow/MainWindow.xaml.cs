@@ -87,20 +87,20 @@ namespace RestFlow
             switch (post.Trim().ToLower())
             {
                 case "менеджер":
-                    Manager_Window window_manager = new Manager_Window(logEmployee);
+                    Manager_Window window_manager = new Manager_Window(new Manager(logEmployee));
                     return window_manager;
                 case "официант":
-                    Waiter_Window window_waiter = new Waiter_Window(logEmployee);
+                    Waiter_Window window_waiter = new Waiter_Window(new Waiter(logEmployee));
                     return window_waiter;
                 case "бухгалтер":
-                    Accountant_Window window_accountant = new Accountant_Window(logEmployee);
+                    Accountant_Window window_accountant = new Accountant_Window(new Accountant(logEmployee));
                     return window_accountant;
                 case "админ":
                 case "admin":
-                    Admin_Window window_admin = new Admin_Window(logEmployee);
+                    Admin_Window window_admin = new Admin_Window(new Admin(logEmployee));
                     return window_admin;
                 case "кухонный работник":
-                    Kitchen_Window window_kitchen = new Kitchen_Window(logEmployee);
+                    Kitchen_Window window_kitchen = new Kitchen_Window(new Kitchen(logEmployee));
                     return window_kitchen;
             }
             return null;

@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace RestFlow
 {
-    internal class Accountant : Employee
+    public class Accountant : Employee
     {
         public Accountant(string login, string password, string name, string surname, DateTime birthday, bool gender, string phone, int salary)
             : base(login, password, name, surname, birthday, gender, phone, salary)
         {
-            Post = "Accountant";
+            Post = "Бухгалтер";
+        }
+        public Accountant(Employee employee) : base(employee.Login, employee.Password, employee.Name, employee.Surname, employee.Birthday, employee.Gender, employee.Phone, employee.Salary)
+        {
+            Post = "Бухгалтер";
         }
     }
 }

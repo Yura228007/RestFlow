@@ -25,7 +25,7 @@ namespace RestMenef
         double TotalPrice;
         double PrimeCost;
         List<RestFlow.Order> orders;
-        public Accountant_Window(RestFlow.Employee employee)
+        public Accountant_Window(Accountant employee)
         {
             InitializeComponent();
             currentEmployee = employee;

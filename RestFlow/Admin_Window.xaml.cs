@@ -30,10 +30,10 @@ namespace RestMenef
         RestFlow.Employee? selectedEmployee = null;
         List<RestFlow.Employee> employees;
         int selectedEmployeeId = -1;
-        RestFlow.Employee currentEmployee;
+        Admin currentEmployee;
         List <string> Posts = new List<string> {"админ", "менеджер", "официант", "бухгалтер", "кухонный работник"};
 
-        public Admin_Window(RestFlow.Employee employee)
+        public Admin_Window(Admin employee)
         {
             InitializeComponent();
             currentEmployee = employee;
@@ -125,7 +125,7 @@ namespace RestMenef
                         if (tempBdEmp != null)
                         {
                             var tempEmp = item as RestFlow.Employee;
-                            if (Posts.Contains(tempEmp.Post))
+                            if (Posts.Contains(tempEmp.Post.Trim().ToLower()))
                             {
                                 DB.Employee emp = new DB.Employee(tempEmp.Login, tempEmp.Password, tempEmp.Name, tempEmp.Surname, tempEmp.Birthday, tempEmp.Gender, tempEmp.Phone, tempEmp.Salary, tempEmp.Post);
                                 DB.Tables.UpdateEmployee(tempBdEmp.Id, emp);

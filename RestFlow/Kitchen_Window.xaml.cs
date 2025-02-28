@@ -23,7 +23,7 @@ namespace RestMenef
         List<RestFlow.Order> orders; 
         RestFlow.Employee currentEmployee;
 
-        public Kitchen_Window(RestFlow.Employee employee)
+        public Kitchen_Window(Kitchen employee)
         {
             InitializeComponent();
             currentEmployee = employee;

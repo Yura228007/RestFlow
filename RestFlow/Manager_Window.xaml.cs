@@ -29,7 +29,7 @@ namespace RestMenef
         Dictionary<RestFlow.Product, int> warehouse;
         RestFlow.Dish? selectedDish;
         RestFlow.Employee currentEmployee;
-        public Manager_Window(RestFlow.Employee employee)
+        public Manager_Window(Manager employee)
         {
             InitializeComponent();
             LoadProducts();

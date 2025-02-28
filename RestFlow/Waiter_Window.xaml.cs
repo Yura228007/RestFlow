@@ -36,7 +36,7 @@ namespace RestMenef
         RestFlow.Employee currentEmployee;
         RestFlow.Order? currentOrder = new RestFlow.Order();
 
-        public Waiter_Window(RestFlow.Employee employee)
+        public Waiter_Window(Waiter employee)
         {
             InitializeComponent();
             Task.Run(() => StartUpdateOrdersAsync());
